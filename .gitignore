@@ -3,3 +3,5 @@ images/
 *.png 
 *.jpg 
 *.jpeg
+.env
+*.pem
