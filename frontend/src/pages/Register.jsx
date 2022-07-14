@@ -1,5 +1,4 @@
 import React from 'react'
-import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import styled from "styled-components";
 import tw from "twin.macro";
@@ -27,8 +26,8 @@ ${tw`
     margin-bottom: auto;
     margin-left: auto;
     margin-right: auto;
-    height: 500px;
-    width: 400px;
+    height: 700px;
+    width: 500px;
 `;
 const FormTitle = styled.div`
 ${tw`
