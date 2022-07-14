@@ -8,6 +8,8 @@ const colors = require('colors');
 const dotenv = require('dotenv');
 const MongoStore = require('connect-mongo');
 const passport = require('passport')
+const path = require('path');
+const fs = require('fs');
 
 //GEENERAL SETUP 
 const app = express();
@@ -23,20 +25,20 @@ if (process.env.NODE_ENV === 'development') {
 app.use(cors())
 
 //SESSION SETUP 
-app.use(session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: true, 
-    store: MongoStore.create({mongoUrl: process.env.MONGO_URI}),
-    cookie:{maxAge: 1000*60*60*24},
-}));
+// app.use(session({
+//     secret: process.env.SESSION_SECRET,
+//     resave: false,
+//     saveUninitialized: true, 
+//     store: MongoStore.create({mongoUrl: process.env.MONGO_URI}),
+//     cookie:{maxAge: 1000*60*60*24},
+// }));
+// app.use(passport.session());
 
 //PASSPORT SETUP & INITIALIZATION 
-require('./config/passport');
+require('./config/passportJWT')(passport);
 app.use(passport.initialize());
-app.use(passport.session());
-
 
 app.use('/', require('./routes/index'))
 
+app.use(express.static(path.join(__dirname, 'public')));
 

@@ -1,51 +1,15 @@
 const express = require('express')
 const router = express.Router()
-const genPassword = require('../lib/passwordUtils').genPassword
-const connectDB = require('../config/db');
-const User = require('../models/User');
+const { registerUser } = require('../controllers/userController');
 const passport = require('passport')
+// @desc    Dashboard 
+// @route   POST /register 
+ router.post('/register', registerUser);
 
-/**
- * -------------- POST ROUTES ----------------
- */
+// @desc     
+// @route   POST /login 
+router.post('/login', passport.authenticate('local', { failureRedirect: '/login-failure', successRedirect: 'login-success'}));
 
- // TODO
- router.post('/login', passport.authenticate('local', { failureRedirect: '/login-failure', successRedirect: 'login-success'}));
-
- // TODO
- router.post('/register', async (req, res, next) => {
-    console.log(req.body)
-    const saltHash = genPassword(req.body.pw)
-    const salt = saltHash.salt;
-    const hash = saltHash.hash;
-
-    const checkExistingUser = await User.findOne({username: req.body.uname});
-
-    if(checkExistingUser.username === req.body.uname) { 
-        res.json({"message": "hey! this user already exists!"});
-    } else { 
-
-    const newUser = new User({
-        username: req.body.uname,
-        hash: hash,
-        salt: salt 
-    })
-
-    await newUser.save()
-        .then((user) => {
-            console.log(user);
-        });
-    
-    res.json({"message": "login success"});
- }});
-
- /**
- * -------------- GET ROUTES ----------------
- */
-
-router.get('/', (req, res, next) => {
-    res.send('<h1>Home</h1><p>Please <a href="/register">register</a></p>');
-});
 
 // When you visit http://localhost:3000/login, you will see "Login Page"
 router.get('/login', (req, res, next) => {

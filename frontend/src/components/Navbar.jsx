@@ -57,7 +57,6 @@ ${tw`
     md:mt-2
     md:mb-2
 `}    
-    height:
 `
 ; 
 
