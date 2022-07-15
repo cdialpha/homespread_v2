@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import Footer from '../components/Footer'
 import styled from "styled-components";
 import tw from "twin.macro";
@@ -6,13 +6,14 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import '../styles/registerStyles.css'
 import { FaGoogle } from 'react-icons/fa'
+import axios from 'axios'
+import { Link, useNavigate} from 'react-router-dom'
 
 const formikStyle = {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between'
 }
-
 const RegContainer = styled.div`
 ${tw`
     flex
@@ -36,7 +37,6 @@ ${tw`
     mr-auto
 `};
 `;
-
 const FormButton = styled.button`
 ${tw`
     pt-2
@@ -56,32 +56,61 @@ ${tw`
     transition[0.5s]
 `}
 `;
-
 const initialValues = {
     name: '',
     email: '',
     tos: '',
+    password: '',
+    confirmPassword: '',
 };
 
 const validationSchema = Yup.object({
-    name: Yup.string().required('Required'),
+    username: Yup.string().required('Required'),
     email: Yup.string().email('Invalid email format').required('Required'),
-    tos: Yup.boolean().required('Required')
+    tos: Yup.boolean().required('Required'),
+    password: Yup.string().required('Required'),
+    confirmPassword: Yup.string().required('Required').oneOf([Yup.ref('password'), ''], 'Passwords must match'),
 })
 
-const onSubmit = values => { 
-    console.log('Form data', values)
-};
-
 const Register = () => {
-  
+    
+    // Form State
+    const [error, setError] = useState("");
+    const [loading, setLoading] = useState("false");
+
+    const navigate = useNavigate('/');
+    
+    const handleSubmit = async (values, onSubmitProps) => { 
+        const {username, password} = values; 
+        console.log(values); 
+        onSubmitProps.setSubmitting(false);
+        // onSubmitProps.resetForm();
+        try { 
+        const config = { 
+            headers: {"Content-type": "application/json"}
+        }
+        setLoading(true)
+        const {data} = await axios.post('http://localhost:3002/register',
+        { 
+            username,
+            password,
+        },
+        config);
+        setLoading(false)
+        navigate('/');    
+        } catch (error) {
+            setError(true);
+        }
+    };
+
     return (
-    <> 
+     
     <Formik 
         initialValues={initialValues} 
         validationSchema={validationSchema}
-        onSubmit={onSubmit}
-        validateOnMount>
+        onSubmit={handleSubmit}
+        validateOnMount
+        >
 
         {formik => {
             console.log('formik props:', formik);
@@ -92,19 +121,19 @@ const Register = () => {
                     <div className='form-group'> 
                         <Field
                             className="form-control"
-                            placeholder="Full Name"
+                            placeholder="User Name"
                             type='text'
-                            id='name'
-                            name='name'
+                            id='username'
+                            name='username'
+                            
                             />
-                        <label htmlFor="name" className="form-label">
+                        <label htmlFor="username" className="form-label">
                             Full Name
                         </label>
-                        <ErrorMessage name='name'> 
+                        <ErrorMessage name='username'> 
                         {(errorMsg) => <div className='error-msg'>{errorMsg}</div>}
                         </ErrorMessage>
                     </div> 
-                    <br/>
                     <div className='form-group'>
                         <Field
                             className='form-control'
@@ -120,12 +149,45 @@ const Register = () => {
                             { (errorMsg) => <div className='error-msg'>{errorMsg}</div>}
                             </ErrorMessage>
                     </div>
+
+                    <div className='form-group'>
+                        <Field
+                            className='form-control'
+                            type='password'
+                            placeholder="****"
+                            id='password'
+                            name='password' 
+                            />
+                        <label htmlFor="password" className="form-label">
+                        Password
+                        </label>
+                            <ErrorMessage name='password'> 
+                            { (errorMsg) => <div className='error-msg'>{errorMsg}</div>}
+                            </ErrorMessage>
+                    </div>
+
+                    <div className='form-group'>
+                        <Field
+                            className='form-control'
+                            type='password'
+                            placeholder="****"
+                            id='confirmPassword'
+                            name='confirmPassword' 
+                            />
+                        <label htmlFor="confirmPassword" className="form-label">
+                        Confirm Password
+                        </label>
+                            <ErrorMessage name='confirmPassword'> 
+                            { (errorMsg) => <div className='error-msg'>{errorMsg}</div>}
+                            </ErrorMessage>
+                    </div>
+
                     <div className='form-group check'>
                     <label htmlFor="tos"/>
                     <Field className='form-control' name='tos' type='checkbox' id='tos'/>
                     <span className='tos-text'> I agree to Boston Spread's Terms of Service, Privacy Policy and Content Policies </span> 
                     </div>
-                <FormButton type='submit' disabled={!formik.isValid}> Create Account </FormButton>
+                <FormButton type='submit' disabled={!formik.isValid} > Create Account </FormButton>
                 <div className='orDiv'>
                 <span className='orSpan'> or </span></div> 
                 <button className='google-button'>
@@ -135,8 +197,6 @@ const Register = () => {
             </RegContainer>       
             )}}
     </Formik>
-    <Footer/>
-    </>
   )
 }
 
