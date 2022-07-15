@@ -14,7 +14,7 @@ const options = {
     algorithms: ['RS256'],
 } ;
 
-const strategy = new JwtStrategy(options, (payload, done) => {
+const JWTstrategy = new JwtStrategy(options, (payload, done) => {
     User.findOne({_id: payload.sub })
     .then((user) => {
         if(user) {
@@ -27,6 +27,6 @@ const strategy = new JwtStrategy(options, (payload, done) => {
 });
 
 module.exports = (passport) => {
-    passport.use(strategy)
+    passport.use(JWTstrategy)
 }
 
