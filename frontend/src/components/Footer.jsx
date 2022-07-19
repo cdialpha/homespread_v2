@@ -6,11 +6,9 @@ import { SiFacebook, SiInstagram, SiTwitter } from "react-icons/si";
 
 const FooterContainer=styled.div`
 ${tw`
-    fixed
     bottom[0]
     w-full
     h-96
-    mt-10
     flex
     pt-6
     pl-2

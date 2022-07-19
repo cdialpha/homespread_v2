@@ -1,0 +1,45 @@
+{
+    "_id":"36e348338737",
+    "name":{ 
+        "first":"String",
+        "middle":"String",
+        "last":"String" 
+    },
+    "profile_pic":"www.profilepic.com",
+    "bio":"optional bio goes here",
+    "rating": 4.6,
+    "became_member": "Current Date"
+    "cuisine_tags": ["American", "Cameroonian", "Modern", "Fusion"],
+    "identify": ["black owned", "immigrant"],
+    "pickup_location":{
+        "address": "166 Terrace St.",
+        "city": "Roxbury Corssing",
+        "state": "MA",
+        "zip": "02120"
+    },
+    "offerings":[
+        {
+            "offering_id":"123ndf324df32d3",
+            "dish_name": "Baked Salmon",
+            "dish_description": "a baked salmon on a bed of rice",
+            "serving_size": "20 oz",
+            "ingredients": ["salmon", "lemon", "salt", "pepper", "rice" ],
+            "price": "20 USD",
+            "potential allergens": "null",
+            "special": "pescatarian"
+        },
+        {
+            "offering_id":"12334fc23c23x23",
+            "dish_name": "Potato Salad",
+            "dish_description": "old style recipie small potatoes, with mustard and mayo base",
+            "serving_size": "10 oz",
+            "ingredients": ["potatoes", "mustard", "salt", "pepper", "mayo" ],
+            "price": "10 USD",
+            "potential allergens": null,
+            "special": "vegetarian"
+        }
+    ],
+    "catering": false 
+} 
+
+    
