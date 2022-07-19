@@ -3,6 +3,12 @@ import styled from "styled-components";
 import tw from "twin.macro";
 import logo from "../images/boston_spread_logo_white.png"
 import {Link} from "react-router-dom" 
+import {slide as Menu} from "react-burger-menu"
+import menuStyles from "../styles/menuStyles.js";
+import {useMediaQuery} from "react-responsive"
+import {deviceSize} from "./responsive"
+import {FaKey} from "react-icons/fa"
+
 const Container = styled.div`
     ${tw`
         flex
@@ -20,24 +26,25 @@ const Container = styled.div`
     justify-content: space-between;    
 `;
 
-const NavItems = tw.ul`
+const NavItems = styled.ul`
+${tw`
+    flex
     list-none
     w-full
     h-auto
     lg:w-auto
     lg:h-full
-    flex
     lg:ml-20
     justify-center
     items-center
-    
-`;
+`}`;
+
 const NavItem = tw.li`
     pl-4
     mr-10
-    flex
+    mt-5
+    mb-5
     items-center
-    min-h-full
     text-white
     cursor-pointer
     font-medium
@@ -56,38 +63,32 @@ ${tw`
     lg:mb-5
     md:mt-2
     md:mb-2
-`}    
-`
-; 
+`}`; 
+
+const coreNavItems = ( 
+    <NavItems/> 
+)
+
+const fullNavItems = (
+<NavItems>
+  <NavItem><Link to="mission">Our Mission </Link> </NavItem>
+  <NavItem><Link to="brick">Brick & Mortars </Link> </NavItem>
+  <NavItem><Link to="chefs">Our Chefs</Link> </NavItem>
+  <NavItem><Link to="register"> Register </Link> </NavItem>
+  <NavItem><FaKey/><Link to="login"> Login </Link> </NavItem>    
+</NavItems>); 
 
 const Navbar = () => { 
-    // const isMobile = useMediaQuery({maxWidth: deviceSize.mobile });
-
+    const isMobile = useMediaQuery({maxWidth: deviceSize.mobile});
+    const isTablet = useMediaQuery({maxWidth: deviceSize.tablet});
     return (
         <Container> 
-            <Link to="/"> 
-            <LogoContainer src={logo} alt="logo"/>
-            </Link>
-            <NavItems>
-              <NavItem>
-                Our Mission         
-              </NavItem>
-              <NavItem>
-                Our Chefs
-              </NavItem>
-              <NavItem>
-                Become a Caterer
-              </NavItem>
-              <NavItem>
-                Place an Order
-              </NavItem>
-            </NavItems>
-            <NavItems>
-              <NavItem><Link to="register"> Register </Link> </NavItem>
-              <NavItem><Link to="login"> Login </Link> </NavItem>  
-            </NavItems> 
-        </Container>
-    );
+            <Link to="/"> <LogoContainer src={logo} alt="logo"/> </Link>
+            {isMobile && 
+                <Menu right styles={menuStyles}>{fullNavItems} </Menu> }
+            {/* {isTablet && coreNavItems} */}
+            {!isMobile && fullNavItems} 
+        </Container> ) 
 }
 
 export default Navbar;

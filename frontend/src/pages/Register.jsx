@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react'
-import Footer from '../components/Footer'
 import styled from "styled-components";
 import tw from "twin.macro";
 import { Formik, Form, Field, ErrorMessage } from 'formik';
@@ -7,7 +6,7 @@ import * as Yup from 'yup';
 import '../styles/registerStyles.css'
 import { FaGoogle } from 'react-icons/fa'
 import axios from 'axios'
-import { Link, useNavigate} from 'react-router-dom'
+import {useNavigate} from 'react-router-dom'
 
 const formikStyle = {
     display: 'flex',
@@ -64,6 +63,11 @@ const initialValues = {
     confirmPassword: '',
 };
 
+const EmptyDiv = styled.div`
+    height: 600px;
+    display: block;
+`
+
 const validationSchema = Yup.object({
     username: Yup.string().required('Required'),
     email: Yup.string().email('Invalid email format').required('Required'),
@@ -96,6 +100,8 @@ const Register = () => {
             password,
         },
         config);
+        localStorage.setItem("userInfo", JSON.stringify(data))
+        console.log(data);
         setLoading(false)
         navigate('/');    
         } catch (error) {
@@ -104,7 +110,7 @@ const Register = () => {
     };
 
     return (
-     
+    <>
     <Formik 
         initialValues={initialValues} 
         validationSchema={validationSchema}
@@ -113,7 +119,7 @@ const Register = () => {
         >
 
         {formik => {
-            console.log('formik props:', formik);
+            // console.log('formik props:', formik);
             return (
             <RegContainer>
                 <FormTitle> Sign up </FormTitle>
@@ -197,6 +203,8 @@ const Register = () => {
             </RegContainer>       
             )}}
     </Formik>
+    <EmptyDiv/>
+    </>
   )
 }
 
