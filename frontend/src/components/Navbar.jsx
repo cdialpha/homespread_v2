@@ -1,16 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
-import logo from "../images/boston_spread_logo_white.png"
-import {Link} from "react-router-dom" 
-import {slide as Menu} from "react-burger-menu"
+import logo from "../images/boston_spread_logo_white.png";
+import { Link } from "react-router-dom";
+import { slide as Menu } from "react-burger-menu";
 import menuStyles from "../styles/menuStyles.js";
-import {useMediaQuery} from "react-responsive"
-import {deviceSize} from "./responsive"
-import {FaKey} from "react-icons/fa"
+import { useMediaQuery } from "react-responsive";
+import { deviceSize } from "./responsive";
+import { FaKey } from "react-icons/fa";
+import { UserContext } from "../App";
 
 const Container = styled.div`
-    ${tw`
+  ${tw`
         flex
         pl-10
         pt-4
@@ -20,14 +21,14 @@ const Container = styled.div`
         items-center
         self-center                
 `};
-    background-color: rgba(0,0,0,1);
-    z-index: 1;
-    width:100vw;
-    justify-content: space-between;    
+  background-color: rgba(0, 0, 0, 1);
+  z-index: 1;
+  width: 100vw;
+  justify-content: space-between;
 `;
 
 const NavItems = styled.ul`
-${tw`
+  ${tw`
     flex
     list-none
     w-full
@@ -37,7 +38,8 @@ ${tw`
     lg:ml-20
     justify-center
     items-center
-`}`;
+`}
+`;
 
 const NavItem = tw.li`
     pl-4
@@ -45,7 +47,7 @@ const NavItem = tw.li`
     mt-5
     mb-5
     items-center
-    text-white
+    text-black
     cursor-pointer
     font-medium
     text-lg
@@ -55,7 +57,7 @@ const NavItem = tw.li`
 `;
 
 const LogoContainer = styled.img`
-${tw`
+  ${tw`
     pl-10
     2xl:mt-10
     2xl:mb-10
@@ -63,32 +65,141 @@ ${tw`
     lg:mb-5
     md:mt-2
     md:mb-2
-`}`; 
+`}
+`;
 
-const coreNavItems = ( 
-    <NavItems/> 
-)
+const HamburgerForGuest = () => {
+  return (
+    <Menu right styles={menuStyles}>
+      <NavItem>
+        <Link to="order"> Order</Link>{" "}
+      </NavItem>
+      <NavItem>
+        <Link to="map"> Map </Link>{" "}
+      </NavItem>
+      <NavItem>
+        <Link to="mission"> Our Mission </Link>{" "}
+      </NavItem>
+      <NavItem>
+        <Link to="blog"> Blog </Link>{" "}
+      </NavItem>
+      <NavItem>
+        <Link to="chefs"> Our Chefs </Link>{" "}
+      </NavItem>
+      <NavItem>
+        <Link to="register"> Register </Link>{" "}
+      </NavItem>
+      <NavItem>
+        <FaKey />
+        <Link to="login"> Login </Link>{" "}
+      </NavItem>
+    </Menu>
+  );
+};
 
-const fullNavItems = (
-<NavItems>
-  <NavItem><Link to="mission">Our Mission </Link> </NavItem>
-  <NavItem><Link to="brick">Brick & Mortars </Link> </NavItem>
-  <NavItem><Link to="chefs">Our Chefs</Link> </NavItem>
-  <NavItem><Link to="register"> Register </Link> </NavItem>
-  <NavItem><FaKey/><Link to="login"> Login </Link> </NavItem>    
-</NavItems>); 
+const HamburgerForLoggedIn = () => {
+  return (
+    <NavItems>
+      <NavItem>
+        <Link to="map"> Map </Link>{" "}
+      </NavItem>
+      <NavItem>
+        <Link to="order"> Order</Link>{" "}
+      </NavItem>
+      <NavItem>
+        <Link to="cart"> My Cart </Link>{" "}
+      </NavItem>
+      <NavItem>
+        <Link to="mission"> Our Mission </Link>{" "}
+      </NavItem>
+      <NavItem>
+        <Link to="blog"> Blog </Link>{" "}
+      </NavItem>
+      <NavItem>
+        <Link to="chefs"> Our Chefs </Link>{" "}
+      </NavItem>
+      <NavItem>
+        <Link to="switch"> Switch User </Link>{" "}
+      </NavItem>
+      <NavItem>
+        <Link to="profile"> Profile </Link>{" "}
+      </NavItem>
+      <NavItem>
+        <Link to="logout"> Logout </Link>{" "}
+      </NavItem>
+    </NavItems>
+  );
+};
 
-const Navbar = () => { 
-    const isMobile = useMediaQuery({maxWidth: deviceSize.mobile});
-    const isTablet = useMediaQuery({maxWidth: deviceSize.tablet});
-    return (
-        <Container> 
-            <Link to="/"> <LogoContainer src={logo} alt="logo"/> </Link>
-            {isMobile && 
-                <Menu right styles={menuStyles}>{fullNavItems} </Menu> }
-            {/* {isTablet && coreNavItems} */}
-            {!isMobile && fullNavItems} 
-        </Container> ) 
-}
+const DesktopForGuest = () => {
+  return (
+    <>
+      <NavItems>
+        <NavItem>
+          <Link to="order"> Order</Link>{" "}
+        </NavItem>
+        <NavItem>
+          <Link to="map"> Map </Link>{" "}
+        </NavItem>
+        <NavItem>
+          <Link to="mission"> Our Mission </Link>{" "}
+        </NavItem>
+      </NavItems>
+      <NavItems>
+        <NavItem>
+          <Link to="register"> Register </Link>{" "}
+        </NavItem>
+        <NavItem>
+          <FaKey />
+          <Link to="login"> Login </Link>{" "}
+        </NavItem>
+      </NavItems>
+    </>
+  );
+};
+
+const DesktopForLoggedIn = () => {
+  return (
+    <>
+      <NavItems>
+        <NavItem>
+          <Link to="map"> Map </Link>{" "}
+        </NavItem>
+        <NavItem>
+          <Link to="order"> Order</Link>{" "}
+        </NavItem>
+        <NavItem>
+          <Link to="cart"> My Cart </Link>{" "}
+        </NavItem>
+      </NavItems>
+      <NavItems>
+        <NavItem>
+          <Link to="profile"> Profile </Link>{" "}
+        </NavItem>
+      </NavItems>
+      <Menu right styles={menuStyles}>
+        <HamburgerForLoggedIn />
+      </Menu>
+    </>
+  );
+};
+
+const Navbar = (DesktopForGuest) => {
+  const { isLoggedIn } = useContext(UserContext);
+  const isMobile = useMediaQuery({ maxWidth: deviceSize.tablet });
+  console.log(typeof DesktopForGuest);
+  return (
+    <>
+      <Link to="/">
+        {" "}
+        <LogoContainer src={logo} alt="logo" />{" "}
+      </Link>
+      {!isMobile && !isLoggedIn && <DesktopForGuest />}
+      {!isMobile && isLoggedIn && <DesktopForLoggedIn />}
+      {isMobile && !isLoggedIn && <HamburgerForGuest />}
+      {isMobile && isLoggedIn && <HamburgerForLoggedIn />}
+    </>
+  );
+};
 
 export default Navbar;
