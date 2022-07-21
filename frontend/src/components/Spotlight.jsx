@@ -5,30 +5,31 @@ import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 // images for carousel
-import ukrainian from "../images/ukrainian.jpg"
-import haitian from "../images/haitian.jpg"
-import pakistani from "../images/pakistani.jpg"
-import mexican from "../images/mexican.jpg"
-import bosnian from "../images/bosnian.jpg"
-import argentinian from "../images/argentinian.jpg"
-import iranian from "../images/iranian.jpeg"
+import ukrainian from "../images/ukrainian.jpg";
+import haitian from "../images/haitian.jpg";
+import pakistani from "../images/pakistani.jpg";
+import mexican from "../images/mexican.jpg";
+import bosnian from "../images/bosnian.jpg";
+import argentinian from "../images/argentinian.jpg";
+import iranian from "../images/iranian.jpeg";
 
 const SpotlightContainer = styled.div`
-${tw`
-    w-screen
+  ${tw`
     h-auto
     flex
     flex-col
-    relative
     pt-10
     pb-1
     xl:pt-20
     xl:pb-2
     items-center
     mt-0
-    mb-10    
+    mb-10
+    ml-auto
+    mr-auto    
 `};
-    background-color: #f7f7f7;    
+  background-color: #f7f7f7;
+  width: inherit;
 `;
 const Title = tw.h1`
     pt-20
@@ -40,7 +41,6 @@ const Title = tw.h1`
     2xl:mt-6
     2xl:mb-6
     font-bold
-    text-center
 `;
 const SectionInfo = tw.p`
     text-base
@@ -93,32 +93,63 @@ const Description = tw.p`
 `;
 
 const Spotlight = () => {
-    return( 
-        <SpotlightContainer name="spotlight">
-         <Title> Meet Our Chefs </Title>
-         <SectionInfo>
-         The start-up costs for being able to operate a business can be cumbersome, especially if you don't have the money to have a brick and mortar," she said. "So the idea is people are able to incubate right out of their own kitchens. One of the people who plans to start making food right away is Andree Entezari. He's a Boston University master's student who says he'll make an Iranian fruit leather called lavashak to sell at farmers markets. It opens up so much opportunity, not just for economic development, but for your local community — engaging with your local community through food," he told Radio Boston.
-        </SectionInfo> 
-        <CaroselContainer>
-            <Carousel dynamicHeight={false}> 
-                <Item> <img src={haitian} alt="a person cooking"/> 
-                <Description>Stéphanie, 29 -- Port au prince, Haiti</Description> </Item>
-                <Item> <img src={ukrainian} alt="a person cooking"/>
-                <Description> Ulyana, 82 -- Berehove, Ukraine</Description></Item>
-                <Item> <img src={mexican} alt="a person cooking"/> 
-                <Description>Emiliano, 33 -- Chipas, Mexico</Description></Item>
-                <Item> <img src={iranian} alt="a person cooking"/>
-                <Description>Ziwar, 29 -- Tehran, Iran</Description></Item>
-                <Item> <img src={bosnian} alt="a person cooking"/>
-                <Description>Robin, 23 -- Riga, Estonia</Description></Item> 
-                <Item> <img src={argentinian} alt="a person cooking"/>
-                <Description>Camila, 45 -- Salta, Argentina</Description></Item>
-                <Item> <img src={pakistani} alt="a person cooking"/>
-                <Description>Arafaa, 33 -- Quetta, Pakistan</Description></Item>  
-            </Carousel>
-        </CaroselContainer>
-        </SpotlightContainer>
-)
-}
+  return (
+    <SpotlightContainer name="spotlight">
+      <Title> Meet Our Chefs </Title>
+      <SectionInfo>
+        The start-up costs for being able to operate a business can be
+        cumbersome, especially if you don't have the money to have a brick and
+        mortar," she said. "So the idea is people are able to incubate right out
+        of their own kitchens. One of the people who plans to start making food
+        right away is Andree Entezari. He's a Boston University master's student
+        who says he'll make an Iranian fruit leather called lavashak to sell at
+        farmers markets. It opens up so much opportunity, not just for economic
+        development, but for your local community — engaging with your local
+        community through food," he told Radio Boston.
+      </SectionInfo>
+      <CaroselContainer>
+        <Carousel dynamicHeight={false}>
+          <Item>
+            {" "}
+            <img src={haitian} alt="a person cooking" />
+            <Description>
+              Stéphanie, 29 -- Port au prince, Haiti
+            </Description>{" "}
+          </Item>
+          <Item>
+            {" "}
+            <img src={ukrainian} alt="a person cooking" />
+            <Description> Ulyana, 82 -- Berehove, Ukraine</Description>
+          </Item>
+          <Item>
+            {" "}
+            <img src={mexican} alt="a person cooking" />
+            <Description>Emiliano, 33 -- Chipas, Mexico</Description>
+          </Item>
+          <Item>
+            {" "}
+            <img src={iranian} alt="a person cooking" />
+            <Description>Ziwar, 29 -- Tehran, Iran</Description>
+          </Item>
+          <Item>
+            {" "}
+            <img src={bosnian} alt="a person cooking" />
+            <Description>Robin, 23 -- Riga, Estonia</Description>
+          </Item>
+          <Item>
+            {" "}
+            <img src={argentinian} alt="a person cooking" />
+            <Description>Camila, 45 -- Salta, Argentina</Description>
+          </Item>
+          <Item>
+            {" "}
+            <img src={pakistani} alt="a person cooking" />
+            <Description>Arafaa, 33 -- Quetta, Pakistan</Description>
+          </Item>
+        </Carousel>
+      </CaroselContainer>
+    </SpotlightContainer>
+  );
+};
 
 export default Spotlight;

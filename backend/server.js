@@ -21,18 +21,15 @@ app.use(express.urlencoded({ extended: true}));
 connectDB();
 if (process.env.NODE_ENV === 'development') { 
     app.use(morgan('dev'))
-}
+};
+
 app.use(cors())
 
-//SESSION SETUP 
-// app.use(session({
-//     secret: process.env.SESSION_SECRET,
-//     resave: false,
-//     saveUninitialized: true, 
-//     store: MongoStore.create({mongoUrl: process.env.MONGO_URI}),
-//     cookie:{maxAge: 1000*60*60*24},
-// }));
-// app.use(passport.session());
+// app.use(function(req, res, next) {
+//     res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
+//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+//     next();
+//   });
 
 //PASSPORT SETUP & INITIALIZATION 
 require('./config/passportJWT')(passport);

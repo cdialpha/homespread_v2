@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useContext, useState} from 'react'
 import styled from "styled-components";
 import tw from "twin.macro";
 import { Formik, Form, Field, ErrorMessage } from 'formik';
@@ -7,6 +7,8 @@ import '../styles/registerStyles.css'
 import { FaGoogle } from 'react-icons/fa'
 import axios from 'axios'
 import {useNavigate} from 'react-router-dom'
+import { UserContext } from '../App';
+
 
 const formikStyle = {
     display: 'flex',
@@ -56,7 +58,7 @@ ${tw`
 `}
 `;
 const initialValues = {
-    name: '',
+    username: '',
     email: '',
     tos: '',
     password: '',
@@ -77,16 +79,17 @@ const validationSchema = Yup.object({
 })
 
 const Register = () => {
-    
+    const {isLoggedIn, setIsLoggedIn} = useContext(UserContext);
+    console.log("Logged In: ", isLoggedIn)
     // Form State
     const [error, setError] = useState("");
     const [loading, setLoading] = useState("false");
-
+    
     const navigate = useNavigate('/');
     
     const handleSubmit = async (values, onSubmitProps) => { 
         const {username, password} = values; 
-        console.log(values); 
+        // console.log(values); 
         onSubmitProps.setSubmitting(false);
         // onSubmitProps.resetForm();
         try { 
@@ -100,9 +103,11 @@ const Register = () => {
             password,
         },
         config);
-        localStorage.setItem("userInfo", JSON.stringify(data))
-        console.log(data);
-        setLoading(false)
+        localStorage.setItem("userInfo", JSON.stringify(data));
+        setIsLoggedIn(true);
+        setLoading(false);
+        console.log(
+            "data", data, "loading:", loading, "error: ", error, "loggedin: ", isLoggedIn)
         navigate('/');    
         } catch (error) {
             setError(true);
@@ -115,8 +120,7 @@ const Register = () => {
         initialValues={initialValues} 
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
-        validateOnMount
-        >
+        validateOnMount>
 
         {formik => {
             // console.log('formik props:', formik);

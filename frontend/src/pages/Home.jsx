@@ -4,16 +4,18 @@ import Spotlight from '../components/Spotlight';
 import styled from "styled-components";
 import tw from "twin.macro";
 import Features from '../components/Features';
-import Footer from '../components/Footer';
 
 const HomeContainer = styled.div`
   ${tw`
 flex
 w-full
 h-full
+ml-auto
+mr-auto
 overflow-hidden
 flex-col
 `};
+max-width:2000px;
 `;
   
 function Home() {
@@ -24,7 +26,6 @@ function Home() {
       <AboutSum/>
       <Features/>
       <Spotlight/>
-      <Footer/>
       </HomeContainer>
     </>
   );

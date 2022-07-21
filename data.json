@@ -8,7 +8,7 @@
     "profile_pic":"www.profilepic.com",
     "bio":"optional bio goes here",
     "rating": 4.6,
-    "became_member": "Current Date"
+    "became_member": "Current Date",
     "cuisine_tags": ["American", "Cameroonian", "Modern", "Fusion"],
     "identify": ["black owned", "immigrant"],
     "pickup_location":{
