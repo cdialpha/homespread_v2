@@ -5,67 +5,79 @@ import logo from "../images/boston_spread_logo_white.png";
 import { Link } from "react-router-dom";
 import { slide as Menu } from "react-burger-menu";
 import menuStyles from "../styles/menuStyles.js";
+// import menuStyles from "../styles/menuStyles.css";
 import { useMediaQuery } from "react-responsive";
 import { deviceSize } from "./responsive";
-import { FaKey } from "react-icons/fa";
+import { FaKey, FaShoppingCart, FaUser } from "react-icons/fa";
+import { AiOutlineForm } from "react-icons/ai";
 import { UserContext } from "../App";
 
 const Container = styled.div`
   ${tw`
+        sticky
+        top[0px]
         flex
-        pl-10
-        pt-4
+        justify-around
+        align-middle
+        w-screen
         border-b-2
         border-gray-200
         border-opacity-50
-        items-center
-        self-center                
+        items-center       
+        flex-shrink-0       
 `};
   background-color: rgba(0, 0, 0, 1);
   z-index: 1;
   width: 100vw;
-  justify-content: space-between;
+  min-width: 390px;
 `;
-
-const NavItems = styled.ul`
+const NavItemsContainer = styled.div`
+  ${tw`
+    flex
+    justify-around
+    
+`}
+`;
+const NavItemsGroup = styled.ul`
   ${tw`
     flex
     list-none
-    w-full
-    h-auto
-    lg:w-auto
-    lg:h-full
-    lg:ml-20
-    justify-center
+    justify-around
     items-center
+    
+    width[auto]
 `}
 `;
 
-const NavItem = tw.li`
+const NavItem = styled.li`
+  ${tw`
     pl-4
     mr-10
     mt-5
     mb-5
-    items-center
-    text-black
+    text-white
     cursor-pointer
     font-medium
     text-lg
     transition-colors
     transition-duration[300ms]
     hover:text-gray-200
+    lg:font-size[25px]
+    xl:font-size[35px]
+    2xl:font-size[40px]
+    inline
+    
+`}
 `;
 
 const LogoContainer = styled.img`
   ${tw`
-    pl-10
-    2xl:mt-10
-    2xl:mb-10
-    lg:mt-5
-    lg:mb-5
-    md:mt-2
-    md:mb-2
-`}
+    pl-5
+    pt-5
+    pb-5
+    inline-block
+    flex-shrink-0
+    `}
 `;
 
 const HamburgerForGuest = () => {
@@ -90,7 +102,6 @@ const HamburgerForGuest = () => {
         <Link to="register"> Register </Link>{" "}
       </NavItem>
       <NavItem>
-        <FaKey />
         <Link to="login"> Login </Link>{" "}
       </NavItem>
     </Menu>
@@ -99,7 +110,7 @@ const HamburgerForGuest = () => {
 
 const HamburgerForLoggedIn = () => {
   return (
-    <NavItems>
+    <Menu right styles={menuStyles}>
       <NavItem>
         <Link to="map"> Map </Link>{" "}
       </NavItem>
@@ -116,89 +127,114 @@ const HamburgerForLoggedIn = () => {
         <Link to="blog"> Blog </Link>{" "}
       </NavItem>
       <NavItem>
-        <Link to="chefs"> Our Chefs </Link>{" "}
+        <Link to="chefs"> Our Chefs </Link>
       </NavItem>
       <NavItem>
-        <Link to="switch"> Switch User </Link>{" "}
+        <Link to="switch"> Switch User </Link>
       </NavItem>
       <NavItem>
-        <Link to="profile"> Profile </Link>{" "}
+        <Link to="profile"> Profile </Link>
       </NavItem>
       <NavItem>
-        <Link to="logout"> Logout </Link>{" "}
+        <Link to="logout"> Logout </Link>
       </NavItem>
-    </NavItems>
+    </Menu>
   );
 };
 
 const DesktopForGuest = () => {
   return (
     <>
-      <NavItems>
+      <NavItemsGroup>
         <NavItem>
-          <Link to="order"> Order</Link>{" "}
+          <Link to="/">Home</Link>
         </NavItem>
         <NavItem>
-          <Link to="map"> Map </Link>{" "}
+          <Link to="order"> Order</Link>
         </NavItem>
         <NavItem>
-          <Link to="mission"> Our Mission </Link>{" "}
-        </NavItem>
-      </NavItems>
-      <NavItems>
-        <NavItem>
-          <Link to="register"> Register </Link>{" "}
+          <Link to="map"> Map </Link>
         </NavItem>
         <NavItem>
-          <FaKey />
-          <Link to="login"> Login </Link>{" "}
+          <Link to="mission"> Our Mission </Link>
         </NavItem>
-      </NavItems>
+      </NavItemsGroup>
+      <NavItemsGroup>
+        <NavItem>
+          <Link to="register">
+            {" "}
+            <AiOutlineForm />{" "}
+          </Link>
+        </NavItem>
+        <NavItem>
+          <Link to="login">
+            <FaKey />
+          </Link>
+        </NavItem>
+      </NavItemsGroup>
     </>
   );
 };
 
-const DesktopForLoggedIn = () => {
+const DesktopForLoggedIn = ({ children }) => {
   return (
     <>
-      <NavItems>
+      <NavItemsGroup>
         <NavItem>
-          <Link to="map"> Map </Link>{" "}
+          <Link to="/">Home</Link>
         </NavItem>
         <NavItem>
-          <Link to="order"> Order</Link>{" "}
+          <Link to="map"> Map </Link>
         </NavItem>
         <NavItem>
-          <Link to="cart"> My Cart </Link>{" "}
+          <Link to="order"> Order</Link>
         </NavItem>
-      </NavItems>
-      <NavItems>
+      </NavItemsGroup>
+
+      <NavItemsGroup>
         <NavItem>
-          <Link to="profile"> Profile </Link>{" "}
+          <Link to="cart">
+            <FaShoppingCart />
+          </Link>
         </NavItem>
-      </NavItems>
-      <Menu right styles={menuStyles}>
-        <HamburgerForLoggedIn />
-      </Menu>
+
+        <NavItem>
+          <Link to="profile">
+            <FaUser />
+          </Link>
+        </NavItem>
+        <HamburgerForLoggedIn className="grouped">
+          {children}
+        </HamburgerForLoggedIn>
+      </NavItemsGroup>
     </>
   );
 };
 
-const Navbar = (DesktopForGuest) => {
+const Navbar = ({ children }) => {
   const { isLoggedIn } = useContext(UserContext);
   const isMobile = useMediaQuery({ maxWidth: deviceSize.tablet });
   console.log(typeof DesktopForGuest);
   return (
-    <>
+    <Container>
       <Link to="/">
-        {" "}
-        <LogoContainer src={logo} alt="logo" />{" "}
+        <LogoContainer src={logo} alt="logo" />
       </Link>
-      {!isMobile && !isLoggedIn && <DesktopForGuest />}
-      {!isMobile && isLoggedIn && <DesktopForLoggedIn />}
-      {isMobile && !isLoggedIn && <HamburgerForGuest />}
-      {isMobile && isLoggedIn && <HamburgerForLoggedIn />}
-    </>
+      <NavItemsContainer>
+        {!isMobile && !isLoggedIn && (
+          <DesktopForGuest>{children}</DesktopForGuest>
+        )}
+        {!isMobile && isLoggedIn && (
+          <DesktopForLoggedIn>{children}</DesktopForLoggedIn>
+        )}
+        {isMobile && !isLoggedIn && (
+          <HamburgerForGuest>{children}</HamburgerForGuest>
+        )}
+        {isMobile && isLoggedIn && (
+          <HamburgerForLoggedIn>{children}</HamburgerForLoggedIn>
+        )}
+      </NavItemsContainer>
+    </Container>
   );
 };
 
