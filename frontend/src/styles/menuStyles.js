@@ -3,9 +3,10 @@ const menuStyles = {
     position: "absolute",
     width: "20px",
     height: "20px",
-    right: "42px",
-    top: "35px",
+    right: "60px",
+    top: "55px",
   },
+
   bmBurgerBars: {
     background: "#fff",
   },
@@ -21,7 +22,7 @@ const menuStyles = {
   },
   bmMenuWrap: {
     position: "fixed",
-    width: "30%",
+    width: "300px",
     height: "100%",
     top: "0px",
   },
@@ -45,4 +46,4 @@ const menuStyles = {
   },
 };
 
-export default menuStyles
+export default menuStyles;

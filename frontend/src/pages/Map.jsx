@@ -5,7 +5,7 @@ import Map from "../components/Map";
 import { useJsApiLoader } from "@react-google-maps/api";
 import Spinner from "../components/Spinner";
 
-const Brick = () => {
+const MapPage = () => {
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: "",
@@ -15,4 +15,4 @@ const Brick = () => {
   return isLoaded ? <Map /> : <Spinner />;
 };
 
-export default Brick;
+export default MapPage;

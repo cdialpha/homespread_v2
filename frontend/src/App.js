@@ -8,8 +8,10 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Mission from "./pages/Mission";
 import Chefs from "./pages/Chefs";
-import Brick from "./pages/Brick";
+import MapPage from "./pages/Map";
 import axios from "axios";
+import ChefProfile from "./pages/Profiles/ChefProfile";
+import Order from "./pages/Order";
 
 export const UserContext = createContext(null);
 
@@ -55,9 +57,11 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
+          <Route path="/order" element={<Order />} />
           <Route path="/mission" element={<Mission />} />
           <Route path="/chefs" element={<Chefs />} />
-          <Route path="/brick" element={<Brick />} />
+          <Route path="/map" element={<MapPage />} />
+          <Route path="/profile" element={<ChefProfile />} />
         </Routes>
         <Footer />
       </UserContext.Provider>

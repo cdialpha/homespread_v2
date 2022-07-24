@@ -13,6 +13,7 @@
     "nodemon": "^2.0.19"
   },
   "dependencies": {
+    "aws-sdk": "^2.1181.0",
     "base64url": "^3.0.1",
     "colors": "^1.4.0",
     "connect-mongo": "^4.6.0",
