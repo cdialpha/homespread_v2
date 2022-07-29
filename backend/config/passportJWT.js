@@ -6,7 +6,6 @@ const ExtractJwt = require("passport-jwt").ExtractJwt;
 const pathToKey = path.join(__dirname, "../lib/", "id_rsa_pub.pem");
 const PUB_KEY = fs.readFileSync(pathToKey, "utf8");
 
-// To DO
 const options = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
   secretOrKey: PUB_KEY,

@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
 import logo from "../images/boston_spread_logo_white.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { slide as Menu } from "react-burger-menu";
 import menuStyles from "../styles/menuStyles.js";
 // import menuStyles from "../styles/menuStyles.css";
@@ -10,7 +10,7 @@ import { useMediaQuery } from "react-responsive";
 import { deviceSize } from "./responsive";
 import { FaKey, FaShoppingCart, FaUser } from "react-icons/fa";
 import { AiOutlineForm } from "react-icons/ai";
-import { UserContext } from "../App";
+import { useAuth } from "../utils/auth";
 
 const Container = styled.div`
   ${tw`
@@ -27,7 +27,7 @@ const Container = styled.div`
         flex-shrink-0       
 `};
   background-color: rgba(0, 0, 0, 1);
-  z-index: 1;
+  z-index: 1000;
   width: 100vw;
   min-width: 390px;
 `;
@@ -84,47 +84,51 @@ const HamburgerForGuest = () => {
   return (
     <Menu right styles={menuStyles}>
       <NavItem>
-        <Link to="order"> Order</Link>{" "}
+        <Link to="order"> Order</Link>
       </NavItem>
       <NavItem>
-        <Link to="map"> Map </Link>{" "}
+        <Link to="map"> Map </Link>
       </NavItem>
       <NavItem>
-        <Link to="mission"> Our Mission </Link>{" "}
+        <Link to="mission"> Our Mission </Link>
       </NavItem>
       <NavItem>
-        <Link to="blog"> Blog </Link>{" "}
+        <Link to="blog"> Blog </Link>
       </NavItem>
       <NavItem>
-        <Link to="chefs"> Our Chefs </Link>{" "}
+        <Link to="chefs"> Our Chefs </Link>
       </NavItem>
       <NavItem>
-        <Link to="register"> Register </Link>{" "}
+        <Link to="register"> Register </Link>
       </NavItem>
       <NavItem>
-        <Link to="login"> Login </Link>{" "}
+        <Link to="login"> Login </Link>
       </NavItem>
     </Menu>
   );
 };
 
 const HamburgerForLoggedIn = () => {
+  const navigate = useNavigate();
+  const auth = useAuth();
+  const user = auth.user;
+  console.log("the real user is: ", user);
   return (
     <Menu right styles={menuStyles}>
       <NavItem>
-        <Link to="map"> Map </Link>{" "}
+        <Link to="map"> Map </Link>
       </NavItem>
       <NavItem>
-        <Link to="order"> Order</Link>{" "}
+        <Link to="order"> Order</Link>
       </NavItem>
       <NavItem>
-        <Link to="cart"> My Cart </Link>{" "}
+        <Link to="cart"> My Cart </Link>
       </NavItem>
       <NavItem>
-        <Link to="mission"> Our Mission </Link>{" "}
+        <Link to="mission"> Our Mission </Link>
       </NavItem>
       <NavItem>
-        <Link to="blog"> Blog </Link>{" "}
+        <Link to="blog"> Blog </Link>
       </NavItem>
       <NavItem>
         <Link to="chefs"> Our Chefs </Link>
@@ -133,11 +137,9 @@ const HamburgerForLoggedIn = () => {
         <Link to="switch"> Switch User </Link>
       </NavItem>
       <NavItem>
-        <Link to="profile"> Profile </Link>
+        <Link to={`profile/${user}`}> Profile </Link>
       </NavItem>
-      <NavItem>
-        <Link to="logout"> Logout </Link>
-      </NavItem>
+      <NavItem onClick={auth.logout}>Logout</NavItem>
     </Menu>
   );
 };
@@ -156,14 +158,16 @@ const DesktopForGuest = () => {
           <Link to="map"> Map </Link>
         </NavItem>
         <NavItem>
+          <Link to="faq"> FAQ </Link>
+        </NavItem>
+        <NavItem>
           <Link to="mission"> Our Mission </Link>
         </NavItem>
       </NavItemsGroup>
       <NavItemsGroup>
         <NavItem>
           <Link to="register">
-            {" "}
-            <AiOutlineForm />{" "}
+            <AiOutlineForm />
           </Link>
         </NavItem>
         <NavItem>
@@ -177,6 +181,8 @@ const DesktopForGuest = () => {
 };
 
 const DesktopForLoggedIn = ({ children }) => {
+  const auth = useAuth();
+  const user = auth.user;
   return (
     <>
       <NavItemsGroup>
@@ -189,6 +195,9 @@ const DesktopForLoggedIn = ({ children }) => {
         <NavItem>
           <Link to="order"> Order</Link>
         </NavItem>
+        <NavItem>
+          <Link to="faq"> FAQ </Link>
+        </NavItem>
       </NavItemsGroup>
 
       <NavItemsGroup>
@@ -199,7 +208,7 @@ const DesktopForLoggedIn = ({ children }) => {
         </NavItem>
 
         <NavItem>
-          <Link to="profile">
+          <Link to={`profile/${user}`}>
             <FaUser />
           </Link>
         </NavItem>
@@ -212,25 +221,23 @@ const DesktopForLoggedIn = ({ children }) => {
 };
 
 const Navbar = ({ children }) => {
-  const { isLoggedIn } = useContext(UserContext);
+  const auth = useAuth();
   const isMobile = useMediaQuery({ maxWidth: deviceSize.tablet });
-  console.log(typeof DesktopForGuest);
+  const user = auth.user;
+  console.log("current user is: ", user);
+
   return (
     <Container>
       <Link to="/">
         <LogoContainer src={logo} alt="logo" />
       </Link>
       <NavItemsContainer>
-        {!isMobile && !isLoggedIn && (
-          <DesktopForGuest>{children}</DesktopForGuest>
-        )}
-        {!isMobile && isLoggedIn && (
+        {!isMobile && !user && <DesktopForGuest>{children}</DesktopForGuest>}
+        {!isMobile && user && (
           <DesktopForLoggedIn>{children}</DesktopForLoggedIn>
         )}
-        {isMobile && !isLoggedIn && (
-          <HamburgerForGuest>{children}</HamburgerForGuest>
-        )}
-        {isMobile && isLoggedIn && (
+        {isMobile && !user && <HamburgerForGuest>{children}</HamburgerForGuest>}
+        {isMobile && user && (
           <HamburgerForLoggedIn>{children}</HamburgerForLoggedIn>
         )}
       </NavItemsContainer>

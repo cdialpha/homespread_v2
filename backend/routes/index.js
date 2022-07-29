@@ -1,25 +1,46 @@
-const express = require('express')
-const router = express.Router()
-const { registerUser, loginUser } = require('../controllers/userController');
-const passport = require('passport')
+const express = require("express");
+const router = express.Router();
+const { registerUser, loginUser } = require("../controllers/userController");
+const { generateUploadURL } = require("../lib/s3");
+const { protect } = require("../middleware/authMiddleware");
+const {
+  getAllUserRecipies,
+  getUserRecipieById,
+  addUserRecipie,
+  updateUserRecipie,
+  deleteUserRecipie,
+} = require("../controllers/recipieController");
 
+// @desc    Dashboard
+// @route   POST /register
+router.post("/register", registerUser);
 
-// @desc    Dashboard 
-// @route   POST /register 
- router.post('/register', registerUser);
+// @desc
+// @route   POST /login
+router.post("/login", loginUser);
 
-// @desc     
-// @route   POST /login 
-router.post('/login', loginUser);
+// @desc
+// @route   POST /login
+router.get("/protected", protect, (req, res) => {
+  res
+    .status(200)
+    .json({ success: true, msg: "you are authorized!", user: user });
+});
 
+router.get("/s3url", async (req, res) => {
+  const url = await generateUploadURL();
+  res.send({ url });
+});
 
-// @desc     
-// @route   POST /login 
-router.get('/protected', passport.authenticate('jwt', {session: false}), 
-    (req, res, next) => {
-        console.log(req.body);
-        res.status(200).json({ success: true, msg: 'you are authorized!'})
-    }
-);
+var recipieRouter = express.Router({ mergeParams: true });
+router.use("/:userId/recipies", recipieRouter);
+
+recipieRouter.route("/").get(getAllUserRecipies).post(protect, addUserRecipie);
+
+recipieRouter
+  .route("/:recipieId")
+  .get(getUserRecipieById)
+  .put(protect, updateUserRecipie)
+  .delete(protect, deleteUserRecipie);
 
 module.exports = router;

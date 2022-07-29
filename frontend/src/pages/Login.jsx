@@ -1,21 +1,22 @@
-import React, {useEffect, useState, useContext} from 'react'
+import React, { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
-import '../styles/registerStyles.css'
-import { FaGoogle } from 'react-icons/fa'
-import axios from 'axios'
-import {useNavigate} from 'react-router-dom'
-import { UserContext } from '../App';
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import "../styles/formStyles.css";
+import { FaGoogle } from "react-icons/fa";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { UserContext } from "../App";
+import { useAuth } from "../utils/auth";
 
 const formikStyle = {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-between'
-}
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "space-between",
+};
 const RegContainer = styled.div`
-${tw`
+  ${tw`
     flex
     flex-col
     border-4
@@ -23,22 +24,22 @@ ${tw`
     rounded-3xl
     justify-center
 `};
-    margin-top: 200px;
-    margin-bottom: auto;
-    margin-left: auto;
-    margin-right: auto;
-    height: 500px;
-    width: 500px;
+  margin-top: 200px;
+  margin-bottom: auto;
+  margin-left: auto;
+  margin-right: auto;
+  height: 500px;
+  width: 500px;
 `;
 const FormTitle = styled.div`
-${tw`
+  ${tw`
     text-3xl
     ml-auto
     mr-auto
 `};
 `;
 const FormButton = styled.button`
-${tw`
+  ${tw`
     pt-2
     pb-2
     mt-10
@@ -57,116 +58,109 @@ ${tw`
 `}
 `;
 const initialValues = {
-    name: '',
-    email: '',
-    tos: '',
-    password: '',
-    confirmPassword: '',
+  name: "",
+  email: "",
+  tos: "",
+  password: "",
+  confirmPassword: "",
 };
 const validationSchema = Yup.object({
-    username: Yup.string().required('Required'),
-    password: Yup.string().required('Required'),
-})
+  username: Yup.string().required("Required"),
+  password: Yup.string().required("Required"),
+});
 const EmptyDiv = styled.div`
-    height: 600px;
-    display: block;
-`
-
+  height: 600px;
+  display: block;
+`;
 
 const Login = () => {
-    
-    const CurrentUser = useContext(UserContext);
-    console.log(CurrentUser);
+  const auth = useAuth();
+  const navigate = useNavigate("/");
 
-    // Form State
-    const [error, setError] = useState("");
-    const [loading, setLoading] = useState("false");
+  // Form State
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState("false");
 
-    const navigate = useNavigate('/');
-    
-    const handleSubmit = async (values, onSubmitProps) => { 
-        const {username, password} = values; 
-        // console.log(values); 
-        onSubmitProps.setSubmitting(false);
-        try { 
-        const config = { 
-            headers: {"Content-type": "application/json"}
-        }
-        setLoading(true)
-        const {data} = await axios.post('http://localhost:3002/register',
-        { 
-            username,
-            password,
-        },
-        config);
-        setLoading(false)
-        navigate('/');    
-        } catch (error) {
-            setError(true);
-        }
-    };
+  const handleSubmit = (values, onSubmitProps) => {
+    const { username, password } = values;
+    console.log(values);
+    onSubmitProps.setSubmitting(false);
+    setLoading(true);
+    try {
+      auth.login(values);
+      console.log("authorizing...");
+    } catch (error) {
+      setError(true);
+    }
+    setLoading(false);
+    navigate("/");
+  };
 
-    return (
+  return (
     <>
-    <Formik 
-        initialValues={initialValues} 
+      <Formik
+        initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
         validateOnMount
-        >
-
-        {formik => {
-            // console.log('formik props:', formik);
-            return (
+      >
+        {(formik) => {
+          // console.log('formik props:', formik);
+          return (
             <RegContainer>
-                <FormTitle> Log In </FormTitle>
-                <Form style={formikStyle}>
-                    <div className='form-group'> 
-                        <Field
-                            className="form-control"
-                            placeholder="Username"
-                            type='text'
-                            id='username'
-                            name='username'
-                            
-                            />
-                        <label htmlFor="username" className="form-label">
-                            Username
-                        </label>
-                        <ErrorMessage name='username'> 
-                        {(errorMsg) => <div className='error-msg'>{errorMsg}</div>}
-                        </ErrorMessage>
-                    </div> 
-                    
-                    <div className='form-group'>
-                        <Field
-                            className='form-control'
-                            type='password'
-                            placeholder="****"
-                            id='password'
-                            name='password' 
-                            />
-                        <label htmlFor="password" className="form-label">
-                        Password
-                        </label>
-                            <ErrorMessage name='password'> 
-                            { (errorMsg) => <div className='error-msg'>{errorMsg}</div>}
-                            </ErrorMessage>
-                    </div>
+              <FormTitle> Log In </FormTitle>
+              <Form style={formikStyle}>
+                <div className="form-group">
+                  <Field
+                    className="form-control"
+                    placeholder="Username"
+                    type="text"
+                    id="username"
+                    name="username"
+                  />
+                  <label htmlFor="username" className="form-label">
+                    Username
+                  </label>
+                  <ErrorMessage name="username">
+                    {(errorMsg) => <div className="error-msg">{errorMsg}</div>}
+                  </ErrorMessage>
+                </div>
 
-                <FormButton type='submit' disabled={!formik.isValid} > Log in </FormButton>
-                <div className='orDiv'>
-                <span className='orSpan'> or </span></div> 
-                <button className='google-button'>
-                    <FaGoogle/> <span className='google-text'>Login with Google </span>
+                <div className="form-group">
+                  <Field
+                    className="form-control"
+                    type="password"
+                    placeholder="****"
+                    id="password"
+                    name="password"
+                  />
+                  <label htmlFor="password" className="form-label">
+                    Password
+                  </label>
+                  <ErrorMessage name="password">
+                    {(errorMsg) => <div className="error-msg">{errorMsg}</div>}
+                  </ErrorMessage>
+                </div>
+
+                <FormButton type="submit" disabled={!formik.isValid}>
+                  {" "}
+                  Log in{" "}
+                </FormButton>
+                <div className="orDiv">
+                  <span className="orSpan"> or </span>
+                </div>
+                <button className="google-button">
+                  <FaGoogle />{" "}
+                  <span className="google-text">Login with Google </span>
                 </button>
-                </Form>
-            </RegContainer>       
-            )}}
-    </Formik>
-    <EmptyDiv/>
+              </Form>
+            </RegContainer>
+          );
+        }}
+      </Formik>
+      <EmptyDiv />
     </>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

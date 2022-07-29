@@ -20,7 +20,7 @@ const registerUser = asyncHandler(async (req, res, next) => {
   console.log("user exists? ", checkExistingUser);
   if (checkExistingUser) {
     res.status(400);
-    throw new Error("User already exists");
+    throw new Error("user already exists!");
   }
 
   //if user doesn't exist, then create user shcema and issue jwt
@@ -33,9 +33,10 @@ const registerUser = asyncHandler(async (req, res, next) => {
       .then((user) => {
         const jwt = issueJWT(user._id);
         res.status(201).json({
-          _id: user._id,
-          username: user.name,
+          success: true,
+          user,
           token: jwt.token,
+          expires: jwt.expires,
         });
       })
       .catch((err) => next(err));
@@ -43,7 +44,8 @@ const registerUser = asyncHandler(async (req, res, next) => {
 });
 
 const loginUser = asyncHandler(async (req, res, next) => {
-  await User.findOne({ username: req.body.username })
+  // look to see if the user is in the database
+  const user = await User.findOne({ username: req.body.username })
     .then((user) => {
       if (!user) {
         res.status(401).json({ success: false, msg: "could not find user" });

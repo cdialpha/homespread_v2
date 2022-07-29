@@ -1,11 +1,12 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
-import { UserContext } from "../../App";
 import emptyProfile from "../../images/anon.png";
 import { FaEdit } from "react-icons/fa";
 import profileHero from "../../images/hero-profile2.png";
-import ChefEditProfileModal from "./ChefEditProfileModal";
+import ChefEditProfileModal from "./AddRecipieModal";
+import { Link, Outlet } from "react-router-dom";
+import { useAuth } from "../../utils/auth";
 
 const RootContainer = styled.div`
   ${tw`
@@ -60,7 +61,6 @@ min-width[200px]
 width[400px]
 max-width[400px]
 pr-2
-
 `}
 `;
 
@@ -95,20 +95,12 @@ const SideNavGroupElement = styled.div`
   pl-5
   pb-1  
   text-gray-600
-  hover:bg-red-300
+  hover:bg-gray-100
   border-b-2
   border-b-gray-100
   
 
   `};
-`;
-
-const ChooseFile = styled.button`
-  ${tw`
-bg-gray-300
-text-black
-font-weight[900]
-`}
 `;
 
 const ProfileName = styled.div`
@@ -118,14 +110,6 @@ const ProfileName = styled.div`
     text-2xl
     xl:text-6xl
     2xl:text-8xl
-`}
-`;
-
-const UploadImgButton = styled.button`
-  ${tw`
-bg-gray-300
-text-black
-font-weight[900]
 `}
 `;
 
@@ -143,9 +127,13 @@ const ContentContainer = styled.div`
 `;
 const ContentArea = styled.div`
   ${tw`
-    width[1500px]
-    height[1000px]
+  flex  
+  flex-col
+  width[1500px]
+    height[100%]
     bg-gray-50
+    justify-center
+    text-center
 `}
 `;
 
@@ -155,6 +143,8 @@ const ModalWrapperStyles = {
 };
 
 const ChefProfile = () => {
+  const auth = useAuth();
+  const user = auth.user;
   const [isOpen, setIsOpen] = useState(false);
   const openModal = () => {
     setIsOpen(true);
@@ -167,7 +157,7 @@ const ChefProfile = () => {
           <ProfileHeader>
             <ProfilePic src={emptyProfile} alt="profile pic" />
             <div>
-              <ProfileName>Calvin</ProfileName>
+              <ProfileName>{user}</ProfileName>
 
               <div style={ModalWrapperStyles}>
                 <EditProfileButton onClick={openModal}>
@@ -186,10 +176,20 @@ const ChefProfile = () => {
           <ContentContainer>
             <SideNav>
               <SideNavGroup>
+                <SideNavGroupTitle> PROFILE </SideNavGroupTitle>
+                <SideNavGroupElement> BIO & IDENTITY </SideNavGroupElement>
+                <SideNavGroupElement> SOCIAL MEDIA </SideNavGroupElement>
+                <SideNavGroupElement> YOUR PHOTOS </SideNavGroupElement>
+              </SideNavGroup>
+              <SideNavGroup>
                 <SideNavGroupTitle> ACTIVITY </SideNavGroupTitle>
-                <SideNavGroupElement> REVIEWS </SideNavGroupElement>
+                <SideNavGroupElement>
+                  <Link to="reviews"> REVIEWS</Link>
+                </SideNavGroupElement>
                 <SideNavGroupElement> PHOTOS </SideNavGroupElement>
-                <SideNavGroupElement> FOLLOWERS </SideNavGroupElement>
+                <SideNavGroupElement>
+                  <Link to="followers"> FOLLOWERS </Link>
+                </SideNavGroupElement>
               </SideNavGroup>
 
               <SideNavGroup>
@@ -200,15 +200,19 @@ const ChefProfile = () => {
               </SideNavGroup>
               <SideNavGroup>
                 <SideNavGroupTitle> MANAGE OFFERINGS </SideNavGroupTitle>
-                <SideNavGroupElement> RECIPIES </SideNavGroupElement>
+                <SideNavGroupElement>
+                  <Link to="recipies"> RECIPIES </Link>
+                </SideNavGroupElement>
                 <SideNavGroupElement> CATERING </SideNavGroupElement>
                 <SideNavGroupElement> AVAILABILITY </SideNavGroupElement>
+                <SideNavGroupElement> PICK UP </SideNavGroupElement>
               </SideNavGroup>
             </SideNav>
-            <ContentArea> Some content goes here </ContentArea>
+            <ContentArea>
+              Some content goes here
+              <Outlet />
+            </ContentArea>
           </ContentContainer>
-          <ChooseFile> Choose File </ChooseFile>
-          <UploadImgButton> Upload </UploadImgButton>
         </PageViewContainer>
       </RootContainer>
     </>

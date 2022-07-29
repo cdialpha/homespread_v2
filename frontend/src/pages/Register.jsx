@@ -1,13 +1,12 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import "../styles/registerStyles.css";
+import "../styles/formStyles.css";
 import { FaGoogle } from "react-icons/fa";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { UserContext } from "../App";
+import { useAuth } from "../utils/auth";
 
 const formikStyle = {
   display: "flex",
@@ -80,49 +79,22 @@ const validationSchema = Yup.object({
 });
 
 const Register = () => {
-  const { isLoggedIn, setIsLoggedIn } = useContext(UserContext);
-  console.log("Logged In: ", isLoggedIn);
-  // Form State
+  const auth = useAuth();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState("false");
-
-  const navigate = useNavigate("/");
+  const navigate = useNavigate();
 
   const handleSubmit = async (values, onSubmitProps) => {
-    const { username, password } = values;
-    // console.log(values);
+    console.log("handle submit", error, loading, values);
     onSubmitProps.setSubmitting(false);
-    // onSubmitProps.resetForm();
+    setLoading(true);
     try {
-      const config = {
-        headers: { "Content-type": "application/json" },
-      };
-      setLoading(true);
-      const { data } = await axios.post(
-        "http://localhost:3002/register",
-        {
-          username,
-          password,
-        },
-        config
-      );
-      localStorage.setItem("userInfo", JSON.stringify(data));
-      setIsLoggedIn(true);
-      setLoading(false);
-      console.log(
-        "data",
-        data,
-        "loading:",
-        loading,
-        "error: ",
-        error,
-        "loggedin: ",
-        isLoggedIn
-      );
-      navigate("/");
+      auth.register(values);
     } catch (error) {
       setError(true);
     }
+    setLoading(false);
+    navigate("/");
   };
 
   return (
