@@ -1,13 +1,11 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import "../styles/formStyles.css";
 import { FaGoogle } from "react-icons/fa";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { UserContext } from "../App";
 import { useAuth } from "../utils/auth";
 
 const formikStyle = {
@@ -58,11 +56,8 @@ const FormButton = styled.button`
 `}
 `;
 const initialValues = {
-  name: "",
-  email: "",
-  tos: "",
+  username: "",
   password: "",
-  confirmPassword: "",
 };
 const validationSchema = Yup.object({
   username: Yup.string().required("Required"),
@@ -82,7 +77,7 @@ const Login = () => {
   const [loading, setLoading] = useState("false");
 
   const handleSubmit = (values, onSubmitProps) => {
-    const { username, password } = values;
+    console.log("click!");
     console.log(values);
     onSubmitProps.setSubmitting(false);
     setLoading(true);
@@ -143,14 +138,13 @@ const Login = () => {
                 </div>
 
                 <FormButton type="submit" disabled={!formik.isValid}>
-                  {" "}
-                  Log in{" "}
+                  Log in
                 </FormButton>
                 <div className="orDiv">
                   <span className="orSpan"> or </span>
                 </div>
                 <button className="google-button">
-                  <FaGoogle />{" "}
+                  <FaGoogle />
                   <span className="google-text">Login with Google </span>
                 </button>
               </Form>

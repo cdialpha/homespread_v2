@@ -30,6 +30,7 @@ const generateUploadURL = async () => {
   };
   const uploadURL = await s3.getSignedUrlPromise("putObject", params);
   console.log(s3, uploadURL, params);
+  console.log("from generate url");
   return uploadURL;
 };
 

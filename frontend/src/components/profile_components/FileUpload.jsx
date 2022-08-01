@@ -1,4 +1,11 @@
 import React from "react";
+import styled from "styled-components";
+import tw from "twin.macro";
+
+const Input = styled.input`
+  ${tw`ml-10
+  mb-2`};
+`;
 
 const FileUpload = ({ field, form }) => {
   const handleChange = async (e) => {
@@ -15,7 +22,7 @@ const FileUpload = ({ field, form }) => {
   };
   return (
     <div>
-      <input
+      <Input
         type={"file"}
         onChange={(o) => handleChange(o)}
         className="form-control"

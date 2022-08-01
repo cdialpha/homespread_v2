@@ -22,18 +22,17 @@ router.post("/login", loginUser);
 // @desc
 // @route   POST /login
 router.get("/protected", protect, (req, res) => {
-  res
-    .status(200)
-    .json({ success: true, msg: "you are authorized!", user: user });
+  console.log(req.user);
+  res.status(200).json({ success: true, msg: "you are authorized!" });
 });
 
-router.get("/s3url", async (req, res) => {
+router.get("/s3url", protect, async (req, res) => {
   const url = await generateUploadURL();
-  res.send({ url });
+  res.status(200).send({ url });
 });
 
 var recipieRouter = express.Router({ mergeParams: true });
-router.use("/:userId/recipies", recipieRouter);
+router.use("/recipies", recipieRouter);
 
 recipieRouter.route("/").get(getAllUserRecipies).post(protect, addUserRecipie);
 

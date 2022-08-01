@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
-import emptyProfile from "../../images/anon.png";
+import emptyProfile from "../images/anon.png";
 import { FaEdit } from "react-icons/fa";
-import profileHero from "../../images/hero-profile2.png";
-import ChefEditProfileModal from "./AddRecipieModal";
+import profileHero from "../images/hero-profile2.png";
 import { Link, Outlet } from "react-router-dom";
-import { useAuth } from "../../utils/auth";
+import { useAuth } from "../utils/auth";
 
 const RootContainer = styled.div`
   ${tw`
@@ -144,12 +143,13 @@ const ModalWrapperStyles = {
 
 const ChefProfile = () => {
   const auth = useAuth();
-  const user = auth.user;
-  const [isOpen, setIsOpen] = useState(false);
-  const openModal = () => {
-    setIsOpen(true);
-    console.log("click!", isOpen);
+  const user = auth.user.user.username;
+  const [isChefOpen, setIsChefOpen] = useState(false);
+  const openChefModal = () => {
+    setIsChefOpen(true);
+    console.log("click!", isChefOpen);
   };
+
   return (
     <>
       <RootContainer>
@@ -160,16 +160,13 @@ const ChefProfile = () => {
               <ProfileName>{user}</ProfileName>
 
               <div style={ModalWrapperStyles}>
-                <EditProfileButton onClick={openModal}>
+                <EditProfileButton
+                  onClick={openChefModal}
+                  data-modal="modal-one"
+                >
                   <FaEdit />
                   Edit Profile
                 </EditProfileButton>
-                <ChefEditProfileModal
-                  open={isOpen}
-                  onClose={() => setIsOpen(false)}
-                >
-                  Some text
-                </ChefEditProfileModal>
               </div>
             </div>
           </ProfileHeader>
@@ -177,7 +174,9 @@ const ChefProfile = () => {
             <SideNav>
               <SideNavGroup>
                 <SideNavGroupTitle> PROFILE </SideNavGroupTitle>
-                <SideNavGroupElement> BIO & IDENTITY </SideNavGroupElement>
+                <SideNavGroupElement>
+                  <Link to="bio">BIO & IDENTITY</Link>
+                </SideNavGroupElement>
                 <SideNavGroupElement> SOCIAL MEDIA </SideNavGroupElement>
                 <SideNavGroupElement> YOUR PHOTOS </SideNavGroupElement>
               </SideNavGroup>

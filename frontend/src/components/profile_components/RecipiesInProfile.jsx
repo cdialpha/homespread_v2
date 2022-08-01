@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
-import AddRecipieModal from "./AddRecipieModal";
 import { FaEdit } from "react-icons/fa";
 
 const ModalWrapperStyles = {
@@ -49,23 +48,14 @@ const EditProfileButton = styled.button`
 `;
 
 const RecipiesInProfile = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const openModal = () => {
-    setIsOpen(true);
-    console.log("click!", isOpen);
-  };
-
   return (
     <>
       <HeaderText>My Recipies</HeaderText>
       <div style={ModalWrapperStyles}>
-        <EditProfileButton onClick={openModal}>
+        <EditProfileButton data-modal="modal-two">
           <FaEdit />
           Add Recipie
         </EditProfileButton>
-        <AddRecipieModal open={isOpen} onClose={() => setIsOpen(false)}>
-          Some text
-        </AddRecipieModal>
       </div>
       <RecipiesContainer>
         <RecipiePhoto />
