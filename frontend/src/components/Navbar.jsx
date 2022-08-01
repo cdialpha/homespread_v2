@@ -85,8 +85,13 @@ const LogoContainer = styled.img`
 const Navbar = ({ children }) => {
   const auth = useAuth();
   const isMobile = useMediaQuery({ maxWidth: deviceSize.tablet });
-  const user = auth.user.user.username;
+  const user = auth.user?.user.username || null;
   console.log("current user from the nav is: ", user);
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    auth.logout();
+    navigate("/");
+  };
 
   return (
     <Container>
@@ -165,7 +170,7 @@ const Navbar = ({ children }) => {
             <NavItem>
               <Link to="login"> Switch User </Link>
             </NavItem>
-            <NavItem onClick={auth.logout}>Logout</NavItem>
+            <NavItem onClick={handleLogout}>Logout</NavItem>
           </>
         ) : (
           <>

@@ -14,7 +14,7 @@ const { errorHandler } = require("./middleware/errorMiddleware");
 
 //GEENERAL SETUP
 const app = express();
-dotenv.config({ path: "./config/.env" });
+dotenv.config({ path: "../../homespread_v2.env" });
 
 const PORT = process.env.PORT || 5000;
 

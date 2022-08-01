@@ -1,32 +1,5 @@
 const mongoose = require("mongoose");
 
-const OfferingSchema = new mongoose.Schema({
-  dish_name: {
-    type: String,
-    required: true,
-  },
-  dish_description: {
-    type: String,
-    required: true,
-  },
-  serving_size: {
-    type: String,
-  },
-  ingredients: {
-    type: Array,
-    required: true,
-  },
-  price: String,
-  potential_allergens: {
-    type: String,
-    default: null,
-  },
-  special: {
-    type: String,
-    default: null,
-  },
-});
-
 const ReviewSchema = new mongoose.Schema(
   {
     reviewer: mongoose.SchemaTypes.ObjectId,
@@ -71,7 +44,7 @@ const UserSchema = new mongoose.Schema(
       state: String,
       zip: String,
     },
-    offerings: [OfferingSchema],
+    offerings: [mongoose.SchemaTypes.ObjectId],
     reviews: [ReviewSchema],
     catering: false,
   },

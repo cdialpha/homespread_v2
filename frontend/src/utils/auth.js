@@ -12,8 +12,8 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(userInfoFromStorage);
 
   const login = async (values) => {
-    const { data } = await api.login(values);
-    // console.log("user object from database after login", data);
+    const data = await api.login(values);
+    console.log("user object from database after login", data);
     localStorage.setItem("userInfo", JSON.stringify(data));
     setUser(data);
   };
@@ -25,7 +25,8 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (values) => {
     try {
-      const { data } = await api.register(values);
+      const data = await api.register(values);
+      console.log(data);
       localStorage.setItem("userInfo", JSON.stringify(data));
       setUser(data);
     } catch (err) {

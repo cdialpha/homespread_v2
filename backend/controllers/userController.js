@@ -53,12 +53,12 @@ const loginUser = asyncHandler(async (req, res, next) => {
       const isValid = validPassword(req.body.password, user.hash, user.salt);
 
       if (isValid) {
-        const tokenObject = issueJWT(user._id);
-        res.status(200).json({
+        const jwt = issueJWT(user._id);
+        res.status(201).json({
           success: true,
           user,
-          token: tokenObject,
-          expiresIn: tokenObject.expires,
+          token: jwt.token,
+          expires: jwt.expires,
         });
       } else {
         res.status(401).json({ success: false, msg: "password incorrect" });

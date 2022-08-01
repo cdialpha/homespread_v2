@@ -16,13 +16,20 @@ const getAllUserRecipies = asyncHandler(async (req, res) => {
 
 const addUserRecipie = asyncHandler(async (req, res) => {
   try {
-    console.log("the request of the body is..", req.body);
-    const { dish, description, size, ingredients, allergens, special } =
-      req.body;
+    const {
+      dish,
+      S3ImageUrl,
+      description,
+      size,
+      ingredients,
+      allergens,
+      special,
+    } = req.body;
 
     const newRecipie = await Recipie.create({
       userId: req.user._id,
       dish_name: dish,
+      image_url: S3ImageUrl,
       dish_description: description,
       serving_size: size,
       ingredients: ingredients,

@@ -28,7 +28,7 @@ router.get("/protected", protect, (req, res) => {
 
 router.get("/s3url", protect, async (req, res) => {
   const url = await generateUploadURL();
-  res.status(200).send({ url });
+  res.status(200).send(url);
 });
 
 var recipieRouter = express.Router({ mergeParams: true });

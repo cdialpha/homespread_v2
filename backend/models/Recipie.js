@@ -5,8 +5,11 @@ const RecipieSchema = new mongoose.Schema({
     type: mongoose.SchemaTypes.ObjectId,
     required: true,
   },
-
   dish_name: {
+    type: String,
+    required: true,
+  },
+  image_url: {
     type: String,
     required: true,
   },

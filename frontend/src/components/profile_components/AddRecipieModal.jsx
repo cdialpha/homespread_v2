@@ -11,8 +11,8 @@ import FileUpload from "./FileUpload";
 import axios from "axios";
 import ModalShell from "../../ModalShell";
 import api from "../../api/index";
-import { useDispatch } from "react-redux";
-import { addRecipie } from "../../features/recipies/recipieSlice";
+// import { useDispatch } from "react-redux";
+// import { addRecipie } from "../../features/recipies/recipieSlice";
 
 const ModalMask = styled.div`
   ${tw`
@@ -103,7 +103,7 @@ const SubmitButton = styled.button`
 
 const AddRecipieModal = ({ closeFn = () => null, open = false }) => {
   const user = useAuth().user;
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const checkboxOptions = [
     { key: "Vegan", value: "vegan" },
@@ -130,7 +130,6 @@ const AddRecipieModal = ({ closeFn = () => null, open = false }) => {
 
   const onSubmit = async (values) => {
     closeFn();
-    console.log(" for new recipie -> all values: ", values);
     const {
       attachment,
       dish,
@@ -140,16 +139,32 @@ const AddRecipieModal = ({ closeFn = () => null, open = false }) => {
       allergens,
       special,
     } = values;
-    console.log(" for new recipie -> all values: ", values);
-    const data = { dish, description, size, ingredients, allergens, special };
-
-    console.log(" for new recipie -> truncated values: ", data);
 
     // get secure url to post to s3 bucket
-    const getS3URL = api.getS3Url();
-    dispatch(addRecipie(data));
+    const S3SecureUploadUrl = await api.getS3Url();
 
-    // send data to mongodb
+    //get img url to add to mongoose
+    const S3ImageUrl = S3SecureUploadUrl.split("?")[0];
+
+    console.log(S3ImageUrl);
+
+    const data = {
+      dish,
+      S3ImageUrl,
+      description,
+      size,
+      ingredients,
+      allergens,
+      special,
+    };
+
+    console.log(S3ImageUrl, data);
+
+    // send recipie data to server to upload to db
+    const newRecipie = await api.addRecipie(data);
+    // Uploads photo to S3Bucket
+    const uploadToS3 = await api.postPhoto(S3SecureUploadUrl, attachment);
+    console.log(uploadToS3);
   };
 
   return (

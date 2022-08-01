@@ -1,8 +1,12 @@
-import { configureStore } from "@reduxjs/toolkit";
-import goalReducer from "./features/recipies/recipieSlice";
+// import { configureStore } from "@reduxjs/toolkit";
+// import recipieReducer from "./features/recipies/recipieSlice";
+// import reduxLogger from "redux-logger";
 
-export const store = configureStore({
-  reducer: {
-    goals: goalReducer,
-  },
-});
+// const logger = reduxLogger.createLogger();
+
+// export const store = configureStore({
+//   reducer: {
+//     recipies: recipieReducer,
+//   },
+//   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
+// });
