@@ -52,5 +52,5 @@ export const goalSlice = createSlice({
   },
 });
 
-export const { reset } = goalSlice.actions;
-export default goalSlice.reducer;
+export const { reset } = recipieSlice.actions;
+export default recipieSlice.reducer;

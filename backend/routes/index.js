@@ -4,7 +4,7 @@ const { registerUser, loginUser } = require("../controllers/userController");
 const { generateUploadURL } = require("../lib/s3");
 const { protect } = require("../middleware/authMiddleware");
 const {
-  getAllUserRecipies,
+  getAllOneUsersRecipies,
   getUserRecipieById,
   addUserRecipie,
   updateUserRecipie,
@@ -34,7 +34,10 @@ router.get("/s3url", protect, async (req, res) => {
 var recipieRouter = express.Router({ mergeParams: true });
 router.use("/recipies", recipieRouter);
 
-recipieRouter.route("/").get(getAllUserRecipies).post(protect, addUserRecipie);
+recipieRouter
+  .route("/")
+  .get(getAllOneUsersRecipies)
+  .post(protect, addUserRecipie);
 
 recipieRouter
   .route("/:recipieId")

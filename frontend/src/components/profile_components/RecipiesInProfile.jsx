@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
 import { FaEdit } from "react-icons/fa";
+import api from "../../api/index";
+import { useAuth } from "../../utils/auth";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 const ModalWrapperStyles = {
   position: "relative",
@@ -48,6 +51,15 @@ const EditProfileButton = styled.button`
 `;
 
 const RecipiesInProfile = () => {
+  const auth = useAuth();
+  const userId = auth.user.user._id;
+  const queryClient = useQueryClient();
+
+  const { isLoading, data, isError, error } = useQuery(
+    ["all-users-recipies", userId],
+    () => api.getAllOneUsersRecipies(userId)
+  );
+
   return (
     <>
       <HeaderText>My Recipies</HeaderText>
@@ -57,6 +69,9 @@ const RecipiesInProfile = () => {
           Add Recipie
         </EditProfileButton>
       </div>
+      {isLoading ? <h2>Loading...</h2> : null}
+      {isError ? <h2>Error...</h2> : null}
+      {data ? <h2>Data to be displayed</h2> : null}
       <RecipiesContainer>
         <RecipiePhoto />
       </RecipiesContainer>

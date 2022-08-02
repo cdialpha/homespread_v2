@@ -3,14 +3,23 @@ const User = require("../models/User");
 const connectDB = require("../config/db");
 const Recipie = require("../models/Recipie");
 
-const getAllUserRecipies = asyncHandler(async (req, res) => {
+String.prototype.toObjectId = function () {
+  var ObjectId = require("mongoose").Types.ObjectId;
+  return new ObjectId(this.toString());
+};
+
+const getAllOneUsersRecipies = asyncHandler(async (req, res) => {
   try {
-    console.log(req.body);
-    console.log(req.params);
-    // const getRecipies = await User.findOneAndUpdate({});
+    let { userId } = req.query;
+    console.log(userId);
+    const query = userId.toObjectId();
+    const getRecipies = await Recipie.find({
+      "userId": query,
+    });
+    console.log(getRecipies);
   } catch (error) {
     res.status(401);
-    next(err);
+    console.error(error);
   }
 });
 
@@ -91,5 +100,5 @@ module.exports = {
   deleteUserRecipie,
   updateUserRecipie,
   getUserRecipieById,
-  getAllUserRecipies,
+  getAllOneUsersRecipies,
 };

@@ -86,7 +86,7 @@ const Navbar = ({ children }) => {
   const auth = useAuth();
   const isMobile = useMediaQuery({ maxWidth: deviceSize.tablet });
   const user = auth.user?.user.username || null;
-  console.log("current user from the nav is: ", user);
+  // console.log("current user from the nav is: ", user);
   const navigate = useNavigate();
   const handleLogout = () => {
     auth.logout();

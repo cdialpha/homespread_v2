@@ -8,7 +8,6 @@ API.interceptors.request.use((req) => {
     ? JSON.parse(localStorage.getItem("userInfo")).token
     : null;
   req.headers.Authorization = token;
-  console.log(req);
   return req;
 });
 
@@ -35,12 +34,22 @@ const register = async (formData) => {
   return res.data;
 };
 
-const getAllUserRecipies = async (name) => {
-  const res = await API.get(`/${name}/recipies`);
-  return res.data;
+const getAllOneUsersRecipies = async (key) => {
+  const userId = key.queryKey[1];
+  console.log(userId);
+  const res = await API.get(`/recipies`, {
+    headers: {
+      "Content-type": "application/json",
+    },
+    params: {
+      "userId": userId,
+    },
+  });
+  console.log("response is... ", res);
+  return res;
 };
 
-const getOneUserRecipie = async (name, recipieId) => {
+const getOneUserOneRecipie = async (name, recipieId) => {
   const res = await API.get(`/recipies//${name}/${recipieId}`);
   return res.data;
 };
@@ -79,8 +88,8 @@ const postPhoto = async (s3url, attachment) => {
 const api = {
   login,
   register,
-  getAllUserRecipies,
-  getOneUserRecipie,
+  getAllOneUsersRecipies,
+  getOneUserOneRecipie,
   addRecipie,
   updateRecipie,
   deleteRecipie,
