@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
 import "../../styles/formStyles.css";
@@ -59,7 +59,7 @@ const RegContainer = styled.div`
   margin-bottom: auto;
   margin-left: auto;
   margin-right: auto;
-  height: 750px;
+  height: 1000px;
 `;
 
 const Header = styled.div`
@@ -105,6 +105,8 @@ const AddRecipieModal = ({ closeFn = () => null, open = false }) => {
   const user = useAuth().user;
   // const dispatch = useDispatch();
 
+  const [images, setImageValues] = useState([]);
+
   const checkboxOptions = [
     { key: "Vegan", value: "vegan" },
     { key: "Vegetarian", value: "vegetarian" },
@@ -130,27 +132,30 @@ const AddRecipieModal = ({ closeFn = () => null, open = false }) => {
 
   const onSubmit = async (values) => {
     closeFn();
-    const {
-      attachment,
-      dish,
-      description,
-      size,
-      ingredients,
-      allergens,
-      special,
-    } = values;
+    console.log(images);
+    const { dish, description, size, ingredients, allergens, special } = values;
 
-    // get secure url to post to s3 bucket
-    const S3SecureUploadUrl = await api.getS3Url();
+    // get secure url to post to s3 bucket for each photo
+    let S3SignedUrls = [];
 
-    //get img url to add to mongoose
-    const S3ImageUrl = S3SecureUploadUrl.split("?")[0];
+    for (let i = 0; i < images.length; i++) {
+      console.log("getting s3 url");
+      var apiRequest = api.getS3Url();
+      S3SignedUrls.push(await apiRequest);
+    }
 
-    console.log(S3ImageUrl);
+    console.log(S3SignedUrls);
 
+    const S3ImageUrls = [...S3SignedUrls];
+
+    S3ImageUrls.forEach((url, i) => {
+      S3ImageUrls[i] = url.split("?")[0];
+    });
+
+    // add modified s3 url to rest of data for storing into mongodb
     const data = {
       dish,
-      S3ImageUrl,
+      S3ImageUrls,
       description,
       size,
       ingredients,
@@ -158,13 +163,14 @@ const AddRecipieModal = ({ closeFn = () => null, open = false }) => {
       special,
     };
 
-    console.log(S3ImageUrl, data);
-
     // send recipie data to server to upload to db
-    const newRecipie = await api.addRecipie(data);
+    console.log(data);
+    const newRecipie = api.addRecipie(data);
+
     // Uploads photo to S3Bucket
-    const uploadToS3 = await api.postPhoto(S3SecureUploadUrl, attachment);
-    console.log(uploadToS3);
+    for (let i = 0; i < S3SignedUrls.length; i++) {
+      api.postPhoto(S3SignedUrls[i], images[i]);
+    }
   };
 
   return (
@@ -190,12 +196,18 @@ const AddRecipieModal = ({ closeFn = () => null, open = false }) => {
                     name="dish"
                     placeholder="dish"
                   />
-
                   <Field
                     id="attachment"
                     name="attachment"
+                    setImageValues={setImageValues}
                     component={FileUpload}
                   />
+                  {/* <Field
+                    id="attachment"
+                    name="attachment"
+                    setImageValues={setImageValues}
+                    component={AltFileUpload}
+                  /> */}
 
                   <FormikControl
                     control="textarea"
@@ -243,4 +255,5 @@ const AddRecipieModal = ({ closeFn = () => null, open = false }) => {
     </ModalShell>
   );
 };
+
 export default AddRecipieModal;

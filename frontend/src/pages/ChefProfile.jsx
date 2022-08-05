@@ -185,7 +185,9 @@ const ChefProfile = () => {
                 <SideNavGroupElement>
                   <Link to="reviews"> REVIEWS</Link>
                 </SideNavGroupElement>
-                <SideNavGroupElement> PHOTOS </SideNavGroupElement>
+                <SideNavGroupElement>
+                  <Link to="photos"> PHOTOS </Link>
+                </SideNavGroupElement>
                 <SideNavGroupElement>
                   <Link to="followers"> FOLLOWERS </Link>
                 </SideNavGroupElement>

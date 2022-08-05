@@ -16,42 +16,29 @@ const postNoAuthConfig = {
     "Content-type": "application/json",
   },
 };
-
 const postAuthConfig = {
   headers: {
     "Content-type": "application/json",
   },
 };
-
 const login = async (formData) => {
   const res = await API.post("/login", formData, postNoAuthConfig);
   console.log(res);
   return res.data;
 };
-
 const register = async (formData) => {
   const res = await API.post("/register", formData, postNoAuthConfig);
   return res.data;
 };
 
-const getAllOneUsersRecipies = async (key) => {
-  const userId = key.queryKey[1];
-  console.log(userId);
-  const res = await API.get(`/recipies`, {
-    headers: {
-      "Content-type": "application/json",
-    },
-    params: {
-      "userId": userId,
-    },
-  });
-  console.log("response is... ", res);
-  return res;
+const getAllOneUsersRecipies = async (userId) => {
+  const res = await API.get(`/recipies/?userId=${userId}`);
+  return res.data.getRecipies;
 };
 
 const getOneUserOneRecipie = async (name, recipieId) => {
   const res = await API.get(`/recipies//${name}/${recipieId}`);
-  return res.data;
+  return res.data.getRecipies;
 };
 
 const addRecipie = async (newRecipie) => {
@@ -79,11 +66,31 @@ const getS3Url = async () => {
   return res.data;
 };
 
-const postPhoto = async (s3url, attachment) => {
-  const res = await axios.put(s3url, attachment, {
-    headers: { "Content-type": "multipart/form-data" },
-  });
+const postPhoto = async (S3SignedUrl, image) => {
+  console.log(S3SignedUrl, image.file.type);
+  const config = {
+    headers: { "Content-type": image.file.type },
+  };
+  const res = await axios.put(S3SignedUrl, image.file, config);
+  return res.data;
 };
+
+// Theoretically could add a upload progress bar which would be cool.
+// From Academind 2018 https://www.youtube.com/watch?v=XeiOnkEI7XI&t=235s
+// {
+//   onUploadProgress: progressEvent => {
+//     console.log(progressEvent.loaded / progressEvent.total)
+//   }
+
+// From Ben Awad 2017
+// uploadToS3 = async (file, signedRequest) => {
+//   const options = {
+//     headers: {
+//       "Content-Type": file.type
+//     }
+//   };
+//   await axios.put(signedRequest, file, options);
+// };
 
 const api = {
   login,

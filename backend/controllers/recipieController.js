@@ -17,6 +17,7 @@ const getAllOneUsersRecipies = asyncHandler(async (req, res) => {
       "userId": query,
     });
     console.log(getRecipies);
+    res.status(201).json({ success: true, getRecipies });
   } catch (error) {
     res.status(401);
     console.error(error);
@@ -27,7 +28,7 @@ const addUserRecipie = asyncHandler(async (req, res) => {
   try {
     const {
       dish,
-      S3ImageUrl,
+      S3ImageUrls,
       description,
       size,
       ingredients,
@@ -38,7 +39,7 @@ const addUserRecipie = asyncHandler(async (req, res) => {
     const newRecipie = await Recipie.create({
       userId: req.user._id,
       dish_name: dish,
-      image_url: S3ImageUrl,
+      image_url: S3ImageUrls,
       dish_description: description,
       serving_size: size,
       ingredients: ingredients,
@@ -51,7 +52,6 @@ const addUserRecipie = asyncHandler(async (req, res) => {
     });
   } catch (error) {
     res.status(403);
-    console.error(error);
     throw new Error("something went wrong");
   }
 });

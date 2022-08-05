@@ -20,6 +20,7 @@ import FollowersInProfile from "./components/profile_components/FollowersInProfi
 import RecipiesInProfile from "./components/profile_components/RecipiesInProfile";
 import FAQ from "./pages/FAQ";
 import Bio from "./components/profile_components/Bio";
+import FileUpload from "./components/profile_components/FileUpload";
 
 // utilities, tools, features, etc.
 import ModalManager from "./ModalManager";
@@ -70,6 +71,7 @@ const App = () => {
                 <Route path="followers" element={<FollowersInProfile />} />
                 <Route path="recipies" element={<RecipiesInProfile />} />
                 <Route path="bio" element={<Bio />} />
+                <Route path="photos" element={<FileUpload />} />
               </Route>
               {/* <Route path="map" element={<MapPage />}></Route> */}
               {/* <Route path="unath" element={<Unauth />}></Route>
