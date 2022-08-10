@@ -34,6 +34,7 @@ const FormTitle = styled.div`
     text-3xl
     ml-auto
     mr-auto
+    mb-5
 `};
 `;
 const FormButton = styled.button`

@@ -4,7 +4,7 @@ import tw from "twin.macro";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import "../styles/formStyles.css";
-import { FaGoogle } from "react-icons/fa";
+import { FaGoogle, FaFacebook } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../utils/auth";
 
@@ -21,19 +21,20 @@ const RegContainer = styled.div`
     border-gray-200
     rounded-3xl
     justify-center
+    height[600px]
+    width[400px]
 `};
   margin-top: 100px;
   margin-bottom: auto;
   margin-left: auto;
   margin-right: auto;
-  height: 700px;
-  width: 500px;
 `;
 const FormTitle = styled.div`
   ${tw`
     text-3xl
     ml-auto
     mr-auto
+    mb-5
 `};
 `;
 const FormButton = styled.button`
@@ -195,9 +196,15 @@ const Register = () => {
                 <div className="orDiv">
                   <span className="orSpan"> or </span>
                 </div>
+
                 <button className="google-button">
-                  <FaGoogle />{" "}
+                  <FaGoogle />
                   <span className="google-text">Login with Google </span>
+                </button>
+
+                <button className="google-button">
+                  <FaFacebook />
+                  <span className="google-text">Login with Facebook </span>
                 </button>
               </Form>
             </RegContainer>

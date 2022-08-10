@@ -24,8 +24,8 @@ const UserSchema = new mongoose.Schema(
     username: reqString,
     role: {
       type: String,
-      enum: ["user", "chef", "both"],
-      default: "chef",
+      enum: ["basic", "chef"],
+      default: "basic",
     },
     hash: String,
     salt: String,

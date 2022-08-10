@@ -20,6 +20,8 @@ import {
 } from "react-icons/fa";
 import { AiOutlineForm } from "react-icons/ai";
 import { useAuth } from "../utils/auth";
+import Tippy from "@tippyjs/react";
+import "tippy.js/dist/tippy.css";
 
 const Container = styled.div`
   ${tw`
@@ -100,44 +102,58 @@ const Navbar = ({ children }) => {
       </Link>
       {isMobile ? null : (
         <NavItemsContainer>
-          <NavItem>
-            <Link to="/">
-              <FaHome />
-            </Link>
-          </NavItem>
-          <NavItem>
-            <Link to="order">
-              <FaConciergeBell />
-            </Link>
-          </NavItem>
-          <NavItem>
-            <Link to="map">
-              <FaMap />
-            </Link>
-          </NavItem>
-          <NavItem>
-            <Link to="cart">
-              <FaShoppingCart />
-            </Link>
-          </NavItem>
-          {user ? (
+          <Tippy content="home">
             <NavItem>
-              <Link to={`profile/${user}`}>
-                <FaUser />
+              <Link to="/">
+                <FaHome />
               </Link>
             </NavItem>
+          </Tippy>
+          <Tippy content="order">
+            <NavItem>
+              <Link to="order">
+                <FaConciergeBell />
+              </Link>
+            </NavItem>
+          </Tippy>
+          <Tippy content="map">
+            <NavItem>
+              <Link to="map">
+                <FaMap />
+              </Link>
+            </NavItem>
+          </Tippy>
+          <Tippy content="cart">
+            <NavItem>
+              <Link to="cart">
+                <FaShoppingCart />
+              </Link>
+            </NavItem>
+          </Tippy>
+          {user ? (
+            <Tippy content="profile">
+              <NavItem>
+                <Link to={`profile/${user}`}>
+                  <FaUser />
+                </Link>
+              </NavItem>
+            </Tippy>
           ) : (
             <>
-              <NavItem>
-                <Link to="register">
-                  <AiOutlineForm />
-                </Link>
-              </NavItem>
-              <NavItem>
-                <Link to="login">
-                  <FaKey />
-                </Link>
-              </NavItem>
+              <Tippy content="register">
+                <NavItem>
+                  <Link to="register">
+                    <AiOutlineForm />
+                  </Link>
+                </NavItem>
+              </Tippy>
+              <Tippy content="login">
+                <NavItem>
+                  <Link to="login">
+                    <FaKey />
+                  </Link>
+                </NavItem>
+              </Tippy>
             </>
           )}
         </NavItemsContainer>

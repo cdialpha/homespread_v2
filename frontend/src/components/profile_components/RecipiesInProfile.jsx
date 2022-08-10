@@ -6,7 +6,7 @@ import api from "../../api/index";
 import { useAuth } from "../../utils/auth";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import Recipie from "./Recipie";
-
+import emptyPlate from "../../images/emptyplate.png";
 const ModalWrapperStyles = {
   position: "relative",
   zIndex: 1,
@@ -19,7 +19,7 @@ font-size[50px]
 `}
 `;
 
-const EditProfileButton = styled.button`
+const EditButton = styled.button`
   ${tw`
     flex
     justify-around
@@ -33,6 +33,23 @@ const EditProfileButton = styled.button`
     height[35px]
     border-radius[10px]
 `}
+`;
+
+const NoRecipies = styled.div`
+  ${tw`
+flex
+flex-col
+font-size[30px]
+`}
+`;
+
+const EmptyPlate = styled.img`
+  ${tw`
+  width[300px]
+  ml-auto
+  mr-auto
+  opacity-50
+  `}
 `;
 
 const RecipiesInProfile = () => {
@@ -49,15 +66,21 @@ const RecipiesInProfile = () => {
     <>
       <HeaderText>My Recipies</HeaderText>
       <div style={ModalWrapperStyles}>
-        <EditProfileButton data-modal="modal-two">
+        <EditButton data-modal="modal-two">
           <FaEdit />
           Add Recipie
-        </EditProfileButton>
+        </EditButton>
 
         {isLoading ? <h2>Loading...</h2> : null}
-        {data?.map((recipie) => (
-          <Recipie key={recipie._id} recipie={recipie} />
-        ))}
+        {data ? (
+          data.map((recipie) => <Recipie key={recipie._id} recipie={recipie} />)
+        ) : (
+          <NoRecipies>
+            <h2> You have no recipies to show</h2>
+            <EmptyPlate src={emptyPlate} />
+            <h2> Add a recipie to get started </h2>
+          </NoRecipies>
+        )}
       </div>
     </>
   );

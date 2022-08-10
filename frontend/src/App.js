@@ -6,14 +6,15 @@ import Home from "./pages/Home";
 import { Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Mission from "./pages/Mission";
 import Chefs from "./pages/Chefs";
 import MapPage from "./pages/Map";
 
 // components
-import ChefProfile from "./pages/ChefProfile";
+
+import NavbarTwo from "./components/NavbarTwo";
+import Profile from "./pages/Profile";
 import Order from "./pages/Order";
 import ReviewsInProfile from "./components/profile_components/ReviewsInProfile";
 import FollowersInProfile from "./components/profile_components/FollowersInProfile";
@@ -56,7 +57,7 @@ const App = () => {
         {/* <Provider store={store}> */}
         <BrowserRouter>
           <div onClick={openModal}>
-            <Navbar />
+            <NavbarTwo />
             <ModalManager closeFn={closeModal} modal={modalOpen} />
             <Routes>
               <Route path="/" element={<Home />}></Route>
@@ -66,7 +67,7 @@ const App = () => {
               <Route path="mission" element={<Mission />}></Route>
               <Route path="chefs" element={<Chefs />}></Route>
               <Route path="faq" element={<FAQ />}></Route>
-              <Route path="profile/:userId" element={<ChefProfile />}>
+              <Route path="profile/:userId" element={<Profile />}>
                 <Route path="reviews" element={<ReviewsInProfile />} />
                 <Route path="followers" element={<FollowersInProfile />} />
                 <Route path="recipies" element={<RecipiesInProfile />} />
