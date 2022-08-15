@@ -45,9 +45,11 @@ const Navbar = ({ children }) => {
 const SigninButton = () => {
   return (
     <li>
-      <a className="signin" href="#">
-        Sign in
-      </a>
+      <Link to="login">
+        <div className="signin" href="#">
+          Sign in
+        </div>
+      </Link>
     </li>
   );
 };
@@ -57,43 +59,99 @@ const NavItem = (props) => {
     if (props.activeDropdown === null) props.setActiveDropdown(props.controlls);
     if (props.activeDropdown === props.controlls) props.setActiveDropdown(null);
   };
+  let expandWidth;
+  let shrinkSecondIcon;
+  if (props.secondicon) {
+    expandWidth = "expand-width";
+    shrinkSecondIcon = "shrink-second-icon";
+  }
 
   return (
     <li className="nav-item">
-      <a href="#" className="icon-button" onClick={handleClick}>
+      <a
+        href="#"
+        className={`icon-button ${expandWidth}`}
+        onClick={handleClick}
+      >
         {props.icon}
+        <span className={shrinkSecondIcon}>{props.secondicon} </span>
       </a>
       {props.children}
     </li>
   );
 };
 
-function DropdownItem(props) {
-  return (
-    <a href="#" className="menu-item">
-      <span className="icon-button">{props.icon}</span>
-      {props.children}
-    </a>
-  );
-}
-
 const MainDropdown = React.forwardRef((props, ref) => {
   const auth = useAuth();
   const isMobile = useMediaQuery({ maxWidth: deviceSize.mobile });
   const user = auth.user?.user.username || null;
 
-  // const [mddIsOpen, setMddIsOpen] = useState(false);
-
   return (
     <div className="dropdown" ref={ref}>
       <div className="menu">
-        <DropdownItem icon={<FaHome />}>Home</DropdownItem>
-        <DropdownItem icon={<FaBookOpen />}>Our Story</DropdownItem>
-        <DropdownItem icon={<FaGlobe />}>Our Mission</DropdownItem>
-        <DropdownItem icon={<GiChefToque />}>Our Chefs</DropdownItem>
-        <DropdownItem icon={<FaQuestion />}>FAQ</DropdownItem>
-        <DropdownItem icon={<FaRss />}>Blog</DropdownItem>
-        {user ? null : <DropdownItem icon={<FaKey />}> Sign In </DropdownItem>}
+        <Link to="/">
+          <div className="menu-item">
+            <span className="icon-button">
+              <FaHome />
+            </span>
+            Home
+          </div>
+        </Link>
+
+        <Link to="chefs">
+          <div className="menu-item">
+            <span className="icon-button">
+              <GiChefToque />
+            </span>
+            Our Chefs
+          </div>
+        </Link>
+
+        <Link to="story">
+          <div className="menu-item">
+            <span className="icon-button">
+              <FaBookOpen />
+            </span>
+            OurStory
+          </div>
+        </Link>
+
+        <Link to="mission">
+          <div className="menu-item">
+            <span className="icon-button">
+              <FaGlobe />
+            </span>
+            Our Mission
+          </div>
+        </Link>
+
+        <Link to="faq">
+          <div className="menu-item">
+            <span className="icon-button">
+              <FaQuestion />
+            </span>
+            FAQ
+          </div>
+        </Link>
+        <Link to="blog">
+          <div className="menu-item">
+            <span className="icon-button">
+              <FaRss />
+            </span>
+            Blog
+          </div>
+        </Link>
+
+        {user ? null : (
+          <Link to="login">
+            <div className="menu-item">
+              <span className="icon-button">
+                <FaKey />
+              </span>
+              Sign in
+            </div>
+          </Link>
+        )}
       </div>
     </div>
   );
@@ -113,12 +171,56 @@ const ProfileDropdown = React.forwardRef((props, ref) => {
   return (
     <div className="dropdown" ref={ref}>
       <div className="menu">
-        <DropdownItem icon={<TbMessages />}>Messages</DropdownItem>
-        <DropdownItem icon={<FaCreditCard />}>Purchases & Reviews</DropdownItem>
-        <DropdownItem icon={<AiFillShop />}>Sell on Spread</DropdownItem>
-        <DropdownItem icon={<FaCog />}>Account Settings</DropdownItem>
+        <Link to={`profile/${user}`}>
+          <div className="menu-item">
+            <span className="icon-button">
+              <FaUser />
+            </span>
+            <div className="nav-item-with-subtext">
+              <div className="username"> {user} </div>
+              <div className="subtext"> View Your Profile</div>
+            </div>
+          </div>
+        </Link>
+        <Link to="messages">
+          <div className="menu-item">
+            <span className="icon-button">
+              <TbMessages />
+            </span>
+            Messages
+          </div>
+        </Link>
+        <Link to="purchases">
+          <div className="menu-item">
+            <span className="icon-button">
+              <FaCreditCard />
+            </span>
+            Purchases & Reviews
+          </div>
+        </Link>
+        <Link to="become">
+          <div className="menu-item">
+            <span className="icon-button">
+              <AiFillShop />
+            </span>
+            Sell on Spread
+          </div>
+        </Link>
+        <Link to="settings">
+          <div className="menu-item">
+            <span className="icon-button">
+              <FaCog />
+            </span>
+            Settings
+          </div>
+        </Link>
         {user ? (
-          <DropdownItem icon={<FaSignOutAlt />}> Sign Out </DropdownItem>
+          <div className="menu-item" onClick={handleLogout}>
+            <span className="icon-button">
+              <FaSignOutAlt />
+            </span>
+            Sign Out
+          </div>
         ) : null}
       </div>
     </div>
@@ -137,18 +239,21 @@ const NavbarTwo = () => {
 
   const closeOpenMenus = (e) => {
     if (
-      (profileDropdownRef.current || mainDropdownRef.current) &&
       activeDropdown &&
-      (!profileDropdownRef.current?.contains(e.target) ||
-        !mainDropdownRef.current?.contains(e.target))
+      !(
+        profileDropdownRef.current?.contains(e.target) ||
+        mainDropdownRef.current?.contains(e.target)
+      )
     ) {
       setActiveDropdown(null);
     }
   };
 
-  document.addEventListener("mousedown", closeOpenMenus);
+  // (profileDropdownRef.current || mainDropdownRef.current) &&
+  // ||
+  //       )
 
-  console.log(activeDropdown);
+  document.addEventListener("mousedown", closeOpenMenus);
 
   return (
     <div className="container">
@@ -177,6 +282,7 @@ const NavbarTwo = () => {
           {user ? (
             <NavItem
               icon={<FaUser />}
+              secondicon={<FaAngleDown />}
               setActiveDropdown={setActiveDropdown}
               controlls="profile"
               activeDropdown={activeDropdown}
@@ -188,6 +294,20 @@ const NavbarTwo = () => {
           ) : (
             <SigninButton />
           )}
+          <div className="nav-item">
+            <Link to="cart">
+              <div className="icon-button">
+                <FaShoppingCart />
+              </div>
+            </Link>
+          </div>
+          <div className="nav-item">
+            <Link to="order">
+              <div className="icon-button">
+                <FaConciergeBell />
+              </div>
+            </Link>
+          </div>
           <NavItem
             icon={<FaAngleDown />}
             setActiveDropdown={setActiveDropdown}
@@ -205,115 +325,3 @@ const NavbarTwo = () => {
 };
 
 export default NavbarTwo;
-
-// onClick={(e) => closeDropDown(e)}>
-// const [open, setOpen] = useState(false);
-
-// const closeDropDown = (e) => {
-// setOpen(!open);
-// };
-
-{
-  /* <Container>
-  
-  {isMobile ? null : (
-    <NavItemsContainer>
-      <Tippy content="home">
-        <NavItem>
-          <Link to="/">
-            <FaHome />
-          </Link>
-        </NavItem>
-      </Tippy>
-      <Tippy content="order">
-        <NavItem>
-          <Link to="order">
-            <FaConciergeBell />
-          </Link>
-        </NavItem>
-      </Tippy>
-      <Tippy content="map">
-        <NavItem>
-          <Link to="map">
-            <FaMap />
-          </Link>
-        </NavItem>
-      </Tippy>
-      <Tippy content="cart">
-        <NavItem>
-          <Link to="cart">
-            <FaShoppingCart />
-          </Link>
-        </NavItem>
-      </Tippy>
-      {user ? (
-        <Tippy content="profile">
-          <NavItem>
-            <Link to={`profile/${user}`}>
-              <FaUser />
-            </Link>
-          </NavItem>
-        </Tippy>
-      ) : (
-        <>
-          <Tippy content="register">
-            <NavItem>
-              <Link to="register">
-                <AiOutlineForm />
-              </Link>
-            </NavItem>
-          </Tippy>
-          <Tippy content="login">
-            <NavItem>
-              <Link to="login">
-                <FaKey />
-              </Link>
-            </NavItem>
-          </Tippy>
-        </>
-      )}
-    </NavItemsContainer>
-  )}
-  <Menu right styles={menuStyles}>
-    <NavItem>
-      <Link to="mission"> Our Mission </Link>
-    </NavItem>
-    <NavItem>
-      <Link to="blog"> Blog </Link>
-    </NavItem>
-    <NavItem>
-      <Link to="chefs"> Our Chefs </Link>
-    </NavItem>
-
-    <NavItem>
-      <Link to="order"> Order</Link>
-    </NavItem>
-    <NavItem>
-      <Link to="map"> Map </Link>
-    </NavItem>
-    <NavItem>
-      <Link to="cart"> My Cart </Link>
-    </NavItem>
-    <NavItem>
-      <Link to={`profile/${user}`}> Profile </Link>
-    </NavItem>
-    {user ? (
-      <>
-        <NavItem>
-          <Link to="login"> Switch User </Link>
-        </NavItem>
-        <NavItem onClick={handleLogout}>Logout</NavItem>
-      </>
-    ) : (
-      <>
-        <NavItem>
-          <Link to="register"></Link>
-        </NavItem>
-        <NavItem>
-          <Link to="login"></Link>
-        </NavItem>
-      </>
-    )}
-  </Menu>
-</Container>; */
-}

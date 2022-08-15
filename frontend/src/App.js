@@ -10,9 +10,9 @@ import Footer from "./components/Footer";
 import Mission from "./pages/Mission";
 import Chefs from "./pages/Chefs";
 import MapPage from "./pages/Map";
-
+import Cart from "./pages/Cart";
+import Become from "./pages/Become";
 // components
-
 import NavbarTwo from "./components/NavbarTwo";
 import Profile from "./pages/Profile";
 import Order from "./pages/Order";
@@ -63,10 +63,12 @@ const App = () => {
               <Route path="/" element={<Home />}></Route>
               <Route path="login" element={<Login />}></Route>
               <Route path="register" element={<Register />}></Route>
+              <Route path="cart" element={<Cart />}></Route>
               <Route path="order" element={<Order />}></Route>
               <Route path="mission" element={<Mission />}></Route>
               <Route path="chefs" element={<Chefs />}></Route>
               <Route path="faq" element={<FAQ />}></Route>
+              <Route path="become" element={<Become />}></Route>
               <Route path="profile/:userId" element={<Profile />}>
                 <Route path="reviews" element={<ReviewsInProfile />} />
                 <Route path="followers" element={<FollowersInProfile />} />

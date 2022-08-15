@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
 import { FaEdit } from "react-icons/fa";
-import api from "../../api/index";
+import api from "../../api/api";
 import { useAuth } from "../../utils/auth";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import Recipie from "./Recipie";
 import emptyPlate from "../../images/emptyplate.png";
+
 const ModalWrapperStyles = {
   position: "relative",
   zIndex: 1,
@@ -55,7 +56,7 @@ const EmptyPlate = styled.img`
 const RecipiesInProfile = () => {
   const auth = useAuth();
   const userId = auth.user.user._id;
-  const queryClient = useQueryClient();
+  console.log(userId);
 
   const { isLoading, data } = useQuery(["all-users-recipies", userId], () =>
     api.getAllOneUsersRecipies(userId)
@@ -72,14 +73,14 @@ const RecipiesInProfile = () => {
         </EditButton>
 
         {isLoading ? <h2>Loading...</h2> : null}
-        {data ? (
-          data.map((recipie) => <Recipie key={recipie._id} recipie={recipie} />)
-        ) : (
+        {!data || [] ? (
           <NoRecipies>
             <h2> You have no recipies to show</h2>
             <EmptyPlate src={emptyPlate} />
             <h2> Add a recipie to get started </h2>
           </NoRecipies>
+        ) : (
+          data.map((recipie) => <Recipie key={recipie._id} recipie={recipie} />)
         )}
       </div>
     </>

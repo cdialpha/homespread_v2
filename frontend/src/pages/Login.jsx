@@ -7,7 +7,7 @@ import "../styles/formStyles.css";
 import { FaGoogle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../utils/auth";
-
+import { Link } from "react-router-dom";
 const formikStyle = {
   display: "flex",
   flexDirection: "column",
@@ -21,22 +21,47 @@ const RegContainer = styled.div`
     border-gray-200
     rounded-3xl
     justify-center
+    margin-top[200px]
+    mb-auto
+    ml-auto
+    mr-auto
+    height[500px]
+    width[400px]
 `};
-  margin-top: 200px;
-  margin-bottom: auto;
-  margin-left: auto;
-  margin-right: auto;
-  height: 500px;
-  width: 500px;
+`;
+
+const Header = styled.div`
+  ${tw`
+flex
+justify-between
+`}
 `;
 const FormTitle = styled.div`
   ${tw`
     text-3xl
-    ml-auto
-    mr-auto
+    font-weight[900]
+  ml-10
     mb-5
 `};
 `;
+
+const RegisterButton = styled.button`
+  ${tw`
+font-weight[900]
+height[45px]
+border-2
+border-black
+border-radius[35px]
+pl-3
+pr-3
+pt-1
+pb-1
+mr-7
+text-black
+
+`}
+`;
+
 const FormButton = styled.button`
   ${tw`
     pt-2
@@ -78,13 +103,10 @@ const Login = () => {
   const [loading, setLoading] = useState("false");
 
   const handleSubmit = (values, onSubmitProps) => {
-    console.log("click!");
-    console.log(values);
     onSubmitProps.setSubmitting(false);
     setLoading(true);
     try {
       auth.login(values);
-      console.log("authorizing...");
     } catch (error) {
       setError(true);
     }
@@ -104,7 +126,12 @@ const Login = () => {
           // console.log('formik props:', formik);
           return (
             <RegContainer>
-              <FormTitle> Log In </FormTitle>
+              <Header>
+                <FormTitle> Log In </FormTitle>
+                <Link to="/register">
+                  <RegisterButton>Register</RegisterButton>
+                </Link>
+              </Header>
               <Form style={formikStyle}>
                 <div className="form-group">
                   <Field

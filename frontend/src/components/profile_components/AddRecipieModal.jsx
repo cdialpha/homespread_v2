@@ -10,7 +10,7 @@ import { useAuth } from "../../utils/auth";
 import FileUpload from "./FileUpload";
 import axios from "axios";
 import ModalShell from "../../ModalShell";
-import api from "../../api/index";
+import api from "../../api/api";
 // import { useDispatch } from "react-redux";
 // import { addRecipie } from "../../features/recipies/recipieSlice";
 

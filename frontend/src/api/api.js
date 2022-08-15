@@ -11,53 +11,70 @@ API.interceptors.request.use((req) => {
   return req;
 });
 
-const postNoAuthConfig = {
-  headers: {
-    "Content-type": "application/json",
-  },
-};
-const postAuthConfig = {
-  headers: {
-    "Content-type": "application/json",
-  },
-};
 const login = async (formData) => {
-  const res = await API.post("/login", formData, postNoAuthConfig);
-  console.log(res);
+  const config = {
+    headers: { "Content-type": "application/json" },
+  };
+  const res = await API.post("/login", formData, config);
   return res.data;
 };
+
 const register = async (formData) => {
-  const res = await API.post("/register", formData, postNoAuthConfig);
+  const config = {
+    headers: { "Content-type": "application/json" },
+  };
+  const res = await API.post("/register", formData, config);
+  return res.data;
+};
+
+const changeRole = async (username) => {
+  const config = {
+    headers: { "Content-type": "application/json" },
+  };
+  const payload = { "username": username };
+  const res = await API.patch("/become", { "username": "George" }, config);
+  return res.data;
+};
+
+const getAllRecipies = async (pageNumber) => {
+  const res = await API.get(`/recipies?limit=25&page=${pageNumber}`);
   return res.data;
 };
 
 const getAllOneUsersRecipies = async (userId) => {
-  const res = await API.get(`/recipies/?userId=${userId}`);
+  console.log("fetching recipies...");
+  const res = await API.get(`/recipies/:${userId}`);
+  console.log("response", res);
   return res.data.getRecipies;
 };
 
 const getOneUserOneRecipie = async (name, recipieId) => {
-  const res = await API.get(`/recipies//${name}/${recipieId}`);
+  const res = await API.get(`/recipies/${name}/${recipieId}`);
   return res.data.getRecipies;
 };
 
 const addRecipie = async (newRecipie) => {
+  const config = {
+    headers: { "Content-type": "application/json" },
+  };
   console.log(newRecipie);
-  const res = await API.post(`/recipies`, newRecipie, postAuthConfig);
+  const res = await API.post(`/recipies`, newRecipie, config);
   return res.data;
 };
 
 const updateRecipie = async (recipieId, updatedRecipie) => {
-  const res = await API.patch(
-    `/recipies/${recipieId}`,
-    updatedRecipie,
-    postAuthConfig
-  );
+  const config = {
+    headers: { "Content-type": "application/json" },
+  };
+  const res = await API.patch(`/recipies/${recipieId}`, updatedRecipie, config);
   return res.data;
 };
 
 const deleteRecipie = async (recipieId) => {
-  const res = await API.delete(`recipies/${recipieId}`, postAuthConfig);
+  const config = {
+    headers: { "Content-type": "application/json" },
+  };
+  const res = await API.delete(`recipies/${recipieId}`, config);
   return res.data;
 };
 
@@ -95,6 +112,7 @@ const postPhoto = async (S3SignedUrl, image) => {
 const api = {
   login,
   register,
+  getAllRecipies,
   getAllOneUsersRecipies,
   getOneUserOneRecipie,
   addRecipie,
@@ -102,6 +120,7 @@ const api = {
   deleteRecipie,
   getS3Url,
   postPhoto,
+  changeRole,
 };
 
 export default api;

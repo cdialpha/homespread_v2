@@ -7,21 +7,24 @@ import ChefsYouMightLike from "../components/order_components/ChefsYouMightLike"
 import RecentlyViewed from "../components/order_components/RecentlyViewed";
 import Trending from "../components/order_components/Trending";
 
-const FeaturedContainer = styled.div`
+const View = styled.div`
   ${tw`
+
+flex
+flex-col
 
 `}
 `;
 
 const Order = () => {
   return (
-    <div>
+    <View>
       <LeadInFilter />
       <MainProducts />
       <ChefsYouMightLike />
       <RecentlyViewed />
       <Trending />
-    </div>
+    </View>
   );
 };
 

@@ -8,16 +8,34 @@ String.prototype.toObjectId = function () {
   return new ObjectId(this.toString());
 };
 
+const getAllRecipies = asyncHandler(async (req, res) => {
+  try {
+    let { limit, page } = req.query;
+    let skip = limit * (page - 1);
+    console.log(limit, page, skip);
+    const getRecipies = await Recipie.find().skip(skip).limit(limit);
+    res.status(201).json({ success: true, getRecipies });
+  } catch (error) {
+    res.status(401);
+    console.error(error);
+  }
+});
+
 const getAllOneUsersRecipies = asyncHandler(async (req, res) => {
   try {
-    let { userId } = req.query;
-    console.log(userId);
+    let { userId } = req.params;
+    userId = userId.substring(1);
     const query = userId.toObjectId();
     const getRecipies = await Recipie.find({
       "userId": query,
     });
     console.log(getRecipies);
-    res.status(201).json({ success: true, getRecipies });
+    if (getRecipies) {
+      res.status(200).json({ "success": true, getRecipies });
+    }
+    if (!getRecipies) {
+      res.status(400).json({ "sucess": false, "message": "no recipies found" });
+    }
   } catch (error) {
     res.status(401);
     console.error(error);
@@ -96,6 +114,7 @@ const deleteUserRecipie = asyncHandler(async (req, res, next) => {
 });
 
 module.exports = {
+  getAllRecipies,
   addUserRecipie,
   deleteUserRecipie,
   updateUserRecipie,

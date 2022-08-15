@@ -42,12 +42,10 @@ width[inherit]
 pt-1
 pl-5
 pb-1  
-text-gray-600
+text-gray-800
 hover:bg-gray-100
 border-b-2
 border-b-gray-100
-
-
 `};
 `;
 
@@ -57,10 +55,14 @@ const SideNav = () => {
       <SideNavGroup>
         <SideNavGroupTitle> PROFILE </SideNavGroupTitle>
         <SideNavGroupElement>
-          <Link to="bio">BIO & IDENTITY</Link>
+          <Link style={{ textDecoration: "none" }} to="bio">
+            BIO & IDENTITY
+          </Link>
         </SideNavGroupElement>
 
-        <SideNavGroupElement> YOUR PHOTOS </SideNavGroupElement>
+        <SideNavGroupElement>
+          <Link to="photos"> YOUR PHOTOS </Link>
+        </SideNavGroupElement>
       </SideNavGroup>
       <SideNavGroup>
         <SideNavGroupTitle> ACTIVITY </SideNavGroupTitle>
@@ -77,18 +79,30 @@ const SideNav = () => {
 
       <SideNavGroup>
         <SideNavGroupTitle> MANAGE ORDERS </SideNavGroupTitle>
-        <SideNavGroupElement> CURRENT ORDERS </SideNavGroupElement>
-        <SideNavGroupElement> ORDER HISTORY </SideNavGroupElement>
-        <SideNavGroupElement> ANALYTICS </SideNavGroupElement>
+        <SideNavGroupElement>
+          <Link to="current-orders"> CURRENT ORDERS </Link>
+        </SideNavGroupElement>
+        <SideNavGroupElement>
+          <Link to="order-history"> ORDER HISTORY </Link>
+        </SideNavGroupElement>
+        <SideNavGroupElement>
+          <Link to="analytics"> ANALYTICS </Link>
+        </SideNavGroupElement>
       </SideNavGroup>
       <SideNavGroup>
         <SideNavGroupTitle> MANAGE OFFERINGS </SideNavGroupTitle>
         <SideNavGroupElement>
           <Link to="recipies"> RECIPIES </Link>
         </SideNavGroupElement>
-        <SideNavGroupElement> CATERING </SideNavGroupElement>
-        <SideNavGroupElement> AVAILABILITY </SideNavGroupElement>
-        <SideNavGroupElement> PICK UP </SideNavGroupElement>
+        <SideNavGroupElement>
+          <Link to="catering"> CATERING </Link>
+        </SideNavGroupElement>
+        <SideNavGroupElement>
+          <Link to="availability"> AVAILABILITY </Link>
+        </SideNavGroupElement>
+        <SideNavGroupElement>
+          <Link to="pickup"> PICK UP </Link>
+        </SideNavGroupElement>
       </SideNavGroup>
     </SideNavContainer>
   );

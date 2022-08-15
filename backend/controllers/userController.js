@@ -23,7 +23,7 @@ const registerUser = asyncHandler(async (req, res, next) => {
     throw new Error("user already exists!");
   }
 
-  //if user doesn't exist, then create user shcema and issue jwt
+  //if user doesn't exist, then create user via shcema and issue jwt
   else {
     const newUser = await User.create({
       username,
@@ -69,7 +69,32 @@ const loginUser = asyncHandler(async (req, res, next) => {
     });
 });
 
+const changeRole = asyncHandler(async (req, res) => {
+  const { username } = req.body;
+  try {
+    let update;
+    let query = { "username": username };
+    const user = await User.findOne(query);
+    let role = user.role;
+    console.log(role);
+    if (role === "basic") {
+      update = { $set: { "role": "chef" } };
+    } else if (role === "chef") {
+      update = { $set: { "role": "basic" } };
+    }
+    console.log(update);
+    let updatedUser = await User.findOneAndUpdate(query, update, {
+      new: true,
+    });
+    res.status(200).json({ "success": true, "user": updatedUser });
+  } catch (err) {
+    res.status(401);
+    console.error(err);
+  }
+});
+
 module.exports = {
   registerUser,
   loginUser,
+  changeRole,
 };

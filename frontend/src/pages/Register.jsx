@@ -21,7 +21,7 @@ const RegContainer = styled.div`
     border-gray-200
     rounded-3xl
     justify-center
-    height[600px]
+    height[700px]
     width[400px]
 `};
   margin-top: 100px;
@@ -110,7 +110,7 @@ const Register = () => {
           // console.log('formik props:', formik);
           return (
             <RegContainer>
-              <FormTitle> Sign up </FormTitle>
+              <FormTitle> Register </FormTitle>
               <Form style={formikStyle}>
                 <div className="form-group">
                   <Field

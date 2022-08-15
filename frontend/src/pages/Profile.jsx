@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
 import emptyProfile from "../images/anon.png";
-import { FaEdit } from "react-icons/fa";
 import profileHero from "../images/hero-profile2.png";
 import { Outlet } from "react-router-dom";
 import { useAuth } from "../utils/auth";
@@ -32,22 +31,6 @@ const ProfileHeader = styled.div`
   `};
   background-image: url(${profileHero});
   background-size: cover;
-`;
-
-const EditProfileButton = styled.button`
-  ${tw`
-    flex
-    justify-around
-    pl-2
-    pr-2
-    lg:ml-5
-    align-items[center]
-    text-white
-    bg-red-400
-    width[175px]
-    height[35px]
-    border-radius[10px]
-`}
 `;
 
 const ProfileName = styled.div`
@@ -84,11 +67,6 @@ const ContentArea = styled.div`
     text-center
 `}
 `;
-
-const ModalWrapperStyles = {
-  position: "relative",
-  zIndex: 1,
-};
 
 const Profile = () => {
   const auth = useAuth();
