@@ -249,10 +249,6 @@ const NavbarTwo = () => {
     }
   };
 
-  // (profileDropdownRef.current || mainDropdownRef.current) &&
-  // ||
-  //       )
-
   document.addEventListener("mousedown", closeOpenMenus);
 
   return (

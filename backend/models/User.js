@@ -33,7 +33,10 @@ const UserSchema = new mongoose.Schema(
       type: Date,
       default: Date.now,
     },
-    profile_pic: String,
+    profile_pic: {
+      type: String,
+      default: "https://boston-spread-profiles.s3.amazonaws.com/anon.png",
+    },
     bio: String,
     rating: Number,
     cuisine_tags: [String],

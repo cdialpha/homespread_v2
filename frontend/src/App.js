@@ -30,21 +30,23 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { BrowserRouter } from "react-router-dom";
 import { AuthProvider } from "./utils/auth";
-// import { store } from "./store";
-// import { Provider } from "react-redux";
+import store from "./store";
+import { Provider } from "react-redux";
 
 const App = () => {
   const [modalOpen, setModal] = useState(false);
+  const [modalPayload, setModalPayload] = useState({});
   const auth = useAuth();
   const queryClient = new QueryClient();
 
   const openModal = (event) => {
     const {
       target: {
-        dataset: { modal },
+        dataset: { modal, payload },
       },
     } = event;
     if (modal) setModal(modal);
+    if (payload) setModalPayload(payload);
   };
 
   const closeModal = () => {
@@ -54,36 +56,38 @@ const App = () => {
   return (
     <AuthProvider>
       <QueryClientProvider client={queryClient}>
-        {/* <Provider store={store}> */}
-        <BrowserRouter>
-          <div onClick={openModal}>
-            <NavbarTwo />
-            <ModalManager closeFn={closeModal} modal={modalOpen} />
-            <Routes>
-              <Route path="/" element={<Home />}></Route>
-              <Route path="login" element={<Login />}></Route>
-              <Route path="register" element={<Register />}></Route>
-              <Route path="cart" element={<Cart />}></Route>
-              <Route path="order" element={<Order />}></Route>
-              <Route path="mission" element={<Mission />}></Route>
-              <Route path="chefs" element={<Chefs />}></Route>
-              <Route path="faq" element={<FAQ />}></Route>
-              <Route path="become" element={<Become />}></Route>
-              <Route path="profile/:userId" element={<Profile />}>
-                <Route path="reviews" element={<ReviewsInProfile />} />
-                <Route path="followers" element={<FollowersInProfile />} />
-                <Route path="recipies" element={<RecipiesInProfile />} />
-                <Route path="bio" element={<Bio />} />
-                <Route path="photos" element={<FileUpload />} />
-              </Route>
-              {/* <Route path="map" element={<MapPage />}></Route> */}
-              {/* <Route path="unath" element={<Unauth />}></Route>
-        <Route path="notfound" element={<NotFound />}></Route> */}
-            </Routes>
-            <Footer />
-          </div>
-        </BrowserRouter>
-        {/* </Provider> */}
+        <Provider store={store}>
+          <BrowserRouter>
+            <div onClick={openModal}>
+              <NavbarTwo />
+              <ModalManager
+                closeFn={closeModal}
+                modal={modalOpen}
+                payload={modalPayload}
+              />
+              <Routes>
+                <Route path="/" element={<Home />}></Route>
+                <Route path="login" element={<Login />}></Route>
+                <Route path="register" element={<Register />}></Route>
+                <Route path="cart" element={<Cart />}></Route>
+                <Route path="order" element={<Order />}></Route>
+                <Route path="mission" element={<Mission />}></Route>
+                <Route path="chefs" element={<Chefs />}></Route>
+                <Route path="faq" element={<FAQ />}></Route>
+                <Route path="become" element={<Become />}></Route>
+                <Route path="profile/:userId" element={<Profile />}>
+                  <Route path="reviews" element={<ReviewsInProfile />} />
+                  <Route path="followers" element={<FollowersInProfile />} />
+                  <Route path="recipies" element={<RecipiesInProfile />} />
+                  <Route path="bio" element={<Bio />} />
+                  <Route path="photos" element={<FileUpload />} />
+                </Route>
+                {/* <Route path="notfound" element={<NotFound />}></Route> */}
+              </Routes>
+              <Footer />
+            </div>
+          </BrowserRouter>
+        </Provider>
         <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
       </QueryClientProvider>
     </AuthProvider>

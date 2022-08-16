@@ -32,6 +32,25 @@ const RecipieSchema = new mongoose.Schema({
     type: [String],
     default: null,
   },
+  rating: {
+    type: [Number, Number],
+    default: [0, 0],
+  },
+  price: {
+    type: Number,
+    required: true,
+  },
+  tag: {
+    type: [String],
+    required: true,
+  },
+  chefName: {
+    type: [String],
+    required: true,
+  },
+  chefImg: {
+    type: [String],
+  },
 });
 
 module.exports = mongoose.model("Recipie", RecipieSchema);

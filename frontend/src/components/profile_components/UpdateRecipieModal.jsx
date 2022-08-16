@@ -1,18 +1,15 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
-import "../../styles/formStyles.css";
 import { FaWindowClose } from "react-icons/fa";
+import ModalShell from "../../ModalShell";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import FormikControl from "../formik_components/FormikControl";
 import { useAuth } from "../../utils/auth";
 import FileUpload from "./FileUpload";
 import axios from "axios";
-import ModalShell from "../../ModalShell";
 import api from "../../api/api";
-// import { useDispatch } from "react-redux";
-// import { addRecipie } from "../../features/recipies/recipieSlice";
 
 const ModalMask = styled.div`
   ${tw`
@@ -42,6 +39,12 @@ const ModalBody = styled.div`
   transform: translate(-50%, -50%);
   background-color: #fff;
   z-index: 1000;
+`;
+
+const CloseButton = styled(FaWindowClose)`
+  ${tw` 
+    hover:to-red-600
+`}
 `;
 
 const RegContainer = styled.div`
@@ -78,12 +81,6 @@ text-3xl
 `}
 `;
 
-const Button = styled(FaWindowClose)`
-  ${tw` 
-    hover:to-red-600
-`}
-`;
-
 const SubmitButton = styled.button`
   ${tw`
     width[200px]
@@ -101,10 +98,9 @@ const SubmitButton = styled.button`
     `}
 `;
 
-const AddRecipieModal = ({ closeFn = () => null, open = false }) => {
+const ModalThree = ({ closeFn = () => null, open = false, payload }) => {
+  if (payload.length) payload = JSON.parse(payload);
   const user = useAuth().user;
-  // const dispatch = useDispatch();
-
   const [images, setImageValues] = useState([]);
 
   const checkboxOptions = [
@@ -113,26 +109,21 @@ const AddRecipieModal = ({ closeFn = () => null, open = false }) => {
     { key: "Dairy Free", value: "dairyfree" },
     { key: "Gluten Free", value: "glutenfree" },
   ];
+
   const initialValues = {
-    dish: "",
-    description: "",
-    size: "",
-    ingredients: "",
-    allergens: "",
-    special: [],
+    dish: payload.dish_name,
+    image: payload.image_url,
+    description: payload.dish_description,
+    size: payload.serving_size,
+    ingredients: payload.ingredients,
+    allergens: payload.allergens,
+    special: payload.special,
+    price: payload.price,
+    tags: payload.tags,
   };
-  const validationSchema = Yup.object({
-    dish: Yup.string().required("Required"),
-    description: Yup.string().required("Required"),
-    size: Yup.string().required("Required"),
-    ingredients: Yup.string().required("Required"),
-    allergens: Yup.string().required("Required"),
-    special: Yup.array(),
-  });
 
   const onSubmit = async (values) => {
     closeFn();
-    console.log(images);
     const { dish, description, size, ingredients, allergens, special } = values;
 
     // get secure url to post to s3 bucket for each photo
@@ -179,15 +170,11 @@ const AddRecipieModal = ({ closeFn = () => null, open = false }) => {
       <ModalMask>
         <ModalBody>
           <Header>
-            <ModalTitle> Add a dish </ModalTitle>
-            <Button onClick={closeFn}></Button>
+            <ModalTitle> UPDATE RECIPIE </ModalTitle>
+            <CloseButton onClick={closeFn}></CloseButton>
           </Header>
           <RegContainer>
-            <Formik
-              initialValues={initialValues}
-              validationSchema={validationSchema}
-              onSubmit={onSubmit}
-            >
+            <Formik initialValues={initialValues} onSubmit={onSubmit}>
               {(formik) => (
                 <Form className="form">
                   <FormikControl
@@ -203,13 +190,6 @@ const AddRecipieModal = ({ closeFn = () => null, open = false }) => {
                     setImageValues={setImageValues}
                     component={FileUpload}
                   />
-                  {/* <Field
-                    id="attachment"
-                    name="attachment"
-                    setImageValues={setImageValues}
-                    component={AltFileUpload}
-                  /> */}
-
                   <FormikControl
                     control="textarea"
                     label="Description"
@@ -245,7 +225,7 @@ const AddRecipieModal = ({ closeFn = () => null, open = false }) => {
                   />
 
                   <SubmitButton type="submit" user={user}>
-                    Submit
+                    Update
                   </SubmitButton>
                 </Form>
               )}
@@ -257,4 +237,4 @@ const AddRecipieModal = ({ closeFn = () => null, open = false }) => {
   );
 };
 
-export default AddRecipieModal;
+export default ModalThree;

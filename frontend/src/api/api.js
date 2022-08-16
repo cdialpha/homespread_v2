@@ -28,12 +28,13 @@ const register = async (formData) => {
 };
 
 const changeRole = async (username) => {
+  console.log(username);
   const config = {
     headers: { "Content-type": "application/json" },
   };
-  const payload = { "username": username };
-  const res = await API.patch("/become", { "username": "George" }, config);
-  return res.data;
+  const payload = JSON.stringify({ "username": username });
+  const { data } = await API.patch("/become", payload, config);
+  return data;
 };
 
 const getAllRecipies = async (pageNumber) => {
@@ -53,12 +54,12 @@ const getOneUserOneRecipie = async (name, recipieId) => {
   return res.data.getRecipies;
 };
 
-const addRecipie = async (newRecipie) => {
+const addRecipie = async (userId, newRecipie) => {
   const config = {
     headers: { "Content-type": "application/json" },
   };
   console.log(newRecipie);
-  const res = await API.post(`/recipies`, newRecipie, config);
+  const res = await API.post(`/recipies/:${userId}`, newRecipie, config);
   return res.data;
 };
 

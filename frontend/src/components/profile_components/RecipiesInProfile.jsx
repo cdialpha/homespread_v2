@@ -63,6 +63,11 @@ const RecipiesInProfile = () => {
   );
   console.log(data);
 
+  const deleteRecipie = (recipieId) => {
+    const deletedRecipie = api.deleteRecipie(recipieId);
+    console.log(deletedRecipie);
+  };
+
   return (
     <>
       <HeaderText>My Recipies</HeaderText>
@@ -73,14 +78,21 @@ const RecipiesInProfile = () => {
         </EditButton>
 
         {isLoading ? <h2>Loading...</h2> : null}
-        {!data || [] ? (
+
+        {!data ? (
           <NoRecipies>
             <h2> You have no recipies to show</h2>
             <EmptyPlate src={emptyPlate} />
             <h2> Add a recipie to get started </h2>
           </NoRecipies>
         ) : (
-          data.map((recipie) => <Recipie key={recipie._id} recipie={recipie} />)
+          data.map((recipie) => (
+            <Recipie
+              key={recipie._id}
+              recipie={recipie}
+              deleteRecipie={deleteRecipie}
+            />
+          ))
         )}
       </div>
     </>

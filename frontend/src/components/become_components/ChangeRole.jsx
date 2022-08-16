@@ -30,32 +30,29 @@ mt-5
 
 const ChangeRole = () => {
   const auth = useAuth();
-  let userContext = auth.user;
-  const username = userContext.user.username;
-  let role = userContext.user.role;
-  const [displayRole, setDisplayRole] = useState(role);
-  //   console.log(
-  //     "Before",
-  //     userContext,
-  //     displayRole,
-  //     localStorage.getItem("userInfo")
-  //   );
+  let userContext = auth.user.user;
+  let username = userContext.username;
+  let role = userContext.role;
 
-  const changeRole = async (username) => {
+  const [displayRole, setDisplayRole] = useState(role);
+
+  const changeRole = async (e) => {
+    // tell backend & db to change role
     const data = await api.changeRole(username);
 
-    // set new role in Auth context
+    // set new role in Auth context for use throughout app
     userContext.user = data.user;
     auth.setUser(userContext);
+
+    // updated UI on this page
     setDisplayRole(data.user.role);
+
     // Update info in local Storage, so that role persists after login
     let userFromLocalStorage = localStorage.getItem("userInfo");
     userFromLocalStorage = JSON.parse(userFromLocalStorage);
     userFromLocalStorage.user = data.user;
     userFromLocalStorage = JSON.stringify(userFromLocalStorage);
     localStorage.setItem("userInfo", userFromLocalStorage);
-
-    // console.log("After", auth.user, displayRole, userFromLocalStorage);
   };
 
   return (

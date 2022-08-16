@@ -67,7 +67,22 @@ const Actions = styled.div`
   `}
 `;
 
-const Recipie = ({ recipie }) => {
+const DeleteButton = styled(FaTrash)`
+  ${tw`
+text-red-900
+hover:transform[scale(1.1)]
+cursor-pointer
+`}
+`;
+
+const EditButton = styled(FaEdit)`
+  ${tw`
+hover:transform[scale(1.1)]
+cursor-pointer
+`}
+`;
+
+const Recipie = ({ recipie, deleteRecipie, editRecipie }) => {
   const image = recipie.image_url[0];
 
   const truncate = (input, value) =>
@@ -84,8 +99,11 @@ const Recipie = ({ recipie }) => {
           <DetailItem style={{ "justify-content": "space-between" }}>
             <RecipieTitle> {recipie.dish_name}</RecipieTitle>
             <Actions>
-              <FaEdit />
-              <FaTrash style={{ "color": "rgba(150,20,20" }} />
+              <EditButton
+                data-modal="modal-three"
+                data-payload={JSON.stringify(recipie)}
+              />
+              <DeleteButton onClick={() => deleteRecipie(recipie._id)} />
             </Actions>
           </DetailItem>
           <DetailItem>

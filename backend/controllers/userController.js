@@ -74,6 +74,7 @@ const changeRole = asyncHandler(async (req, res) => {
   try {
     let update;
     let query = { "username": username };
+    const options = { new: true };
     const user = await User.findOne(query);
     let role = user.role;
     console.log(role);
@@ -83,9 +84,7 @@ const changeRole = asyncHandler(async (req, res) => {
       update = { $set: { "role": "basic" } };
     }
     console.log(update);
-    let updatedUser = await User.findOneAndUpdate(query, update, {
-      new: true,
-    });
+    let updatedUser = await User.findOneAndUpdate(query, update, options);
     res.status(200).json({ "success": true, "user": updatedUser });
   } catch (err) {
     res.status(401);

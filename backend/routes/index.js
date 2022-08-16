@@ -59,7 +59,7 @@ recipieRouter
 recipieRouter
   .route("/:recipieId")
   .get(getUserRecipieById)
-  .put(protect, updateUserRecipie)
+  .patch(updateUserRecipie)
   .delete(protect, deleteUserRecipie);
 
 module.exports = router;

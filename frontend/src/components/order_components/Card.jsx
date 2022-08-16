@@ -1,18 +1,29 @@
 import React from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
-import StarRatingComponent from "react-star-rating-component";
+import ReactStars from "react-stars";
 
-const Container = styled.div`
+const CardContainer = styled.div`
   ${tw`
 flex
 flex-col
+ml-auto
+mr-auto
+width[100%]
+height[100%] 
 `}
 `;
 
-const CardImg = stlyed.img`
-${tw`
+const CardImg = styled.img`
+  ${tw`
 
+  border-2
+  border-gray-500
+  border-radius[15px]
+  align-self[center]
+  hover:transform[scale(1.05)]
+  height[300px]
+  width[300px]
 `}
 `;
 
@@ -20,6 +31,11 @@ const CardDetails = styled.div`
   ${tw`
 flex
 flex-col
+text-white
+height[30px]
+align-self[center]
+font-size[25px]
+font-weight[800]
 `}
 `;
 const DishTitle = styled.div`
@@ -46,37 +62,38 @@ const SalePrice = styled.div`
 `}
 `;
 
-const Chef = stlyed.div`
-${tw`
+const Chef = styled.div`
+  ${tw`
 
 `}
 `;
 
-const Special = stlyed.div`
-${tw`
+const Special = styled.div`
+  ${tw`
 
 `}
 `;
 
-const Card = (props) => {
-  return;
-  <Container>
-    <CardImg />
-    <CardDetails>
-      <DishTitle> {props.recpie.title} </DishTitle>
-      <StarRatingComponent
-        name="rate2"
-        editing={false}
-        renderStarIcon={() => <span></span>}
-        starCount={10}
-        value={8}
-      />
-      <NumberOfReviews></NumberOfReviews>
-      <Price></Price>
-      <SalePrice></SalePrice>
-      <Chef> </Chef>
-    </CardDetails>
-  </Container>;
+const Card = ({ recipieDetails }) => {
+  console.log(recipieDetails);
+  return (
+    <CardContainer>
+      <CardImg src={recipieDetails.image_url} />
+      <CardDetails>
+        <DishTitle> {recipieDetails.dish_name} </DishTitle>
+        {/* <ReactStars
+          count={5}
+          size={24}
+          edit={false}
+          value={recipieDetails.rating[0]}
+        /> */}
+        <NumberOfReviews>{recipieDetails.rating[1]}</NumberOfReviews>
+        <Price></Price>
+        <SalePrice></SalePrice>
+        <Chef> </Chef>
+      </CardDetails>
+    </CardContainer>
+  );
 };
 
 export default Card;

@@ -87,14 +87,54 @@ const getUserRecipieById = asyncHandler(async (req, res) => {
   }
 });
 
-const updateUserRecipie = asyncHandler(async (req, res) => {
+const updateUserRecipie = asyncHandler(async (req, res, next) => {
   try {
-    console.log(req.body);
-    console.log(req.params);
-    // const { dish, description, size, ingredients, allergens, special } =
-    //   req.body;
-    // const addRecipie = await User.findOneAndUpdate({});
-  } catch (error) {
+    let { id } = req.params;
+    // id = id.toObjectId();
+    const {
+      dish,
+      description,
+      size,
+      ingredients,
+      allergens,
+      special,
+      rating,
+      price,
+      tag,
+    } = req.body;
+
+    let query = { "_id": id };
+
+    // I think that updating values that are unchanged could be more expensive.
+    // Consider filtering the object to remove any undefined key-pairs
+    // (e.g. const asArray = Object.entries(obj);
+    // const filtered = asArray.filter(([key, value]) => value !=== undefined'))
+
+    let update = {
+      $set: {
+        "dish": dish,
+        "description": description,
+        "size": size,
+        "ingredients": ingredients,
+        "allergens": allergens,
+        "special": special,
+        "rating": rating,
+        "price": price,
+        "tag": tag,
+      },
+    };
+
+    const options = { new: true };
+
+    // const updatedRecipie = await Recipie.findOneAndUpdate(query, update, options);
+
+    res.status(200).json({
+      "message": "Update request Recieved",
+      "updates": query,
+      update,
+      options,
+    });
+  } catch (err) {
     res.status(401);
     next(err);
   }
@@ -102,11 +142,29 @@ const updateUserRecipie = asyncHandler(async (req, res) => {
 
 const deleteUserRecipie = asyncHandler(async (req, res, next) => {
   try {
-    console.log(req.body);
-    console.log(req.params);
-    // const { dish, description, size, ingredients, allergens, special } =
-    //   req.body;
-    // const addRecipie = await User.findOneAndUpdate({});
+    const { recipieId } = req.params;
+    console.log(recipieId);
+    const recipie = await Recipie.findById(recipieId);
+    console.log(recipie);
+
+    if (!recipie) {
+      res.status(400);
+      throw new Error("Recipie not found");
+    }
+    await recipie.remove();
+    res.status(200).json({ message: `Recipie ${recipieId} deleted` });
+
+    // const deleteRecipie = await User.findOneAndDelete({ _id: id });
+    // if (deleteRecipie) {
+    //   res
+    //     .status(200)
+    //     .json({ "success": true, "message": `recipie ${id} deleted` });
+    // }
+    // if (!deleteRecipie) {
+    //   res
+    //     .status(400)
+    //     .json({ "success": false, "message": `recipie ${id} not found` });
+    // }
   } catch (error) {
     res.status(401);
     next(err);
