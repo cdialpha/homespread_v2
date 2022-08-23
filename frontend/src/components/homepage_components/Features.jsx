@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
-import feature1 from "../images/feature1.png";
-import feature2 from "../images/feature2.png";
-import feature3 from "../images/feature3.jpeg";
+import feature1 from "../../images/feature1.png";
+import feature2 from "../../images/feature2.png";
+import feature3 from "../../images/feature3.jpeg";
 
 const Container = styled.div`
   ${tw`

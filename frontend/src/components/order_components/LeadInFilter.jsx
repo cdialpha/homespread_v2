@@ -22,7 +22,8 @@ mr-auto
 const FeatureHeader = styled.div`
   ${tw`
   text-white
-font-size[35px]
+  text-center
+font-size[50px]
 font-family['Dancing Script']
 font-weight[900]
 `}
@@ -59,7 +60,6 @@ const GridItem = styled.div`
     mr-auto
     width[100%]
     height[100%]
-
 `}
 `;
 

@@ -11,12 +11,12 @@ mt-10
 `}
 `;
 
-const FollowersInProfile = () => {
+const Analytics = () => {
   return (
     <View>
-      Your Followers
+      Analytics
       <ComingSoon />
     </View>
   );
 };
-export default FollowersInProfile;
+export default Analytics;

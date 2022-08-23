@@ -5,10 +5,8 @@ import TextError from "./TextError";
 function Select(props) {
   const { label, name, options, ...rest } = props;
   return (
-    <div className="form-control">
-      <label className="form-label" htmlFor={name}>
-        {label}
-      </label>
+    <div className="form-control-select">
+      <label htmlFor={name}>{label}</label>
       <Field as="select" id={name} name={name} {...rest}>
         {options.map((option) => {
           return (

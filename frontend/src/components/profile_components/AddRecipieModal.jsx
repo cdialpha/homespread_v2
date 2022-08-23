@@ -22,8 +22,9 @@ const ModalMask = styled.div`
   left[0px]
   right[0px]
   z-10
+  bg-opacity-50
+  bg-black
   `}
-  backgroundColor: "rgba(0,0,0,0.8)",
 `;
 
 const ModalBody = styled.div`
@@ -103,9 +104,8 @@ const SubmitButton = styled.button`
 
 const AddRecipieModal = ({ closeFn = () => null, open = false }) => {
   const user = useAuth().user;
-  // const dispatch = useDispatch();
-
   const [images, setImageValues] = useState([]);
+  // const dispatch = useDispatch();
 
   const checkboxOptions = [
     { key: "Vegan", value: "vegan" },

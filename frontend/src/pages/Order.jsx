@@ -9,10 +9,9 @@ import Trending from "../components/order_components/Trending";
 
 const View = styled.div`
   ${tw`
-
 flex
 flex-col
-
+bg-black
 `}
 `;
 

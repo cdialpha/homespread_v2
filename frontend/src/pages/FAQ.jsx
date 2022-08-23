@@ -82,32 +82,32 @@ const chefQuestions = [
   {
     id: "2C",
     Q: "What food am I allowed to sell?",
-    A: "2Because!",
+    A: "At the state level, cottage food laws determine whether you're allowed to make certain types of food from your home kitchen to then sell at certain types of venues. Unofficial online resources like Forrager.com may be helpful, but consult a local legal professional with questions.",
   },
   {
     id: "3C",
-    Q: "Can I sell xyz?",
-    A: "3Because!",
+    Q: "Are there any fees to sell?",
+    A: "Boston Spread provides a free platform to sell your product. We encourage users to coordinate payment with their customers using 3rd party apps. However, should you choose, we do provide payment processing via stripe, where a 3% charge will be addded to the customers payment.",
   },
   {
     id: "4C",
-    Q: "Are there any fees to sell?",
-    A: "3Because!",
-  },
-  {
-    id: "5C",
     Q: "How does Boston Spread protect it's chefs?",
     A: "Seller Protection is a program that offers you peace of mind in the event of a transaction dispute. If you are unable to resolve a disagreement with a buyer and the transaction meets eligibility requirements, Boston Spread will help you resolve the issue through our dispute resolution system.",
   },
   {
-    id: "6C",
+    id: "5C",
     Q: "Do I need a bank account or credit card to sell on Boston Spread?",
     A: "No, a credit or debit card is not required to create a shop. To be verified as a seller you have the choice to use either a credit card or to register via PayPal. You will not incur any charges until you open your shop and publish your listings.",
   },
   {
     id: "6C",
     Q: "What if I don't have the space at home to make dishes?",
-    A: "No, a credit or debit card is not required to create a shop. To be verified as a seller you have the choice to use either a credit card or to register via PayPal. You will not incur any charges until you open your shop and publish your listings.",
+    A: "Thinking about setting up shop in your home? First, research the zoning laws in your area to see if you are allowed to do so. Not all states in the U.S. require you to have your kitchen inspected, but it's a good idea to do so. (Learn more about the rules governing inspections and ingredients in your state at CottageFood.org.) You should also think about how you'll store your ingredients and finished products, considering both refrigerated and dry storage. If you’ve got big dreams of stocking the shelves of specialty gourmet stores around the country, operating out of a commercial kitchen is the route for you. Commercial workspaces can be a great resource for start-up food businesses, since they give you access to large (i.e. expensive) kitchen equipment for an affordable price. With the local and artisanal food movement on the rise, incubator and catering kitchens are popping up all over the country. Check out this kitchen incubator map to see some options. Some churches, schools and restaurants also allow access to use their commercial kitchens during off-hours. Be sure to research requirements related to operating out of a commercial kitchen, including facility permits and insurance.",
+  },
+  {
+    id: "7C",
+    Q: "What Lisences and Permits do I need?",
+    A: "Next, you’ll need to get all your licensing and permits in order. Check your local and state regulations for the specifics, but you may need a business license, a food handler's license for each person making and packaging your shop's food and a temporary food service establishment permit (if you'll be selling at a fair or flea market). You may also need a home or commercial kitchen inspection, most likely from your state's Department of Health, and insurance that covers basic liability.",
   },
 ];
 

@@ -11,12 +11,12 @@ mt-10
 `}
 `;
 
-const FollowersInProfile = () => {
+const Availability = () => {
   return (
     <View>
-      Your Followers
+      Availability
       <ComingSoon />
     </View>
   );
 };
-export default FollowersInProfile;
+export default Availability;

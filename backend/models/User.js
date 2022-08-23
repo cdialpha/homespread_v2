@@ -1,14 +1,5 @@
 const mongoose = require("mongoose");
 
-const ReviewSchema = new mongoose.Schema(
-  {
-    reviewer: mongoose.SchemaTypes.ObjectId,
-    rating: Number,
-    comment: String,
-  },
-  { timestamps: true }
-);
-
 const reqString = {
   type: String,
   required: true,
@@ -41,14 +32,14 @@ const UserSchema = new mongoose.Schema(
     rating: Number,
     cuisine_tags: [String],
     identify: [String],
+    phone_number: String,
+    email: String,
     pickup_location: {
       address: String,
       city: String,
       state: String,
       zip: String,
     },
-    offerings: [mongoose.SchemaTypes.ObjectId],
-    reviews: [ReviewSchema],
     catering: false,
   },
   { collection: "users" }

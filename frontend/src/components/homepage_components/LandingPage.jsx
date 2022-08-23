@@ -1,5 +1,5 @@
 import React from "react";
-import hero from "../images/hero.jpg";
+import hero from "../../images/hero.jpg";
 import styled from "styled-components";
 import tw from "twin.macro";
 

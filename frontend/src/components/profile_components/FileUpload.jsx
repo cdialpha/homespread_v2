@@ -1,17 +1,9 @@
-import React, { Component, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
 import ImageUploading from "react-images-uploading";
 import { FaWindowClose } from "react-icons/fa";
 import { BsCameraFill as Camera } from "react-icons/bs";
-import { decode as base64_decode, encode as base64_encode } from "base-64";
-
-const Input = styled.input`
-  ${tw`ml-10
-  mb-2`};
-`;
-
-// const UploadImageWrapper ?
 
 const AddPhoto = styled(Camera)`
   ${tw`
@@ -37,7 +29,6 @@ const ImagesContainer = styled.div`
   align-middle
   `}
 `;
-
 const FormComponent = styled.div`
   ${tw`
   flex
@@ -46,7 +37,6 @@ const FormComponent = styled.div`
   ml-10
   `}
 `;
-
 const Image = styled.div`
   ${tw`
 flex
@@ -55,18 +45,23 @@ flex
 height[100px]
 `};
 `;
-
 const Button = styled.button`
   ${tw`
   height[40px]
 ml-5
   `};
 `;
+const Thumbnail = styled.img`
+  ${tw`
+width[80px]
+height[100px]
+`}
+`;
 
-const FileUpload = ({ setImageValues }) => {
+const FileUpload = ({ uploaderType, setImageValues }) => {
   const [images, setImages] = useState([]);
   const maxNumber = 4;
-  const onChange = (imageList, addUpdateIndex) => {
+  const onChange = (imageList) => {
     setImages(imageList);
     setImageValues(imageList);
   };
@@ -102,12 +97,14 @@ const FileUpload = ({ setImageValues }) => {
                     "left": "70px",
                   }}
                 />
-                <img src={image.data_url} alt="" width="80" />
+                {uploaderType !== "profile" ? (
+                  <Thumbnail src={image.data_url} alt="" />
+                ) : null}
               </Image>
             ))}
           </ImagesContainer>
           {imageList.length < 4 ? (
-            <Button onClick={onImageUpload}>
+            <Button type="button" onClick={onImageUpload}>
               <AddPhoto />
             </Button>
           ) : null}
@@ -118,6 +115,8 @@ const FileUpload = ({ setImageValues }) => {
 };
 
 export default FileUpload;
+
+// When the mode is profile pic uploader, I want to change the max image to 1 and remove the photo button when 1 image is uploaded
 
 // From Ben Awad 2017
 // formatFilename = filename => {

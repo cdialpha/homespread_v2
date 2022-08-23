@@ -92,8 +92,65 @@ const changeRole = asyncHandler(async (req, res) => {
   }
 });
 
+const updateProfile = asyncHandler(async (req, res) => {
+  console.log(req.body, req.params);
+  try {
+    let { userId } = req.params;
+    const { username, profilePic, phone, email, bio, tags, identify } =
+      req.body;
+    let query = { "_id": userId };
+    let update = {
+      $set: {
+        "username": username,
+        "profile_pic": profilePic,
+        "phone_number": phone,
+        "email": email,
+        "bio": bio,
+        "cuisine_tags": tags,
+        "identify": identify,
+      },
+    };
+    const options = { new: true };
+
+    const updatedProfile = await User.findOneAndUpdate(query, update, options);
+
+    console.log("query was: ", query, "updates are: ", update, updatedProfile);
+    if (!updatedProfile) {
+      res.status(400).json({
+        success: false,
+        message: "something went wrong with the udpate ",
+      });
+      return;
+    }
+    res.status(200).json({
+      "success": true,
+      "message": "Update request Recieved",
+      "update": update,
+    });
+  } catch (err) {
+    res.status(402).json(err);
+    next(err);
+  }
+});
+
+const getChefs = asyncHandler(async (req, res) => {
+  try {
+    const chefs = await User.where("role")
+      .equals("chef")
+      .limit(5)
+      .select("username profile_pic bio identify cuisine_tags");
+    console.log(chefs);
+    res.status(200).json({ "chefs": chefs });
+  } catch (err) {
+    res.status(400).json(err);
+    next(err);
+  }
+});
+
 module.exports = {
   registerUser,
   loginUser,
   changeRole,
+  updateProfile,
+  getChefs,
 };

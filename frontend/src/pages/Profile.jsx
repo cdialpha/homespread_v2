@@ -37,8 +37,8 @@ const ProfileName = styled.div`
   ${tw` 
     font-weight[900]
     text-white
-    text-2xl
-    xl:text-6xl
+    text-3xl
+    md:text-6xl
     2xl:text-8xl
 `}
 `;
@@ -46,14 +46,16 @@ const ProfileName = styled.div`
 const ProfilePic = styled.img`
   ${tw`
     height[200px]
-    width[250px] 
+    width[200px]
+    margin[10px 10px 10px 10px] 
 `}
 `;
 
 const ContentContainer = styled.div`
   ${tw`
     flex
-    align-top 
+    align-items[flex-start]
+    
 `}
 `;
 const ContentArea = styled.div`
@@ -61,22 +63,26 @@ const ContentArea = styled.div`
   flex  
   flex-col
   width[1500px]
-    height[100%]
-    bg-gray-50
-    justify-center
-    text-center
+  height[100%]
+  bg-gray-50
+  justify-center
+  text-center
 `}
 `;
 
 const Profile = () => {
   const auth = useAuth();
-  const username = auth.user.user.username;
-  const role = auth.user.user.role;
+  const username = auth.user?.user?.username || null;
+  const role = auth.user?.user?.role;
+  console.log(auth.user?.user?.profile_pic);
 
   return (
     <ProfileContainer>
       <ProfileHeader>
-        <ProfilePic src={emptyProfile} alt="profile pic" />
+        <ProfilePic
+          src={auth.user.user?.profile_pic || emptyProfile}
+          alt="profile pic"
+        />
         <ProfileName>{username}</ProfileName>
       </ProfileHeader>
       <ContentContainer>

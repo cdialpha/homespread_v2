@@ -10,12 +10,15 @@ export const AuthProvider = ({ children }) => {
     : null;
 
   const [user, setUser] = useState(userInfoFromStorage);
+  console.log(user);
 
   const login = async (values) => {
     const data = await api.login(values);
-    console.log("user object from database after login", data);
-    localStorage.setItem("userInfo", JSON.stringify(data));
-    setUser(data);
+    const { token, user, success } = data;
+    const userInfo = { token, user };
+    localStorage.setItem("userInfo", JSON.stringify(userInfo));
+    setUser(userInfo);
+    console.log("user info: ", userInfo);
   };
 
   const logout = () => {

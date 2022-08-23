@@ -1,8 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-const initialState = {
-  cart: 0,
-};
+const initialState = [];
 
 // isError: false,
 // isSuccess: false,
@@ -30,29 +28,51 @@ const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    addToCart: (state, action) => {
-      state.cart += action.payload;
+    addToCart(state, { payload }) {
+      const { id } = payload;
+
+      const find = state.find((item) => item.id === id);
+
+      if (find) {
+        return state.map((item) =>
+          item.id === id
+            ? {
+                ...item,
+                quantity: item.quantity + 1,
+              }
+            : item
+        );
+      } else {
+        state.push({
+          ...payload,
+          quantity: 1,
+        });
+      }
     },
-    removeFromCart: (state, action) => {
-      state.cart -= action.payload;
+    increament(state, { payload }) {
+      return state.map((item) =>
+        item.id === payload
+          ? {
+              ...item,
+              quantity: item.quantity + 1,
+            }
+          : item
+      );
+    },
+    decrement(state, { payload }) {
+      return state.map((item) =>
+        item.id === payload
+          ? {
+              ...item,
+              quantity: item.quantity - 1,
+            }
+          : item
+      );
+    },
+    clear(state) {
+      return [];
     },
   },
-  //   extraReducers: (builder) => {
-  //     builder
-  //       .addCase(addRecipie.pending, (state) => {
-  //         state.isLoading = true;
-  //       })
-  //       .addCase(addRecipie.fulfilled, (state, action) => {
-  //         state.isLoading = false;
-  //         state.isSuccess = true;
-  //         state.goals.push(action.payload);
-  //       })
-  //       .addCase(addRecipie.rejected, (state, action) => {
-  //         state.isLoading = false;
-  //         state.isError = true;
-  //         state.message = action.payload;
-  //       });
-  // },
 });
 
 export default cartSlice.reducer;

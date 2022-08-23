@@ -24,6 +24,7 @@ const RecipiePhoto = styled.img`
 
 const DetailsContainer = styled.div`
   ${tw`
+  width[100%]
 flex
 flex-col
 ml-5
@@ -62,23 +63,40 @@ align-self[flex-start]
 
 const Actions = styled.div`
   ${tw` flex
-  mr-2
+  mr-5
   mt-2
   `}
 `;
 
 const DeleteButton = styled(FaTrash)`
   ${tw`
-text-red-900
+height[30px]
+width[30px]
+  text-white
+bg-red-900
 hover:transform[scale(1.1)]
 cursor-pointer
+border-2
+border-black
+border-radius[5px]
+padding[2px]
+margin[2px]
+zIndex[100]
 `}
 `;
 
 const EditButton = styled(FaEdit)`
   ${tw`
+  height[30px]
+width[30px]
 hover:transform[scale(1.1)]
 cursor-pointer
+border-2
+border-black
+border-radius[5px]
+padding[2px]
+margin[2px]
+zIndex[100]
 `}
 `;
 
@@ -96,14 +114,17 @@ const Recipie = ({ recipie, deleteRecipie, editRecipie }) => {
       <RecipiesContainer>
         <RecipiePhoto src={image} />
         <DetailsContainer>
-          <DetailItem style={{ "justify-content": "space-between" }}>
+          <DetailItem style={{ "justifyContent": "space-between" }}>
             <RecipieTitle> {recipie.dish_name}</RecipieTitle>
             <Actions>
               <EditButton
                 data-modal="modal-three"
                 data-payload={JSON.stringify(recipie)}
               />
-              <DeleteButton onClick={() => deleteRecipie(recipie._id)} />
+              <DeleteButton
+                data-modal="modal-four"
+                data-payload={JSON.stringify(recipie._id)}
+              />
             </Actions>
           </DetailItem>
           <DetailItem>
@@ -111,7 +132,7 @@ const Recipie = ({ recipie, deleteRecipie, editRecipie }) => {
             <DetailText>{description}</DetailText>
           </DetailItem>
           <DetailItem>
-            <DetailKey> Ingredients: </DetailKey>{" "}
+            <DetailKey> Ingredients: </DetailKey>
             <DetailText> {ingredients}</DetailText>
           </DetailItem>
           <DetailItem>
@@ -125,3 +146,5 @@ const Recipie = ({ recipie, deleteRecipie, editRecipie }) => {
 };
 
 export default Recipie;
+
+//

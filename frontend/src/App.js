@@ -21,8 +21,16 @@ import FollowersInProfile from "./components/profile_components/FollowersInProfi
 import RecipiesInProfile from "./components/profile_components/RecipiesInProfile";
 import FAQ from "./pages/FAQ";
 import Bio from "./components/profile_components/Bio";
-import FileUpload from "./components/profile_components/FileUpload";
-
+import CurrentOrders from "./components/profile_components/CurrentOrders";
+import OrderHistory from "./components/profile_components/OrderHistory";
+import Analytics from "./components/profile_components/Analytics";
+import Catering from "./components/profile_components/Catering";
+import Availability from "./components/profile_components/Availability";
+import AddPhotosToProfile from "./components/profile_components/AddPhotosToProfile";
+import Purchases from "./pages/Purchases";
+import Messages from "./pages/Messages";
+import Settings from "./components/profile_components/Settings";
+import Blog from "./pages/Blog";
 // utilities, tools, features, etc.
 import ModalManager from "./ModalManager";
 import { useAuth } from "./utils/auth";
@@ -75,12 +83,26 @@ const App = () => {
                 <Route path="chefs" element={<Chefs />}></Route>
                 <Route path="faq" element={<FAQ />}></Route>
                 <Route path="become" element={<Become />}></Route>
+                <Route path="purchases" element={<Purchases />}></Route>
+                <Route path="messages" element={<Messages />}></Route>
+                <Route path="blog" element={<Blog />}></Route>
                 <Route path="profile/:userId" element={<Profile />}>
+                  <Route index element={<Bio />} />
+                  <Route path="bio" element={<Bio />} />
+                  <Route path="photos" element={<AddPhotosToProfile />} />
+
                   <Route path="reviews" element={<ReviewsInProfile />} />
                   <Route path="followers" element={<FollowersInProfile />} />
+
+                  <Route path="current-orders" element={<CurrentOrders />} />
+                  <Route path="analytics" element={<Analytics />} />
+                  <Route path="order-history" element={<OrderHistory />} />
+
                   <Route path="recipies" element={<RecipiesInProfile />} />
-                  <Route path="bio" element={<Bio />} />
-                  <Route path="photos" element={<FileUpload />} />
+                  <Route path="catering" element={<Catering />} />
+                  <Route path="availability" element={<Availability />} />
+
+                  <Route path="settings" element={<Settings />} />
                 </Route>
                 {/* <Route path="notfound" element={<NotFound />}></Route> */}
               </Routes>
@@ -88,7 +110,7 @@ const App = () => {
             </div>
           </BrowserRouter>
         </Provider>
-        <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
+        {/* <ReactQueryDevtools initialIsOpen={false} position="bottom-right" /> */}
       </QueryClientProvider>
     </AuthProvider>
   );

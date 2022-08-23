@@ -5,13 +5,13 @@ import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 // images for carousel
-import ukrainian from "../images/ukrainian.jpg";
-import haitian from "../images/haitian.jpg";
-import pakistani from "../images/pakistani.jpg";
-import mexican from "../images/mexican.jpg";
-import bosnian from "../images/bosnian.jpg";
-import argentinian from "../images/argentinian.jpg";
-import iranian from "../images/iranian.jpeg";
+import ukrainian from "../../images/ukrainian.jpg";
+import haitian from "../../images/haitian.jpg";
+import pakistani from "../../images/pakistani.jpg";
+import mexican from "../../images/mexican.jpg";
+import bosnian from "../../images/bosnian.jpg";
+import argentinian from "../../images/argentinian.jpg";
+import iranian from "../../images/iranian.jpeg";
 
 const SpotlightContainer = styled.div`
   ${tw`

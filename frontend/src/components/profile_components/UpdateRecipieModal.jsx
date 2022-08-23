@@ -19,8 +19,9 @@ const ModalMask = styled.div`
   left[0px]
   right[0px]
   z-10
+  bg-opacity-50
+  bg-black
   `}
-  backgroundColor: "rgba(0,0,0,0.8)",
 `;
 
 const ModalBody = styled.div`
@@ -90,7 +91,7 @@ const SubmitButton = styled.button`
     text-red-700
     ml-auto
     mr-auto
-    mt-1
+    mt-5
     border-radius[10px]
     hover:bg-red-100
     hover:border-red-900
@@ -98,7 +99,25 @@ const SubmitButton = styled.button`
     `}
 `;
 
-const ModalThree = ({ closeFn = () => null, open = false, payload }) => {
+const BottomHalf = styled.div`
+  ${tw`
+flex
+justify-between
+`}
+`;
+const StackedItems = styled.div`
+  ${tw` 
+flex
+flex-col
+mr-5
+`}
+`;
+
+const UpdateRecipieModal = ({
+  closeFn = () => null,
+  open = false,
+  payload,
+}) => {
   if (payload.length) payload = JSON.parse(payload);
   const user = useAuth().user;
   const [images, setImageValues] = useState([]);
@@ -112,7 +131,6 @@ const ModalThree = ({ closeFn = () => null, open = false, payload }) => {
 
   const initialValues = {
     dish: payload.dish_name,
-    image: payload.image_url,
     description: payload.dish_description,
     size: payload.serving_size,
     ingredients: payload.ingredients,
@@ -124,45 +142,8 @@ const ModalThree = ({ closeFn = () => null, open = false, payload }) => {
 
   const onSubmit = async (values) => {
     closeFn();
-    const { dish, description, size, ingredients, allergens, special } = values;
-
-    // get secure url to post to s3 bucket for each photo
-    let S3SignedUrls = [];
-
-    for (let i = 0; i < images.length; i++) {
-      console.log("getting s3 url");
-      var apiRequest = api.getS3Url();
-      S3SignedUrls.push(await apiRequest);
-    }
-
-    console.log(S3SignedUrls);
-
-    const S3ImageUrls = [...S3SignedUrls];
-
-    S3ImageUrls.forEach((url, i) => {
-      S3ImageUrls[i] = url.split("?")[0];
-    });
-
-    // add modified s3 url to rest of data for storing into mongodb
-    const recipieInfo = {
-      dish,
-      S3ImageUrls,
-      description,
-      size,
-      ingredients,
-      allergens,
-      special,
-    };
-
-    // send recipie data to server to upload to db
-    const userId = user.user._id;
-    console.log(userId, recipieInfo);
-    const newRecipie = api.addRecipie(userId, recipieInfo);
-
-    // Uploads photo to S3Bucket
-    for (let i = 0; i < S3SignedUrls.length; i++) {
-      api.postPhoto(S3SignedUrls[i], images[i]);
-    }
+    const recipieId = payload._id;
+    const updatedRecipie = api.updateRecipie(recipieId, values);
   };
 
   return (
@@ -184,12 +165,12 @@ const ModalThree = ({ closeFn = () => null, open = false, payload }) => {
                     name="dish"
                     placeholder="dish"
                   />
-                  <Field
+                  {/* <Field
                     id="attachment"
                     name="attachment"
                     setImageValues={setImageValues}
                     component={FileUpload}
-                  />
+                  /> */}
                   <FormikControl
                     control="textarea"
                     label="Description"
@@ -217,13 +198,31 @@ const ModalThree = ({ closeFn = () => null, open = false, payload }) => {
                     name="allergens"
                     placeholder="allergens"
                   />
-                  <FormikControl
-                    control="checkbox"
-                    label="Special"
-                    name="special"
-                    options={checkboxOptions}
-                  />
-
+                  <BottomHalf>
+                    <FormikControl
+                      control="checkbox"
+                      label="Special"
+                      name="special"
+                      options={checkboxOptions}
+                    />
+                    <StackedItems>
+                      {" "}
+                      <FormikControl
+                        control="input"
+                        type="text"
+                        label="Price"
+                        name="price"
+                        placeholder="ingredients"
+                      />
+                      <FormikControl
+                        control="input"
+                        type="text"
+                        label="Tags"
+                        name="tags"
+                        placeholder="tags"
+                      />
+                    </StackedItems>
+                  </BottomHalf>
                   <SubmitButton type="submit" user={user}>
                     Update
                   </SubmitButton>
@@ -237,4 +236,4 @@ const ModalThree = ({ closeFn = () => null, open = false, payload }) => {
   );
 };
 
-export default ModalThree;
+export default UpdateRecipieModal;

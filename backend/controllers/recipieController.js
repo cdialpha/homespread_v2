@@ -13,7 +13,10 @@ const getAllRecipies = asyncHandler(async (req, res) => {
     let { limit, page } = req.query;
     let skip = limit * (page - 1);
     console.log(limit, page, skip);
-    const getRecipies = await Recipie.find().skip(skip).limit(limit);
+    const getRecipies = await Recipie.find()
+      .populate("chefId")
+      .skip(skip)
+      .limit(limit);
     res.status(201).json({ success: true, getRecipies });
   } catch (error) {
     res.status(401);
@@ -22,12 +25,14 @@ const getAllRecipies = asyncHandler(async (req, res) => {
 });
 
 const getAllOneUsersRecipies = asyncHandler(async (req, res) => {
+  console.log(req);
   try {
-    let { userId } = req.params;
-    userId = userId.substring(1);
-    const query = userId.toObjectId();
+    let { chefId } = req.params;
+    console.log(chefId);
+    chefId = chefId.substring(1);
+    const query = chefId.toObjectId();
     const getRecipies = await Recipie.find({
-      "userId": query,
+      "chefId": query,
     });
     console.log(getRecipies);
     if (getRecipies) {
@@ -55,7 +60,7 @@ const addUserRecipie = asyncHandler(async (req, res) => {
     } = req.body;
 
     const newRecipie = await Recipie.create({
-      userId: req.user._id,
+      chefId: req.user._id,
       dish_name: dish,
       image_url: S3ImageUrls,
       dish_description: description,
@@ -89,7 +94,8 @@ const getUserRecipieById = asyncHandler(async (req, res) => {
 
 const updateUserRecipie = asyncHandler(async (req, res, next) => {
   try {
-    let { id } = req.params;
+    console.log(req.params);
+    const { recipieId } = req.params;
     // id = id.toObjectId();
     const {
       dish,
@@ -100,13 +106,13 @@ const updateUserRecipie = asyncHandler(async (req, res, next) => {
       special,
       rating,
       price,
-      tag,
+      tags,
     } = req.body;
 
-    let query = { "_id": id };
+    let query = { "_id": recipieId };
 
     // I think that updating values that are unchanged could be more expensive.
-    // Consider filtering the object to remove any undefined key-pairs
+    // Consider identifying which are unchanged (either on the front end or backend) and filtering the object to remove any undefined key-pairs
     // (e.g. const asArray = Object.entries(obj);
     // const filtered = asArray.filter(([key, value]) => value !=== undefined'))
 
@@ -120,22 +126,33 @@ const updateUserRecipie = asyncHandler(async (req, res, next) => {
         "special": special,
         "rating": rating,
         "price": price,
-        "tag": tag,
+        "tags": tags,
       },
     };
 
     const options = { new: true };
 
-    // const updatedRecipie = await Recipie.findOneAndUpdate(query, update, options);
-
-    res.status(200).json({
-      "message": "Update request Recieved",
-      "updates": query,
+    const updatedRecipie = await Recipie.findOneAndUpdate(
+      query,
       update,
-      options,
-    });
+      options
+    );
+
+    console.log("query was: ", query, "updates are: ", update, updatedRecipie);
+    if (updatedRecipie) {
+      res.status(200).json({
+        "success": true,
+        "message": "Update request Recieved",
+        "update": update,
+      });
+    } else {
+      res.status(400).json({
+        success: false,
+        message: "something went wrong with the udpate ",
+      });
+    }
   } catch (err) {
-    res.status(401);
+    res.status(401).json(err);
     next(err);
   }
 });

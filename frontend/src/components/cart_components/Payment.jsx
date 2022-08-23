@@ -41,6 +41,8 @@ font-weight[400]
 const PaymentMethodContainer = styled.div`
   ${tw`
 flex
+justify-end
+
 `}
 `;
 const PaymentMethod = styled.img`
@@ -48,12 +50,14 @@ const PaymentMethod = styled.img`
 height[75px]
 width[100px]
 bg-white
+
 `}
 `;
 const Label = styled.label`
   ${tw`
 flex
-justify-center
+mt-2
+mb-2
 `}
 `;
 const Button = styled.button`
@@ -140,7 +144,7 @@ const Payment = () => {
       <TextContainer
         style={{
           "borderBottom": "solid 2px lightgray",
-          "padding-bottom": "20px",
+          "paddingBottom": "20px",
         }}
       >
         <Text> Discount </Text>

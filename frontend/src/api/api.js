@@ -37,14 +37,27 @@ const changeRole = async (username) => {
   return data;
 };
 
+const updateProfile = async (userId, profileUpdates) => {
+  const config = {
+    headers: { "Content-type": "application/json" },
+  };
+  const res = await API.patch(`users/${userId}`, profileUpdates, config);
+  return res.data;
+};
+
 const getAllRecipies = async (pageNumber) => {
   const res = await API.get(`/recipies?limit=25&page=${pageNumber}`);
   return res.data;
 };
 
-const getAllOneUsersRecipies = async (userId) => {
+const getChefs = async () => {
+  const res = await API.get("/users");
+  return res.data;
+};
+
+const getAllOneUsersRecipies = async (chefId) => {
   console.log("fetching recipies...");
-  const res = await API.get(`/recipies/:${userId}`);
+  const res = await API.get(`/recipies/:${chefId}`);
   console.log("response", res);
   return res.data.getRecipies;
 };
@@ -54,12 +67,12 @@ const getOneUserOneRecipie = async (name, recipieId) => {
   return res.data.getRecipies;
 };
 
-const addRecipie = async (userId, newRecipie) => {
+const addRecipie = async (chefId, newRecipie) => {
   const config = {
     headers: { "Content-type": "application/json" },
   };
   console.log(newRecipie);
-  const res = await API.post(`/recipies/:${userId}`, newRecipie, config);
+  const res = await API.post(`/recipies/:${chefId}`, newRecipie, config);
   return res.data;
 };
 
@@ -68,6 +81,7 @@ const updateRecipie = async (recipieId, updatedRecipie) => {
     headers: { "Content-type": "application/json" },
   };
   const res = await API.patch(`/recipies/${recipieId}`, updatedRecipie, config);
+  console.log(res);
   return res.data;
 };
 
@@ -85,7 +99,7 @@ const getS3Url = async () => {
 };
 
 const postPhoto = async (S3SignedUrl, image) => {
-  console.log(S3SignedUrl, image.file.type);
+  console.log("signed url", S3SignedUrl, "image:", image?.file.type);
   const config = {
     headers: { "Content-type": image.file.type },
   };
@@ -114,6 +128,7 @@ const api = {
   login,
   register,
   getAllRecipies,
+  getChefs,
   getAllOneUsersRecipies,
   getOneUserOneRecipie,
   addRecipie,
@@ -122,6 +137,7 @@ const api = {
   getS3Url,
   postPhoto,
   changeRole,
+  updateProfile,
 };
 
 export default api;

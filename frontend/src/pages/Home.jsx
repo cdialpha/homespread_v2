@@ -1,9 +1,10 @@
-import LandingPage from "../components/LandingPage";
-import AboutSum from "../components/AboutSum";
-import Spotlight from "../components/Spotlight";
 import styled from "styled-components";
 import tw from "twin.macro";
-import Features from "../components/Features";
+
+import Features from "../components/homepage_components/Features";
+import LandingPage from "../components/homepage_components/LandingPage";
+import AboutSum from "../components/homepage_components/AboutSum";
+import Spotlight from "../components/homepage_components/Spotlight";
 
 const HomeContainer = styled.div`
   ${tw`

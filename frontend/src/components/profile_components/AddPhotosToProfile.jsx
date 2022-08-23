@@ -1,4 +1,5 @@
 import React from "react";
+import FileUpload from "./FileUpload";
 import ComingSoon from "../ComingSoon";
 import styled from "styled-components";
 import tw from "twin.macro";
@@ -11,12 +12,14 @@ mt-10
 `}
 `;
 
-const FollowersInProfile = () => {
+const AddPhotosToProfile = () => {
   return (
     <View>
-      Your Followers
+      Add photos to your profile!
+      <FileUpload />
       <ComingSoon />
     </View>
   );
 };
-export default FollowersInProfile;
+
+export default AddPhotosToProfile;

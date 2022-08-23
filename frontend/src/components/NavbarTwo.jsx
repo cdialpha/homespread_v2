@@ -13,7 +13,8 @@ import { TbMessages } from "react-icons/tb";
 import { useAuth } from "../utils/auth";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
-
+import { useSelector } from "react-redux";
+import { cartTotalSelector } from "../features/cart/cartSelector";
 import {
   FaKey,
   FaShoppingCart,
@@ -33,6 +34,20 @@ import {
   FaCreditCard,
   FaSignOutAlt,
 } from "react-icons/fa";
+
+const Bubble = styled.div`
+  position: absolute;
+  top: -40%;
+  right: -40%;
+  padding: 0 4px;
+  height: 20px;
+  font-size: 12px;
+  line-height: 20px;
+  text-align: center;
+  background-color: black;
+  border-radius: 2px;
+`;
+// animation: ${(p) => (p.change ? styledAnimation : null)} 1s;
 
 const Navbar = ({ children }) => {
   return (
@@ -56,8 +71,8 @@ const SigninButton = () => {
 
 const NavItem = (props) => {
   const handleClick = () => {
-    if (props.activeDropdown === null) props.setActiveDropdown(props.controlls);
-    if (props.activeDropdown === props.controlls) props.setActiveDropdown(null);
+    if (props.activeDropdown === null) props.setActiveDropdown(props.controls);
+    if (props.activeDropdown === props.controls) props.setActiveDropdown(null);
   };
   let expandWidth;
   let shrinkSecondIcon;
@@ -107,14 +122,14 @@ const MainDropdown = React.forwardRef((props, ref) => {
           </div>
         </Link>
 
-        <Link to="story">
+        {/* <Link to="story">
           <div className="menu-item">
             <span className="icon-button">
               <FaBookOpen />
             </span>
             OurStory
           </div>
-        </Link>
+        </Link> */}
 
         <Link to="mission">
           <div className="menu-item">
@@ -206,7 +221,7 @@ const ProfileDropdown = React.forwardRef((props, ref) => {
             Sell on Spread
           </div>
         </Link>
-        <Link to="settings">
+        <Link to={`/profile/${user}/settings`}>
           <div className="menu-item">
             <span className="icon-button">
               <FaCog />
@@ -230,7 +245,7 @@ const ProfileDropdown = React.forwardRef((props, ref) => {
 const NavbarTwo = () => {
   const auth = useAuth();
   const isMobile = useMediaQuery({ maxWidth: deviceSize.mobile });
-  const user = auth.user?.user.username || null;
+  const user = auth.user?.user?.username || null;
 
   const [activeDropdown, setActiveDropdown] = useState(null);
 
@@ -251,6 +266,21 @@ const NavbarTwo = () => {
 
   document.addEventListener("mousedown", closeOpenMenus);
 
+  const total = useSelector(cartTotalSelector);
+  // const styledAnimation = keyframes`${animation}`;
+  // // import animation from "react-animations/lib/swing";
+  // const [change, setChange] = useState(false);
+
+  // useEffect(() => {
+  //   if (total !== 0) {
+  //     setChange(true);
+
+  //     setTimeout(() => {
+  //       setChange(false);
+  //     }, 1000);
+  //   }
+  // }, [total]);
+
   return (
     <div className="container">
       <div className="logo-container">
@@ -264,7 +294,7 @@ const NavbarTwo = () => {
           <NavItem
             className="main-burger"
             icon={<FaAngleDown />}
-            controlls="main"
+            controls="main"
             setActiveDropdown={setActiveDropdown}
             activeDropdown={activeDropdown}
           >
@@ -280,7 +310,7 @@ const NavbarTwo = () => {
               icon={<FaUser />}
               secondicon={<FaAngleDown />}
               setActiveDropdown={setActiveDropdown}
-              controlls="profile"
+              controls="profile"
               activeDropdown={activeDropdown}
             >
               {activeDropdown === "profile" ? (
@@ -294,6 +324,7 @@ const NavbarTwo = () => {
             <Link to="cart">
               <div className="icon-button">
                 <FaShoppingCart />
+                <Bubble>{total}</Bubble>
               </div>
             </Link>
           </div>
@@ -307,7 +338,7 @@ const NavbarTwo = () => {
           <NavItem
             icon={<FaAngleDown />}
             setActiveDropdown={setActiveDropdown}
-            controlls="main"
+            controls="main"
             activeDropdown={activeDropdown}
           >
             {activeDropdown === "main" ? (

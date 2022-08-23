@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import tw from "twin.macro";
+import { useAuth } from "../../utils/auth";
 
 const SideNavContainer = styled.button`
   ${tw`
 min-width[200px]
 width[400px]
 max-width[400px]
-pr-2
+padding[5px 5px 5px 5px]
 `}
 `;
 
@@ -20,8 +21,8 @@ const SideNavGroup = styled.div`
   border-gray-100
   border-radius[10px]
   min-width[210px]
-  mt-2
-  mb-2
+  margin[5px 5px 5px 5px]
+  shadow-lg
   `}
 `;
 
@@ -44,33 +45,27 @@ pl-5
 pb-1  
 text-gray-800
 hover:bg-gray-100
-border-b-2
+border-t-2
 border-b-gray-100
 `};
 `;
 
 const SideNav = () => {
+  const user = useAuth.user;
   return (
     <SideNavContainer>
       <SideNavGroup>
-        <SideNavGroupTitle> PROFILE </SideNavGroupTitle>
+        <SideNavGroupTitle> PROFILE & ACTIVITY </SideNavGroupTitle>
         <SideNavGroupElement>
           <Link style={{ textDecoration: "none" }} to="bio">
             BIO & IDENTITY
           </Link>
         </SideNavGroupElement>
-
         <SideNavGroupElement>
           <Link to="photos"> YOUR PHOTOS </Link>
         </SideNavGroupElement>
-      </SideNavGroup>
-      <SideNavGroup>
-        <SideNavGroupTitle> ACTIVITY </SideNavGroupTitle>
         <SideNavGroupElement>
           <Link to="reviews"> REVIEWS</Link>
-        </SideNavGroupElement>
-        <SideNavGroupElement>
-          <Link to="photos"> PHOTOS </Link>
         </SideNavGroupElement>
         <SideNavGroupElement>
           <Link to="followers"> FOLLOWERS </Link>
@@ -100,8 +95,11 @@ const SideNav = () => {
         <SideNavGroupElement>
           <Link to="availability"> AVAILABILITY </Link>
         </SideNavGroupElement>
+      </SideNavGroup>
+      <SideNavGroup>
+        <SideNavGroupTitle> OTHER </SideNavGroupTitle>
         <SideNavGroupElement>
-          <Link to="pickup"> PICK UP </Link>
+          <Link to="settings"> SETTINGS </Link>
         </SideNavGroupElement>
       </SideNavGroup>
     </SideNavContainer>

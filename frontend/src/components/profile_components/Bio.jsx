@@ -2,52 +2,120 @@ import React, { useState } from "react";
 import { FaEdit } from "react-icons/fa";
 import styled from "styled-components";
 import tw from "twin.macro";
+import { useAuth } from "../../utils/auth";
 
-const ModalWrapperStyles = {
-  position: "relative",
-  zIndex: 1,
-};
-
+const View = styled.div`
+  ${tw`
+height[1000px]
+flex
+flex-col
+align-items[flex-start]
+ml-10
+`}
+`;
 const EditProfileButton = styled.button`
   ${tw`
     flex
     justify-around
     pl-2
     pr-2
-    lg:ml-5
+    mt-2
     align-items[center]
     text-white
-    bg-red-400
-    width[175px]
+    bg-red-300
+    width[130px]
     height[35px]
     border-radius[10px]
+    hover:bg-red-400
+`}
+`;
+const Container = styled.div`
+  ${tw`
+flex
+flex-col
+pl-10
+pt-5
+`}
+`;
+const Field = styled.div`
+  ${tw`
+  text-align[start]
+  font-weight[900]
+  width[200px]
+text-2xl
+mr-5
+mt-2
+`}
+`;
+const Value = styled.div`
+  ${tw`
+text-2xl
+text-align[start]
+
+width[80%]
+`}
+`;
+const BioElement = styled.div`
+  ${tw`
+flex
+align-items[center]
+border-b-2
+
+`}
+`;
+const Header = styled.div`
+  ${tw`
+  font-weight[900]
+  mt-10
+  
+  text-4xl
+
 `}
 `;
 
 const Bio = () => {
-  const [isChefOpen, setIsChefOpen] = useState(false);
-  const openChefModal = () => {
-    setIsChefOpen(true);
-    console.log("click!", isChefOpen);
-  };
-
+  const auth = useAuth();
+  const user = auth.user?.user;
+  console.log(user);
   return (
-    <div>
-      <div style={ModalWrapperStyles}>
-        <EditProfileButton onClick={openChefModal} data-modal="modal-one">
-          <FaEdit />
-          Edit Profile
-        </EditProfileButton>
-      </div>
+    <View>
+      <Header>About You:</Header>
+      <EditProfileButton data-modal="modal-one">
+        <FaEdit />
+        Edit Bio
+      </EditProfileButton>
+      <Container>
+        <BioElement>
+          <Field> Username: </Field>
+          <Value>{user?.username}</Value>
+        </BioElement>
+        <BioElement>
+          <Field> Email: </Field>
+          <Value>{user?.email}</Value>
+        </BioElement>
+        <BioElement>
+          <Field> Phone Number: </Field>
+          <Value>{user?.phone_number || "n/a"}</Value>
+        </BioElement>
 
-      <div> First Name: </div>
-      <div> Middle Name: </div>
-      <div> Last Name: </div>
-      <div> Username: </div>
-
-      <div> About me: </div>
-      <div> Member Since: </div>
-    </div>
+        <BioElement>
+          <Field> Identify As: </Field>
+          <Value>{user?.identify || "n/a"}</Value>
+        </BioElement>
+        <BioElement>
+          <Field> Tags: </Field>
+          <Value>{user?.cuisine_tags || "n/a"}</Value>
+        </BioElement>
+        <BioElement>
+          <Field> Member Since: </Field>
+          <Value>{user?.createdAt || "n/a"}</Value>
+        </BioElement>
+        <BioElement>
+          <Field> About Me: </Field>
+          <Value>{user?.bio || "n/a"}</Value>
+        </BioElement>
+      </Container>
+    </View>
   );
 };
 

@@ -11,12 +11,13 @@ mt-10
 `}
 `;
 
-const FollowersInProfile = () => {
+const OrderHistory = () => {
   return (
     <View>
-      Your Followers
+      Order History
       <ComingSoon />
     </View>
   );
 };
-export default FollowersInProfile;
+
+export default OrderHistory;

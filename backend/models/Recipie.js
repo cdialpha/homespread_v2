@@ -1,12 +1,30 @@
 const mongoose = require("mongoose");
 
+const ReviewSchema = new mongoose.Schema(
+  {
+    reviewer: mongoose.SchemaTypes.ObjectId,
+    rating: Number,
+    comment: String,
+  },
+  { timestamps: true }
+);
+
 const RecipieSchema = new mongoose.Schema({
-  userId: {
+  chefId: {
     type: mongoose.SchemaTypes.ObjectId,
+    ref: "User",
     required: true,
   },
   dish_name: {
     type: String,
+    required: true,
+  },
+  price: {
+    type: Number,
+    required: true,
+  },
+  tag: {
+    type: [String],
     required: true,
   },
   image_url: {
@@ -32,24 +50,16 @@ const RecipieSchema = new mongoose.Schema({
     type: [String],
     default: null,
   },
-  rating: {
-    type: [Number, Number],
-    default: [0, 0],
-  },
-  price: {
-    type: Number,
-    required: true,
-  },
-  tag: {
-    type: [String],
-    required: true,
-  },
-  chefName: {
-    type: [String],
-    required: true,
-  },
-  chefImg: {
-    type: [String],
+  Reviews: {
+    average_rating: {
+      type: Number,
+    },
+    number_of_ratings: {
+      type: Number,
+    },
+    reviews: {
+      type: [ReviewSchema],
+    },
   },
 });
 

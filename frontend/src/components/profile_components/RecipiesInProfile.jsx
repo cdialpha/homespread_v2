@@ -12,14 +12,12 @@ const ModalWrapperStyles = {
   position: "relative",
   zIndex: 1,
 };
-
 const HeaderText = styled.h1`
   ${tw`
 font-weight[900]
 font-size[50px]
 `}
 `;
-
 const EditButton = styled.button`
   ${tw`
     flex
@@ -35,7 +33,6 @@ const EditButton = styled.button`
     border-radius[10px]
 `}
 `;
-
 const NoRecipies = styled.div`
   ${tw`
 flex
@@ -43,7 +40,6 @@ flex-col
 font-size[30px]
 `}
 `;
-
 const EmptyPlate = styled.img`
   ${tw`
   width[300px]
