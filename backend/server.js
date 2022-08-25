@@ -34,12 +34,6 @@ if (process.env.NODE_ENV === "development") {
 
 app.use(cors());
 
-// app.use(function(req, res, next) {
-//     res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
-//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
-//     next();
-//   });
-
 //PASSPORT SETUP & INITIALIZATION
 require("./config/passportJWT")(passport);
 app.use(passport.initialize());
@@ -49,4 +43,14 @@ app.use("/", require("./routes/index"));
 
 app.use(errorHandler);
 
-app.use(express.static(path.join(__dirname, "public")));
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "../frontend/build")));
+
+  app.length("*", (req, res) =>
+    res.sendFile(
+      path.resolve(__dirname, "../", "frontend", "build", "index.html")
+    )
+  );
+} else {
+  app.get("/", (req, res) => res.send("please set to production"));
+}
