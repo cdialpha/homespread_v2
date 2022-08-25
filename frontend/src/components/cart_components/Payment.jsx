@@ -6,17 +6,24 @@ import amex from "../../images/amex.png";
 import visa from "../../images/visa.png";
 import paypal from "../../images/paypal.png";
 import { ImPriceTag } from "react-icons/im";
+import { useDispatch, useSelector } from "react-redux";
+import { getCartTotal } from "../../features/cart/cartSlice";
+
 const Container = styled.div`
   ${tw`
-height[800px]
-width[600px]
-border-2
+  width[90%]
+  xl:width[500px]
+  border-2
   border-gray-200
   shadow-2xl
   border-radius[25px]
   padding[30px 30px 30px 30px]
   flex
   flex-col
+  ml-auto
+  mr-auto
+  mt-5
+  mb-5
 `}
 `;
 const TextContainer = styled.div`
@@ -42,15 +49,28 @@ const PaymentMethodContainer = styled.div`
   ${tw`
 flex
 justify-end
-
 `}
 `;
 const PaymentMethod = styled.img`
   ${tw`
-height[75px]
-width[100px]
+  height[40px]
+  width[50px]
+md:height[75px]
+md:width[100px]
 bg-white
 
+`}
+`;
+
+const Radio = styled.input`
+  ${tw`
+height[20px]
+width[20px]
+md:height[40px]
+md:width[40px] 
+mt-auto
+mb-auto
+mr-5
 `}
 `;
 const Label = styled.label`
@@ -103,18 +123,22 @@ const Payment = () => {
   const [radio1, setRadio1] = useState(false);
   const [radio2, setRadio2] = useState(false);
 
+  const cartState = useSelector((state) => state.cart);
+  let totalPrice = cartState.totalPrice;
+  let totalNumItems = cartState.totalNumItems;
+
   return (
     <Container>
       <Text>Select your payment method: </Text>
       <Label>
         {" "}
-        <input
-          style={{ "height": "40px", "width": "40px" }}
+        <Radio
           type="radio"
           name="payment_method"
           value={radio1}
           checked={radio1}
           onClick={() => {
+            setRadio2(false);
             setRadio1(!radio1);
           }}
         />
@@ -125,13 +149,13 @@ const Payment = () => {
         </PaymentMethodContainer>
       </Label>
       <Label>
-        <input
-          style={{ "height": "40px", "width": "40px" }}
+        <Radio
           type="radio"
           name="payment_method"
           value={radio2}
           checked={radio2}
           onClick={() => {
+            setRadio1(false);
             setRadio2(!radio2);
           }}
         />
@@ -139,7 +163,7 @@ const Payment = () => {
       </Label>
       <TextContainer>
         <Text> Item(s) Total </Text>
-        <Text> $100.00 </Text>
+        <Text> {totalPrice} </Text>
       </TextContainer>
       <TextContainer
         style={{
@@ -152,10 +176,12 @@ const Payment = () => {
       </TextContainer>
       <TextContainer>
         <Text> Subtotal </Text>
-        <Text> $100.00 </Text>
+        <Text> {totalPrice} </Text>
       </TextContainer>
-      <Button> Proceed to Checkout </Button>
-      <Button>
+      <Button type="button" data-modal="modal-six">
+        Proceed to Checkout
+      </Button>
+      <Button type="button" data-modal="modal-six">
         <Coupon />
         Apply a coupon code
       </Button>

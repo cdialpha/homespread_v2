@@ -14,7 +14,6 @@ import { useAuth } from "../utils/auth";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
 import { useSelector } from "react-redux";
-import { cartTotalSelector } from "../features/cart/cartSelector";
 import {
   FaKey,
   FaShoppingCart,
@@ -36,18 +35,20 @@ import {
 } from "react-icons/fa";
 
 const Bubble = styled.div`
-  position: absolute;
-  top: -40%;
-  right: -40%;
-  padding: 0 4px;
-  height: 20px;
-  font-size: 12px;
-  line-height: 20px;
-  text-align: center;
-  background-color: black;
-  border-radius: 2px;
+  ${tw`
+absolute
+top[-10%]
+right[-10%]
+padding[5px 5px 5px 5px]
+height[30px]
+font-size[20px]
+line-height[20px]
+text-align[center]
+bg-white
+text-black
+border-radius[10px]
+`}
 `;
-// animation: ${(p) => (p.change ? styledAnimation : null)} 1s;
 
 const Navbar = ({ children }) => {
   return (
@@ -100,6 +101,14 @@ const MainDropdown = React.forwardRef((props, ref) => {
   const auth = useAuth();
   const isMobile = useMediaQuery({ maxWidth: deviceSize.mobile });
   const user = auth.user?.user.username || null;
+  const cartState = useSelector((state) => state.cart);
+  let numberOfItems = cartState.totalNumItems;
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    auth.logout();
+    navigate("/");
+  };
 
   return (
     <div className="dropdown" ref={ref}>
@@ -167,6 +176,81 @@ const MainDropdown = React.forwardRef((props, ref) => {
             </div>
           </Link>
         )}
+
+        {isMobile ? (
+          <>
+            <Link to="cart">
+              <div className="menu-item">
+                <div className="icon-button">
+                  <FaShoppingCart />
+                  <Bubble>{numberOfItems}</Bubble>
+                </div>
+                Cart
+              </div>
+            </Link>
+
+            <Link to="order">
+              <div className="menu-item">
+                <div className="icon-button">
+                  <FaConciergeBell />
+                </div>
+                Order
+              </div>
+            </Link>
+
+            <Link to={`profile/${user}`}>
+              <div className="menu-item">
+                <span className="icon-button">
+                  <FaUser />
+                </span>
+                <div className="nav-item-with-subtext">
+                  <div className="username"> {user} </div>
+                  <div className="subtext"> View Your Profile</div>
+                </div>
+              </div>
+            </Link>
+            <Link to="messages">
+              <div className="menu-item">
+                <span className="icon-button">
+                  <TbMessages />
+                </span>
+                Messages
+              </div>
+            </Link>
+            <Link to="purchases">
+              <div className="menu-item">
+                <span className="icon-button">
+                  <FaCreditCard />
+                </span>
+                Purchases & Reviews
+              </div>
+            </Link>
+            <Link to="become">
+              <div className="menu-item">
+                <span className="icon-button">
+                  <AiFillShop />
+                </span>
+                Sell on Spread
+              </div>
+            </Link>
+            <Link to={`/profile/${user}/settings`}>
+              <div className="menu-item">
+                <span className="icon-button">
+                  <FaCog />
+                </span>
+                Settings
+              </div>
+            </Link>
+            {user ? (
+              <div className="menu-item" onClick={handleLogout}>
+                <span className="icon-button">
+                  <FaSignOutAlt />
+                </span>
+                Sign Out
+              </div>
+            ) : null}
+          </>
+        ) : null}
       </div>
     </div>
   );
@@ -266,20 +350,8 @@ const NavbarTwo = () => {
 
   document.addEventListener("mousedown", closeOpenMenus);
 
-  const total = useSelector(cartTotalSelector);
-  // const styledAnimation = keyframes`${animation}`;
-  // // import animation from "react-animations/lib/swing";
-  // const [change, setChange] = useState(false);
-
-  // useEffect(() => {
-  //   if (total !== 0) {
-  //     setChange(true);
-
-  //     setTimeout(() => {
-  //       setChange(false);
-  //     }, 1000);
-  //   }
-  // }, [total]);
+  const cartState = useSelector((state) => state.cart);
+  let numberOfItems = cartState.totalNumItems;
 
   return (
     <div className="container">
@@ -324,7 +396,7 @@ const NavbarTwo = () => {
             <Link to="cart">
               <div className="icon-button">
                 <FaShoppingCart />
-                <Bubble>{total}</Bubble>
+                <Bubble>{numberOfItems}</Bubble>
               </div>
             </Link>
           </div>

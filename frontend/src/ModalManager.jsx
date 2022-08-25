@@ -6,6 +6,7 @@ import AddRecipieModal from "./components/profile_components/AddRecipieModal";
 import UpdateRecipieModal from "./components/profile_components/UpdateRecipieModal";
 import DeleteModal from "./components/profile_components/DeleteModal";
 import FilterModal from "./components/order_components/FilterModal";
+import ComingSoonModal from "./components/ComingSoonModal";
 
 const ModalManager = ({ closeFn, modal = "", payload }) => {
   return (
@@ -23,6 +24,7 @@ const ModalManager = ({ closeFn, modal = "", payload }) => {
         payload={payload}
       />
       <FilterModal closeFn={closeFn} open={modal === "modal-five"} />
+      <ComingSoonModal closeFn={closeFn} open={modal === "modal-six"} />
     </>
   );
 };

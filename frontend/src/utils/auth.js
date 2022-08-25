@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useState } from "react";
-import axios from "axios";
 import api from "../api/api";
 
 export const AuthContext = createContext(null);
@@ -10,11 +9,10 @@ export const AuthProvider = ({ children }) => {
     : null;
 
   const [user, setUser] = useState(userInfoFromStorage);
-  console.log(user);
 
   const login = async (values) => {
     const data = await api.login(values);
-    const { token, user, success } = data;
+    const { token, user } = data;
     const userInfo = { token, user };
     localStorage.setItem("userInfo", JSON.stringify(userInfo));
     setUser(userInfo);

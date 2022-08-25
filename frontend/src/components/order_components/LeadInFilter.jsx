@@ -95,7 +95,7 @@ const LeadInFilter = () => {
       <FeatureHeader> Discover Cuisines </FeatureHeader>
       <GridContainer>
         <GridItem>
-          <GridImages src={tacos}></GridImages>
+          <GridImages src={tacos} data-modal="modal-six"></GridImages>
           <GridText>Hispanic</GridText>
         </GridItem>
         <GridItem>
@@ -103,22 +103,22 @@ const LeadInFilter = () => {
           <GridText>Souteast Asian</GridText>
         </GridItem>
         <GridItem>
-          <GridImages src={samosas}></GridImages>
+          <GridImages src={samosas} data-modal="modal-six"></GridImages>
           <GridText>South Asian</GridText>
         </GridItem>
         <GridItem>
-          <GridImages src={goat}></GridImages>
+          <GridImages src={goat} data-modal="modal-six"></GridImages>
           <GridText>African</GridText>
         </GridItem>
         {isDesktop ? (
           <GridItem>
-            <GridImages src={hummus}></GridImages>
+            <GridImages src={hummus} data-modal="modal-six"></GridImages>
             <GridText>Medditeranian</GridText>
           </GridItem>
         ) : null}
         {isWidescreen ? (
           <GridItem>
-            <GridImages src={south}></GridImages>
+            <GridImages src={south} data-modal="modal-six"></GridImages>
             <GridText>American South</GridText>
           </GridItem>
         ) : null}

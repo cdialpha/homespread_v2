@@ -38,7 +38,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { BrowserRouter } from "react-router-dom";
 import { AuthProvider } from "./utils/auth";
-import store from "./store";
+import { persistor, store } from "./store";
+import { PersistGate } from "redux-persist/integration/react";
 import { Provider } from "react-redux";
 
 const App = () => {
@@ -65,50 +66,52 @@ const App = () => {
     <AuthProvider>
       <QueryClientProvider client={queryClient}>
         <Provider store={store}>
-          <BrowserRouter>
-            <div onClick={openModal}>
-              <NavbarTwo />
-              <ModalManager
-                closeFn={closeModal}
-                modal={modalOpen}
-                payload={modalPayload}
-              />
-              <Routes>
-                <Route path="/" element={<Home />}></Route>
-                <Route path="login" element={<Login />}></Route>
-                <Route path="register" element={<Register />}></Route>
-                <Route path="cart" element={<Cart />}></Route>
-                <Route path="order" element={<Order />}></Route>
-                <Route path="mission" element={<Mission />}></Route>
-                <Route path="chefs" element={<Chefs />}></Route>
-                <Route path="faq" element={<FAQ />}></Route>
-                <Route path="become" element={<Become />}></Route>
-                <Route path="purchases" element={<Purchases />}></Route>
-                <Route path="messages" element={<Messages />}></Route>
-                <Route path="blog" element={<Blog />}></Route>
-                <Route path="profile/:userId" element={<Profile />}>
-                  <Route index element={<Bio />} />
-                  <Route path="bio" element={<Bio />} />
-                  <Route path="photos" element={<AddPhotosToProfile />} />
+          <PersistGate loading={null} persistor={persistor}>
+            <BrowserRouter>
+              <div onClick={openModal}>
+                <NavbarTwo />
+                <ModalManager
+                  closeFn={closeModal}
+                  modal={modalOpen}
+                  payload={modalPayload}
+                />
+                <Routes>
+                  <Route path="/" element={<Home />}></Route>
+                  <Route path="login" element={<Login />}></Route>
+                  <Route path="register" element={<Register />}></Route>
+                  <Route path="cart" element={<Cart />}></Route>
+                  <Route path="order" element={<Order />}></Route>
+                  <Route path="mission" element={<Mission />}></Route>
+                  <Route path="chefs" element={<Chefs />}></Route>
+                  <Route path="faq" element={<FAQ />}></Route>
+                  <Route path="become" element={<Become />}></Route>
+                  <Route path="purchases" element={<Purchases />}></Route>
+                  <Route path="messages" element={<Messages />}></Route>
+                  <Route path="blog" element={<Blog />}></Route>
+                  <Route path="profile/:userId" element={<Profile />}>
+                    <Route index element={<Bio />} />
+                    <Route path="bio" element={<Bio />} />
+                    <Route path="photos" element={<AddPhotosToProfile />} />
 
-                  <Route path="reviews" element={<ReviewsInProfile />} />
-                  <Route path="followers" element={<FollowersInProfile />} />
+                    <Route path="reviews" element={<ReviewsInProfile />} />
+                    <Route path="followers" element={<FollowersInProfile />} />
 
-                  <Route path="current-orders" element={<CurrentOrders />} />
-                  <Route path="analytics" element={<Analytics />} />
-                  <Route path="order-history" element={<OrderHistory />} />
+                    <Route path="current-orders" element={<CurrentOrders />} />
+                    <Route path="analytics" element={<Analytics />} />
+                    <Route path="order-history" element={<OrderHistory />} />
 
-                  <Route path="recipies" element={<RecipiesInProfile />} />
-                  <Route path="catering" element={<Catering />} />
-                  <Route path="availability" element={<Availability />} />
+                    <Route path="recipies" element={<RecipiesInProfile />} />
+                    <Route path="catering" element={<Catering />} />
+                    <Route path="availability" element={<Availability />} />
 
-                  <Route path="settings" element={<Settings />} />
-                </Route>
-                {/* <Route path="notfound" element={<NotFound />}></Route> */}
-              </Routes>
-              <Footer />
-            </div>
-          </BrowserRouter>
+                    <Route path="settings" element={<Settings />} />
+                  </Route>
+                  {/* <Route path="notfound" element={<NotFound />}></Route> */}
+                </Routes>
+                <Footer />
+              </div>
+            </BrowserRouter>
+          </PersistGate>
         </Provider>
         {/* <ReactQueryDevtools initialIsOpen={false} position="bottom-right" /> */}
       </QueryClientProvider>

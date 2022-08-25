@@ -1,41 +1,22 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = [];
-
-// isError: false,
-// isSuccess: false,
-// isLoading: false,
-// message: "",
-
-// export const addRecipie = createAsyncThunk(
-//   "recipie/add",
-//   async (data, thunkAPI) => {
-//     try {
-//       return await api.addRecipie(data);
-//     } catch (error) {
-//       const message =
-//         (error.response &&
-//           error.response.data &&
-//           error.response.data.message) ||
-//         error.message ||
-//         error.toString();
-//       return thunkAPI.rejectWithValue(message);
-//     }
-//   }
-// );
+const initialState = {
+  items: [],
+  totalPrice: 0,
+  totalNumItems: 0,
+};
 
 const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
     addToCart(state, { payload }) {
-      const { id } = payload;
-
-      const find = state.find((item) => item.id === id);
-
+      console.log("state is...", state.items, "payload is: ", payload);
+      const { _id } = payload;
+      const find = state.items.find((item) => item._id === _id);
       if (find) {
-        return state.map((item) =>
-          item.id === id
+        state.items = state.items.map((item) =>
+          item._id === _id
             ? {
                 ...item,
                 quantity: item.quantity + 1,
@@ -43,15 +24,17 @@ const cartSlice = createSlice({
             : item
         );
       } else {
-        state.push({
+        console.log("didn't find anything", state.items);
+        state.items.push({
           ...payload,
           quantity: 1,
         });
+        console.log("new item added to cart", state.items.length);
       }
     },
-    increament(state, { payload }) {
-      return state.map((item) =>
-        item.id === payload
+    increment(state, { payload }) {
+      state.items = state.items.map((item) =>
+        item._id === payload
           ? {
               ...item,
               quantity: item.quantity + 1,
@@ -60,8 +43,8 @@ const cartSlice = createSlice({
       );
     },
     decrement(state, { payload }) {
-      return state.map((item) =>
-        item.id === payload
+      state.items = state.items.map((item) =>
+        item._id === payload
           ? {
               ...item,
               quantity: item.quantity - 1,
@@ -69,11 +52,47 @@ const cartSlice = createSlice({
           : item
       );
     },
+    getCartTotal: (state) => {
+      let { totalNumItems, totalPrice } = state.items.reduce(
+        (total, item) => {
+          const { price, quantity } = item;
+          const subTotal = price * quantity;
+          total.totalPrice += subTotal;
+          total.totalNumItems += quantity;
+          return total;
+        },
+        { totalNumItems: 0, totalPrice: 0 }
+      );
+      state.totalPrice = totalPrice;
+      state.totalNumItems = totalNumItems;
+    },
     clear(state) {
-      return [];
+      return initialState;
     },
   },
 });
 
 export default cartSlice.reducer;
-export const { addToCart, removeFromCart } = cartSlice.actions;
+export const { addToCart, increment, decrement, getCartTotal, clear } =
+  cartSlice.actions;
+
+// addToCart(state, { payload }) {
+//   console.log("state is...", state.items, "payload is: ", payload);
+//   const { _id } = payload;
+//   const find = state.items.find((item) => item._id === _id);
+//   if (find) {
+//     return state.items.map((item) =>
+//       item._id === _id
+//         ? {
+//             ...item,
+//             quantity: item.quantity + 1,
+//           }
+//         : item
+//     );
+//   } else {
+//     state.items.push({
+//       ...payload,
+//       quantity: 1,
+//     });
+//   }
+// },

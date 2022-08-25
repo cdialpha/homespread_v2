@@ -4,7 +4,7 @@ import { FiPlus } from "react-icons/fi";
 import styled from "styled-components";
 import tw from "twin.macro";
 
-const QuestionContainer = styled.button`
+const Container = styled.button`
   ${tw`
 bg-transparent
 border-4
@@ -12,10 +12,19 @@ border-gray-300
 border-radius[8px]
 shadow-md
 cursor-pointer
-font-size[17px]
+font-size[30px]
+width[100%]
+max-width[1000px]
+ml-auto
+mr-auto
 `}
 `;
-
+const QuestionContainer = styled.div`
+  ${tw`
+flex
+justify-between
+`}
+`;
 const Question = styled.div`
   ${tw`
   flex
@@ -28,13 +37,15 @@ const Question = styled.div`
 `}
 `;
 
-const Icon = styled(FiPlus)`
+const Icon = styled.div`
   ${tw`
   cursor-pointer
   font-weight[900]
   font-size[30px]
+  mt-auto
+  mb-auto
+  mr-2
   ml-5
-  mr-4
 `}
 `;
 
@@ -62,19 +73,20 @@ const FAQComponent = ({ question, answer }) => {
   };
 
   return (
-    <QuestionContainer className={active} onClick={toggleAccordion}>
-      <Question>
-        {question}
-        <Icon className={active ? `rotate` : null} />
-      </Question>
-
+    <Container className={active} onClick={toggleAccordion}>
+      <QuestionContainer>
+        <Question>{question}</Question>
+        <Icon>
+          <FiPlus className={active ? `rotate` : null} />
+        </Icon>
+      </QuestionContainer>
       <div
         ref={contentRef}
         className={active ? `answer answer-divider` : `answer`}
       >
         <Answer>{answer}</Answer>
       </div>
-    </QuestionContainer>
+    </Container>
   );
 };
 

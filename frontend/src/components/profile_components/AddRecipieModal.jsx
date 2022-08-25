@@ -101,6 +101,19 @@ const SubmitButton = styled.button`
     hover:text-red-900
     `}
 `;
+const BottomHalf = styled.div`
+  ${tw`
+flex
+justify-between
+`}
+`;
+const StackedItems = styled.div`
+  ${tw` 
+flex
+flex-col
+mr-10
+`}
+`;
 
 const AddRecipieModal = ({ closeFn = () => null, open = false }) => {
   const user = useAuth().user;
@@ -120,6 +133,8 @@ const AddRecipieModal = ({ closeFn = () => null, open = false }) => {
     ingredients: "",
     allergens: "",
     special: [],
+    price: "",
+    tags: "",
   };
   const validationSchema = Yup.object({
     dish: Yup.string().required("Required"),
@@ -128,12 +143,22 @@ const AddRecipieModal = ({ closeFn = () => null, open = false }) => {
     ingredients: Yup.string().required("Required"),
     allergens: Yup.string().required("Required"),
     special: Yup.array(),
+    price: Yup.string().required("Required"),
   });
 
   const onSubmit = async (values) => {
     closeFn();
     console.log(images);
-    const { dish, description, size, ingredients, allergens, special } = values;
+    const {
+      dish,
+      description,
+      size,
+      ingredients,
+      allergens,
+      special,
+      price,
+      tags,
+    } = values;
 
     // get secure url to post to s3 bucket for each photo
     let S3SignedUrls = [];
@@ -161,6 +186,8 @@ const AddRecipieModal = ({ closeFn = () => null, open = false }) => {
       ingredients,
       allergens,
       special,
+      price,
+      tags,
     };
 
     // send recipie data to server to upload to db
@@ -237,12 +264,31 @@ const AddRecipieModal = ({ closeFn = () => null, open = false }) => {
                     name="allergens"
                     placeholder="allergens"
                   />
-                  <FormikControl
-                    control="checkbox"
-                    label="Special"
-                    name="special"
-                    options={checkboxOptions}
-                  />
+                  <BottomHalf>
+                    <FormikControl
+                      control="checkbox"
+                      label="Special"
+                      name="special"
+                      options={checkboxOptions}
+                    />
+                    <StackedItems>
+                      {" "}
+                      <FormikControl
+                        control="input"
+                        type="text"
+                        label="Price"
+                        name="price"
+                        placeholder="ingredients"
+                      />
+                      <FormikControl
+                        control="input"
+                        type="text"
+                        label="Tags"
+                        name="tags"
+                        placeholder="tags"
+                      />
+                    </StackedItems>
+                  </BottomHalf>
 
                   <SubmitButton type="submit" user={user}>
                     Submit

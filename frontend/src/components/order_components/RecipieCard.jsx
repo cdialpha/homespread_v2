@@ -24,8 +24,8 @@ const CardImg = styled.img`
   border-radius[15px]
   align-self[center]
   hover:transform[scale(1.05)]
-  min-height[300px]
-  min-width[300px]
+  height[300px]
+  width[300px]
 `}
 `;
 const CardDetails = styled.div`

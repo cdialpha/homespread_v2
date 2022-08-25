@@ -49,6 +49,7 @@ const getAllOneUsersRecipies = asyncHandler(async (req, res) => {
 
 const addUserRecipie = asyncHandler(async (req, res) => {
   try {
+    console.log("adding recipie", req.body);
     const {
       dish,
       S3ImageUrls,
@@ -57,6 +58,8 @@ const addUserRecipie = asyncHandler(async (req, res) => {
       ingredients,
       allergens,
       special,
+      price,
+      tags,
     } = req.body;
 
     const newRecipie = await Recipie.create({
@@ -68,6 +71,8 @@ const addUserRecipie = asyncHandler(async (req, res) => {
       ingredients: ingredients,
       potential_allergens: allergens,
       special: special,
+      price: price,
+      tag: tags,
     });
     res.status(201).json({
       success: true,
@@ -75,7 +80,8 @@ const addUserRecipie = asyncHandler(async (req, res) => {
     });
   } catch (error) {
     res.status(403);
-    throw new Error("something went wrong");
+    console.log(error);
+    throw new Error("something went wrong with adding a recipie");
   }
 });
 
@@ -111,8 +117,7 @@ const updateUserRecipie = asyncHandler(async (req, res, next) => {
 
     let query = { "_id": recipieId };
 
-    // I think that updating values that are unchanged could be more expensive.
-    // Consider identifying which are unchanged (either on the front end or backend) and filtering the object to remove any undefined key-pairs
+    // should I filter out values that are unchanged? to reduce compute? Either on the front end or backend?
     // (e.g. const asArray = Object.entries(obj);
     // const filtered = asArray.filter(([key, value]) => value !=== undefined'))
 
@@ -138,7 +143,6 @@ const updateUserRecipie = asyncHandler(async (req, res, next) => {
       options
     );
 
-    console.log("query was: ", query, "updates are: ", update, updatedRecipie);
     if (updatedRecipie) {
       res.status(200).json({
         "success": true,
@@ -171,17 +175,17 @@ const deleteUserRecipie = asyncHandler(async (req, res, next) => {
     await recipie.remove();
     res.status(200).json({ message: `Recipie ${recipieId} deleted` });
 
-    // const deleteRecipie = await User.findOneAndDelete({ _id: id });
-    // if (deleteRecipie) {
-    //   res
-    //     .status(200)
-    //     .json({ "success": true, "message": `recipie ${id} deleted` });
-    // }
-    // if (!deleteRecipie) {
-    //   res
-    //     .status(400)
-    //     .json({ "success": false, "message": `recipie ${id} not found` });
-    // }
+    const deleteRecipie = await User.findOneAndDelete({ _id: id });
+    if (deleteRecipie) {
+      res
+        .status(200)
+        .json({ "success": true, "message": `recipie ${id} deleted` });
+    }
+    if (!deleteRecipie) {
+      res
+        .status(400)
+        .json({ "success": false, "message": `recipie ${id} not found` });
+    }
   } catch (error) {
     res.status(401);
     next(err);

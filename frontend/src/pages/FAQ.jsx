@@ -17,7 +17,6 @@ const Container = styled.div`
   flex-col
   height[80%]
   width[80%]
-  
   ml-auto
   mr-auto
   `}
@@ -44,32 +43,27 @@ const userQuestions = [
   {
     id: "1U",
     Q: "Can I order from Boston Spread outside of the Greater Boston Area?",
-    A: "1Because!",
+    A: "Yes, however at this point in time, all pick-ups should be coordinated between the two individuals. Make sure to look up directions to the chef's designated pick-up location.",
   },
   {
     id: "2U",
     Q: "What if I get sick? How do I know my food was prepared safely?",
-    A: "3Because!",
+    A: "We take food safety very seriously. Each chef must abide by Massachusetts cottage laws and we check up on the preparation site regularly. The community fund allows individuals to request refunds without the chef having to pay the refund. We ask that you be patient and understanding of these budding entrepreneurs.",
   },
   {
     id: "3U",
     Q: "How do I get my food after it's ordered?",
-    A: "2Because!",
-  },
-  {
-    id: "4U",
-    Q: "3Why do you like web deawdawsd sf awerd awd awd awd asd asd awd awd asd aw dasd awd aw dawd velopemntawd awd awd awd awd",
-    A: "3Because!",
+    A: "At this point in time, we are encouraging folks ordering from this site, to coordinate pickup with the chefs. Depending on the chef's flexibility, they may agree to drop off, meet in the middle, or require you to pickup at a designated location.",
   },
   {
     id: "5U",
     Q: "When I got my food it was not what I expected",
-    A: "2Because!",
+    A: "The community fund allows individuals to request refunds without the chef having to pay the refund. We ask that you be patient and understanding of these budding entrepreneurs.",
   },
   {
     id: "6U",
     Q: "I have very severe allergies to XYZ. How do I know my food was prepared in a safe manner? ",
-    A: "2Because!",
+    A: "All chefs are required to list all the ingredients in thier dishes. If you have a severe allergy to nuts, soy, or dairy, we respectfully ask that you contact the chef directly. We are working to be more inclusive and will be providing solutions in the coming months.",
   },
 ];
 
@@ -77,7 +71,7 @@ const chefQuestions = [
   {
     id: "1C",
     Q: "Can I sell on the Boston Spread platform if I live outside of Boston?",
-    A: "1Because!",
+    A: "Yes, however at this point in time, all pick-ups should be coordinated between the two individuals. Make sure to look up directions to the chef's designated pick-up location.",
   },
   {
     id: "2C",
