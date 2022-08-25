@@ -11,8 +11,6 @@ const bucketName = "boston-spread-images";
 const accessKeyId = process.env.AWS_S3_ACCESS_KEY_ID;
 const secretAccessKey = process.env.AWS_S3_SECRET_ACCESS_KEY;
 
-console.log(accessKeyId, secretAccessKey);
-
 const s3 = new aws.S3({
   region,
   accessKeyId,
