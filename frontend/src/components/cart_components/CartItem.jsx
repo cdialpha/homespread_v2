@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
-import FormikControl from "../formik_components/FormikControl";
 import { increment, decrement } from "../../features/cart/cartSlice";
 import { useDispatch } from "react-redux";
 
@@ -76,13 +75,6 @@ height[70px]
 width[70px]
 inline-block
 padding[5px 5px 5px 5px]
-`}
-`;
-const ItemContainer = styled.div`
-  ${tw`
-flex
-justify-around
-mt-2
 `}
 `;
 

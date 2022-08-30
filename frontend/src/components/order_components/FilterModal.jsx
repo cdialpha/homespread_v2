@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
 import { FaWindowClose } from "react-icons/fa";
-import { Formik, Form, Field } from "formik";
+import { Formik, Form } from "formik";
 import FormikControl from "../formik_components/FormikControl";
 import ModalShell from "../../ModalShell";
-import { useAuth } from "../../utils/auth";
 
 const ModalMask = styled.div`
   ${tw`
@@ -39,7 +38,6 @@ const formikStyle = {
   flexDirection: "column",
   justifyContent: "space-between",
 };
-
 const Header = styled.div`
   ${tw`
     flex
@@ -49,7 +47,6 @@ const Header = styled.div`
     md:padding[20px 20px 5px 20px]
 `}
 `;
-
 const ModalTitle = styled.h1`
   ${tw`
 font-weight[900]
@@ -57,7 +54,6 @@ text-xl
 md:text-3xl
 `}
 `;
-
 const Button = styled(FaWindowClose)`
   ${tw` 
     font-size[30px]
@@ -65,7 +61,6 @@ const Button = styled(FaWindowClose)`
     hover:transform[scale(1.1)]
 `}
 `;
-
 const SubmitButton = styled.button`
   ${tw`
     width[200px]
@@ -89,21 +84,18 @@ lg:mt-5
 justify-center
 `}
 `;
-
 const spiceLevel = [
   { key: "Very Spicy", value: "4" },
   { key: "Spicy", value: "3" },
   { key: "Medium", value: "2" },
   { key: "Mild / None", value: "1" },
 ];
-
 const dietaryRestriction = [
   { key: "Very Spicy", value: "4" },
   { key: "Spicy", value: "3" },
   { key: "Medium", value: "2" },
   { key: "Mild / None", value: "1" },
 ];
-
 const dropdownOptions = [
   { key: "Select an option", value: "x" },
   { key: "Woman Owned", value: "woman" },
@@ -121,7 +113,6 @@ const FilterModal = ({ closeFn = () => null, open = false }) => {
   const onSubmit = async (values) => {
     closeFn();
     console.log("submitting form...");
-    const { filters } = values;
   };
 
   return (

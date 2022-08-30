@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { FaEdit } from "react-icons/fa";
 import styled from "styled-components";
 import tw from "twin.macro";

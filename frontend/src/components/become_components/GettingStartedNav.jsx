@@ -42,9 +42,6 @@ const HeroText = styled.h3`
   mr-auto
   `}
 `;
-const GetStarted = styled.button`
-  ${tw``}
-`;
 
 const Nav = styled.div`
   ${tw`

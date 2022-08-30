@@ -6,8 +6,7 @@ import amex from "../../images/amex.png";
 import visa from "../../images/visa.png";
 import paypal from "../../images/paypal.png";
 import { ImPriceTag } from "react-icons/im";
-import { useDispatch, useSelector } from "react-redux";
-import { getCartTotal } from "../../features/cart/cartSlice";
+import { useSelector } from "react-redux";
 
 const Container = styled.div`
   ${tw`
@@ -113,19 +112,12 @@ mr-5
 `}
 `;
 
-const radioOptions = [
-  { key: "Option 1", value: "rOption1" },
-  { key: "Option 2", value: "rOption2" },
-  { key: "Option 3", value: "rOption3" },
-];
-
 const Payment = () => {
   const [radio1, setRadio1] = useState(false);
   const [radio2, setRadio2] = useState(false);
 
   const cartState = useSelector((state) => state.cart);
   let totalPrice = cartState.totalPrice;
-  let totalNumItems = cartState.totalNumItems;
 
   return (
     <Container>

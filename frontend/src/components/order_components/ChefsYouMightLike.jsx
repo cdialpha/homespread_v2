@@ -68,16 +68,11 @@ const Arrow = styled.div`
 `;
 
 const ChefsYouMightLike = () => {
-  const isMobile = useMediaQuery({ maxWidth: deviceSize.mobile });
   const isDesktop = useMediaQuery({ minWidth: deviceSize.desktop });
 
-  const { isLoading, isError, error, data } = useQuery(
-    ["get-chefs"],
-    () => api.getChefs(),
-    {
-      keepPreviousData: true,
-    }
-  );
+  const { data } = useQuery(["get-chefs"], () => api.getChefs(), {
+    keepPreviousData: true,
+  });
 
   return (
     <View>

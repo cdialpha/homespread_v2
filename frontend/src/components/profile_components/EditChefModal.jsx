@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
-// import "../../styles/registerStyles.css";
-import emptyProfile from "../../images/anon.png";
 import profileHero from "../../images/hero-profile2.png";
 import { BsCameraFill as Camera } from "react-icons/bs";
 import { FaWindowClose } from "react-icons/fa";

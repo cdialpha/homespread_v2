@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useContext } from "react";
+import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
 import logo from "../images/boston_spread_logo_white.png";
@@ -6,12 +6,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
 import { deviceSize } from "./responsive";
 import "../styles/nav.css";
-import { CSSTransition } from "react-transition-group";
-import { AiOutlineForm, AiFillShop } from "react-icons/ai";
+import { AiFillShop } from "react-icons/ai";
 import { GiChefToque } from "react-icons/gi";
 import { TbMessages } from "react-icons/tb";
 import { useAuth } from "../utils/auth";
-import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
 import { useSelector } from "react-redux";
 import {
@@ -20,14 +18,9 @@ import {
   FaUser,
   FaHome,
   FaConciergeBell,
-  FaMap,
   FaQuestion,
-  FaFontAwesome,
   FaAngleDown,
-  FaAngleRight,
-  FaAngleLeft,
   FaCog,
-  FaBookOpen,
   FaGlobe,
   FaRss,
   FaCreditCard,
@@ -258,7 +251,6 @@ const MainDropdown = React.forwardRef((props, ref) => {
 
 const ProfileDropdown = React.forwardRef((props, ref) => {
   const auth = useAuth();
-  const isMobile = useMediaQuery({ maxWidth: deviceSize.mobile });
   const user = auth.user?.user.username || null;
   const navigate = useNavigate();
 

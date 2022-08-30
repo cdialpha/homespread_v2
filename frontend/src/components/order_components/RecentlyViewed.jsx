@@ -88,7 +88,6 @@ const GridText = styled.div`
 `;
 
 const LeadInFilter = () => {
-  const isMobile = useMediaQuery({ maxWidth: deviceSize.mobile });
   const isDesktop = useMediaQuery({ minWidth: deviceSize.desktop });
   const isWidescreen = useMediaQuery({ minWidth: deviceSize.widescreen });
 

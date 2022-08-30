@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import styled from "styled-components";
 import tw from "twin.macro";
 import { FaSlidersH, FaAngleDown } from "react-icons/fa";
@@ -14,7 +14,6 @@ ml-auto
 mr-auto
 `}
 `;
-
 const FeatureHeader = styled.div`
   ${tw`
   font-size[40px]
@@ -47,7 +46,6 @@ row-gap[50px]
 max-width[2000px]
   `};
 `;
-
 const PageButton = styled.button`
   ${tw`
 text-white
@@ -62,7 +60,6 @@ hover:bg-white
 hover:text-black
 `}
 `;
-
 const PageNumber = styled.button`
   ${tw`
 text-white
@@ -78,7 +75,6 @@ hover:border-radius[15px]
 
 `}
 `;
-
 const FilterButton = styled.button`
   ${tw`
 flex
@@ -111,7 +107,6 @@ mt-5
 mb-5
 `}
 `;
-
 const PageButtonContainer = styled(FilterContainer)`
   ${tw`
   justify-center
@@ -119,11 +114,10 @@ const PageButtonContainer = styled(FilterContainer)`
   mb-5
 `}
 `;
-
 const MainProducts = () => {
   const [pageNumber, setPageNumber] = useState(1);
 
-  const { isLoading, isError, error, data } = useQuery(
+  const { data } = useQuery(
     ["get-all-recipies", pageNumber],
     () => api.getAllRecipies(pageNumber),
     {

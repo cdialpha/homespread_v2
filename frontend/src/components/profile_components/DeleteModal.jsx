@@ -1,14 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
-import { FaWindowClose } from "react-icons/fa";
 import ModalShell from "../../ModalShell";
-import { Formik, Form, Field } from "formik";
-import * as Yup from "yup";
-import FormikControl from "../formik_components/FormikControl";
-import { useAuth } from "../../utils/auth";
-import FileUpload from "./FileUpload";
-import axios from "axios";
 import api from "../../api/api";
 
 const ModalMask = styled.div`
@@ -97,8 +90,6 @@ const SubmitButton = styled.button`
 
 const DeleteModal = ({ closeFn = () => null, open = false, payload }) => {
   if (payload.length) payload = JSON.parse(payload);
-  const user = useAuth().user;
-  const [images, setImageValues] = useState([]);
 
   const onDelete = async (payload) => {
     api.deleteRecipie(payload);

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./styles/App.css";
 
 // pages
@@ -9,7 +9,6 @@ import Register from "./pages/Register";
 import Footer from "./components/Footer";
 import Mission from "./pages/Mission";
 import Chefs from "./pages/Chefs";
-import MapPage from "./pages/Map";
 import Cart from "./pages/Cart";
 import Become from "./pages/Become";
 // components
@@ -35,7 +34,6 @@ import Blog from "./pages/Blog";
 import ModalManager from "./ModalManager";
 import { useAuth } from "./utils/auth";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { BrowserRouter } from "react-router-dom";
 import { AuthProvider } from "./utils/auth";
 import { persistor, store } from "./store";
@@ -45,7 +43,6 @@ import { Provider } from "react-redux";
 const App = () => {
   const [modalOpen, setModal] = useState(false);
   const [modalPayload, setModalPayload] = useState({});
-  const auth = useAuth();
   const queryClient = new QueryClient();
 
   const openModal = (event) => {

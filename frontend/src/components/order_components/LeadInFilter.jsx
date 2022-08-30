@@ -18,7 +18,6 @@ ml-auto
 mr-auto
 `}
 `;
-
 const FeatureHeader = styled.div`
   ${tw`
   text-white
@@ -28,7 +27,6 @@ font-family['Dancing Script']
 font-weight[900]
 `}
 `;
-
 const GridContainer = styled.div`
   ${tw`
 
@@ -51,7 +49,6 @@ row-gap[20px]
 max-width[2000px]
   `};
 `;
-
 const GridItem = styled.div`
   ${tw`
     flex
@@ -62,7 +59,6 @@ const GridItem = styled.div`
     height[100%]
 `}
 `;
-
 const GridImages = styled.img`
   ${tw`
 
@@ -73,7 +69,6 @@ const GridImages = styled.img`
   hover:transform[scale(1.05)]
 `}
 `;
-
 const GridText = styled.div`
   ${tw`
     text-white
@@ -86,7 +81,6 @@ const GridText = styled.div`
 `;
 
 const LeadInFilter = () => {
-  const isMobile = useMediaQuery({ maxWidth: deviceSize.mobile });
   const isDesktop = useMediaQuery({ minWidth: deviceSize.desktop });
   const isWidescreen = useMediaQuery({ minWidth: deviceSize.widescreen });
 

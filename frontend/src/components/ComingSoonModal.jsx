@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
-import { FaWindowClose } from "react-icons/fa";
 import ModalShell from "../ModalShell";
 import comingsoon from "../images/comingsoon.png";
 
@@ -86,22 +85,6 @@ const CancelButton = styled.button`
     hover:bg-gray-100
     hover:border-gray-900
     hover:text-gray-900
-    `}
-`;
-
-const SubmitButton = styled.button`
-  ${tw`
-    width[200px]
-    border-2
-    border-red-700
-    bg-red-50
-    text-red-700
-    mt-5
-    ml-5
-    border-radius[10px]
-    hover:bg-red-100
-    hover:border-red-900
-    hover:text-red-900
     `}
 `;
 
