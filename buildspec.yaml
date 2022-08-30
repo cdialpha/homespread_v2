@@ -1,0 +1,28 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - echo Installing node 12...
+      - curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
+      - apt install -y nodejs
+  pre_build:
+    commands:
+      - echo Installing dependencies...
+      - npm install
+
+  build:
+    commands:
+      - echo Build started on `date`
+      - npm frontend run build
+  post_build:
+    commands:
+      - echo Build completed on `date`
+artifacts:
+  files:
+    - index.js
+    - dist/**/*
+    - node_modules/**/*
+
+  discard-paths: no
+  base-directory: frontend/build
