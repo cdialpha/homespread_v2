@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API = axios.create({ baseURL: "http://localhost:3002" });
+const API = axios.create({ baseURL: "http://www.bostonspread.com" });
 
 API.interceptors.request.use((req) => {
   let token = localStorage.getItem("userInfo")
